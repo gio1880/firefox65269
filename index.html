@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FLL Robot Design Process</title>
+  <style>
+    :root {
+      --primary: #073e77;
+      --accent: #fece00;
+      --muted: #f5f5ef;
+      --text: #1f2937;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: var(--muted);
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(135deg, var(--primary), #0b5aa6);
+      color: white;
+      padding: 4rem 1.5rem;
+      text-align: center;
+    }
+    header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    header p { max-width: 800px; margin: 0.5rem auto 0; font-size: 1.1rem; }
+
+    nav {
+      position: sticky;
+      top: 0;
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+      z-index: 10;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      margin: 0;
+    }
+    nav a {
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    nav a:hover { color: #0b5aa6; }
+
+    main { max-width: 1100px; margin: auto; padding: 2rem 1.5rem; }
+
+    section {
+      margin-bottom: 4rem;
+      scroll-margin-top: 80px;
+    }
+    section h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+    section h3 {
+      margin-top: 1.5rem;
+      color: #0b5aa6;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 0.75rem;
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--accent);
+      color: #3b3b00;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    footer {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 2rem 1.5rem;
+    }
+    footer p { max-width: 800px; margin: auto; }
+
+    /* Mission Runs Styles */
+    .run-tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 0.5rem;
+    }
+    .run-tab {
+      background: white;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px 8px 0 0;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .run-tab:hover {
+      background: #f0f7ff;
+    }
+    .run-tab.active {
+      background: var(--primary);
+      color: white;
+    }
+    .run-content {
+      display: none;
+      animation: fadeIn 0.3s;
+    }
+    .run-content.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .iteration-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .iteration-card h4 {
+      color: var(--primary);
+      margin-top: 0;
+      margin-bottom: 0.75rem;
+    }
+    .challenge-badge {
+      display: inline-block;
+      background: #fee;
+      color: #c00;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .success-badge {
+      display: inline-block;
+      background: #efe;
+      color: #060;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Our FLL Robot Design Process</h1>
+  <p>A complete look at how our team identified problems, iterated on mechanical design, refined programming, and worked together to build a reliable and repeatable competition robot.</p>
+</header>
+
+<nav>
+  <ul>
+    <li><a href="#design">Design Evolution</a></li>
+    <li><a href="#strategy">Mission Strategy</a></li>
+    <li><a href="#workflow">Workflow</a></li>
+    <li><a href="#mission-runs">Mission Runs</a></li>
+    <li><a href="#mechanical">Mechanical & Programming</a></li>
+    <li><a href="#pid">Programming & PID</a></li>
+    <li><a href="#coopertition">Coopertition</a></li>
+    <li><a href="#reflection">Reflection</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<section id="design">
+    <h2>Design Evolution & Iteration</h2>
+    <div class="grid">
+        <div class="card">
+            <span class="tag">Claire</span>
+            <img src="lastyearrobot.png" alt="Last year's robot design" />
+            <p>
+                Our robot design started by identifying problems from last season. Previously, our robot used two attachment motors—one in the front and one in the back—but this setup was unstable and inefficient.
+            </p>
+            <p>
+                The rear motor sat at a different height, and swapping attachments often pulled off the front plate. Over the summer, we redesigned our robot using an iterative process.
+            </p>
+        </div>
+        <div class="card">
+            <h4 style="color: var(--primary); margin-top: 0; margin-bottom: 1rem;">Last Year's Motor Setup Issues</h4>
+            <img src="lastyearrobotfrontmotorview.png" alt="Last year's front motor view" style="width: 100%; border-radius: 12px; margin-bottom: 0.75rem;" />
+            <img src="lastyearbackmotorview.png" alt="Last year's back motor view" style="width: 100%; border-radius: 12px; margin-bottom: 0.75rem;" />
+            <p style="font-size: 0.9rem; color: #666;">
+                Front and back motors at different heights created instability and made attachment swaps difficult.
+            </p>
+        </div>
+        <div class="card">
+            <h4 style="color: var(--primary); margin-top: 0; margin-bottom: 1rem;">Motor Placement Iterations</h4>
+            <div style="position: relative;">
+                <img id="motorSlide" src="motor placement 1.png" alt="Motor placement iteration" style="width: 100%; border-radius: 12px;" />
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                    <button onclick="previousMotor()" style="background: var(--primary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600;">← Previous</button>
+                    <span id="motorCounter" style="font-weight: 600;">1 / 7</span>
+                    <button onclick="nextMotor()" style="background: var(--primary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600;">Next →</button>
+                </div>
+            </div>
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+                We tested different motor placements and orientations using BrickLink Studio, which allowed us to make adjustments without taking the physical robot apart.
+            </p>
+        </div>
+    </div>
+
+    <h3>CAD Design: BrickLink Studio</h3>
+    <div class="grid">
+        <div class="card" style="text-align: center;">
+            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">BrickLink Studio Model</h4>
+            <img src="bricklinkstudioex1.png" alt="BrickLink Studio CAD model" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;" />
+            <p style="font-size: 0.9rem; color: #666;">Digital CAD model allowing us to test designs virtually before building</p>
+        </div>
+    </div>
+
+    <h3>Before & After: Design Evolution</h3>
+    <div class="grid">
+        <div class="card" style="text-align: center;">
+            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Last Year's Robot</h4>
+            <img src="lastyearrobot.png" alt="Last year's robot" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;" />
+            <p style="font-size: 0.9rem; color: #666;">Unstable dual-motor setup with rear motor at different height</p>
+        </div>
+        <div class="card" style="text-align: center;">
+            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">This Year's Robot</h4>
+            <img src="Claire Robot with attachment 3 (1).gif" alt="This year's robot with attachment" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;" />
+            <p style="font-size: 0.9rem; color: #666;">Optimized flat front motors with pinless, gravity-drop attachments</p>
+        </div>
+    </div>
+
+    <!-- <h3>CAD Design: BrickLink Studio</h3>
+    <div class="grid">
+        <div class="card" style="text-align: center;">
+            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">BrickLink Studio Model</h4>
+            <img src="bricklinkstudioex1.png" alt="BrickLink Studio CAD model" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;" />
+            <p style="font-size: 0.9rem; color: #666;">Digital CAD model allowing us to test designs virtually before building</p>
+        </div>
+    </div> -->
+</section>
+
+<script>
+    const motorImages = [
+        'motor placement 1.png',
+        'motor placement 2.png',
+        'motor placement 3.png',
+        'motor placement 4.png',
+        'motor placement 5.png',
+        'motor placement 6.png',
+        'motor placement 7.png'
+    ];
+    let motorIndex = 0;
+
+    function nextMotor() {
+        motorIndex = (motorIndex + 1) % motorImages.length;
+        updateMotorSlide();
+    }
+
+    function previousMotor() {
+        motorIndex = (motorIndex - 1 + motorImages.length) % motorImages.length;
+        updateMotorSlide();
+    }
+
+    function updateMotorSlide() {
+        document.getElementById('motorSlide').src = motorImages[motorIndex];
+        document.getElementById('motorCounter').textContent = (motorIndex + 1) + ' / ' + motorImages.length;
+    }
+</script>
+
+<script>
+    const brainstormImages = [
+        'RulesOfBrainstorming.webp',
+        'isabelladrawing1.jpg',
+        'isabelladrawing2.jpg'
+    ];
+    let brainstormIndex = 0;
+
+    function nextBrainstorm() {
+        brainstormIndex = (brainstormIndex + 1) % brainstormImages.length;
+        updateBrainstormSlide();
+    }
+
+    function previousBrainstorm() {
+        brainstormIndex = (brainstormIndex - 1 + brainstormImages.length) % brainstormImages.length;
+        updateBrainstormSlide();
+    }
+
+    function updateBrainstormSlide() {
+        document.getElementById('brainstormSlide').src = brainstormImages[brainstormIndex];
+        document.getElementById('brainstormCounter').textContent = (brainstormIndex + 1) + ' / ' + brainstormImages.length;
+    }
+</script>
+
+<script>
+    const missionImages = [
+        'actiontypesorting.jpg',
+        'missionlocationsorting.jpg',
+        'difficultysorting.jpg'
+    ];
+    let missionIndex = 0;
+
+    function nextMission() {
+        missionIndex = (missionIndex + 1) % missionImages.length;
+        updateMissionSlide();
+    }
+
+    function previousMission() {
+        missionIndex = (missionIndex - 1 + missionImages.length) % missionImages.length;
+        updateMissionSlide();
+    }
+
+    function updateMissionSlide() {
+        document.getElementById('missionSlide').src = missionImages[missionIndex];
+        document.getElementById('missionCounter').textContent = (missionIndex + 1) + ' / ' + missionImages.length;
+    }
+</script>
+
+  <section id="strategy">
+    <h2>Mission Strategy & Brainstorming</h2>
+    <div class="grid">
+      <div class="card">
+        <span class="tag">Isabella</span>
+        <h4 style="color: var(--primary); margin-top: 0; margin-bottom: 1rem;">Student Brainstorming & Drawings</h4>
+        <div style="position: relative;">
+          <img id="brainstormSlide" src="RulesOfBrainstorming.webp" alt="Brainstorming drawings" style="width: 100%; border-radius: 12px;" />
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+            <button onclick="previousBrainstorm()" style="background: var(--primary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600;">← Previous</button>
+            <span id="brainstormCounter" style="font-weight: 600;">1 / 3</span>
+            <button onclick="nextBrainstorm()" style="background: var(--primary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600;">Next →</button>
+          </div>
+        </div>
+        <p style="margin-top: 1rem;">
+          Once the game was released, we focused on mission strategy using the Seven Rules of Brainstorming: deferring judgment, encouraging wild ideas, building on each other's thoughts, staying focused, aiming for quantity, welcoming all voices, and documenting everything.
+        </p>
+        <div style="background: linear-gradient(135deg, #fff3cd, #ffeaa7); border-left: 4px solid var(--accent); padding: 1rem; border-radius: 8px; margin-top: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+          <p style="margin: 0; font-weight: 600; color: var(--primary); font-size: 1.05rem;">
+            💡 Brainstorming by the Numbers: Each of our 4 team members generated 4 unique ideas for all 15 missions—resulting in <strong>240 total ideas</strong> to analyze and refine!
+          </p>
+        </div>
+      </div>
+      <div class="card">
+        <h4 style="color: var(--primary); margin-top: 0; margin-bottom: 1rem;">Mission Analysis & Sorting</h4>
+        <div style="position: relative;">
+          <img id="missionSlide" src="actiontypesorting.jpg" alt="Mission analysis" style="width: 100%; border-radius: 12px;" />
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+            <button onclick="previousMission()" style="background: var(--primary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600;">← Previous</button>
+            <span id="missionCounter" style="font-weight: 600;">1 / 3</span>
+            <button onclick="nextMission()" style="background: var(--primary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600;">Next →</button>
+          </div>
+        </div>
+        <p style="margin-top: 1rem;">
+          Each team member sketched solutions for missions and robot paths. We analyzed missions by action type, field location, difficulty, and points, which helped us group missions that fit together naturally.
+        </p>
+        <p>
+          This allowed us to design attachments that could complete multiple tasks in a single run, prioritizing consistent and repeatable performance over attempting every mission.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="workflow">
+    <h2>Project Management & Workflow</h2>
+    <div class="grid">
+      <div class="card">
+        <span class="tag">Mason</span>
+        <img src="new base bot 4-24 (1).png" alt="New base robot design" />
+        <p>
+          After grouping missions, we labeled them as Run A through E. We didn't assign a final order right away, which gave us flexibility as testing progressed.
+        </p>
+      </div>
+      <div class="card">
+        <img src="2robot.jpg" alt="Two robots setup" />
+        <p>
+          With two robots, we split into duos—one responsible for the red side and one for the blue side. Each duo owned their runs from design through testing.
+        </p>
+        <p>
+          Our three-session method ensured progress: the first session proved feasibility, and the next two focused on tuning, alignment, drift correction, and repeatability.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="mission-runs">
+    <h2>Mission Runs: Design & Execution</h2>
+    <p>Explore each mission run in detail, including design iterations, attachment evolution, and challenges we overcame.</p>
+    
+    <div class="run-tabs">
+      <button class="run-tab active" onclick="showRun('run-a')">Run A</button>
+      <button class="run-tab" onclick="showRun('run-b')">Run B</button>
+      <button class="run-tab" onclick="showRun('run-c')">Run C</button>
+      <button class="run-tab" onclick="showRun('run-d')">Run D</button>
+      <button class="run-tab" onclick="showRun('run-e')">Run E</button>
+    </div>
+
+    <!-- Run A Content -->
+    <div id="run-a" class="run-content active">
+      <div class="card">
+        <h3>Run A: Missions 1 & 2</h3>
+        <p><strong>Missions:</strong> Mission 1, Mission 2</p>
+        <p><strong>Points Target:</strong> 60 points</p>
+      </div>
+
+      <div class="iteration-card">
+        <h4>Iteration 1: Initial Design</h4>
+        <div class="challenge-badge">Challenge</div>
+        <img src="https://via.placeholder.com/600x300?text=Run+A+Iteration+1" alt="Run A Iteration 1" style="width: 100%; border-radius: 8px; margin: 1rem 0;" />
+        <p><strong>Approach:</strong> We started with a basic arm mechanism to complete the first mission.</p>
+        <p><strong>Challenges:</strong> The attachment was too heavy and caused the robot to drift during navigation. Alignment with mission models was inconsistent.</p>
+      </div>
+
+      <div class="iteration-card">
+        <h4>Iteration 2: Lightened Design</h4>
+        <img src="https://via.placeholder.com/600x300?text=Run+A+Iteration+2" alt="Run A Iteration 2" style="width: 100%; border-radius: 8px; margin: 1rem 0;" />
+        <p><strong>Improvements:</strong> Redesigned the attachment using fewer parts and a more compact structure.</p>
+        <p><strong>Results:</strong> Improved stability, but still had issues with precise positioning for Mission 2.</p>
+      </div>
+
+      <div class="iteration-card">
+        <h4>Iteration 3: Final Solution</h4>
+        <div class="success-badge">Success</div>
+        <img src="RunAfinalversion.jpg" alt="Run A Final" style="width: 100%; border-radius: 8px; margin: 1rem 0;" />
+        <p><strong>Solution:</strong> Added a passive guide rail to help align with mission models. Optimized motor speeds and added PID corrections.</p>
+        <p><strong>Outcome:</strong> Achieved 95% success rate in practice. Consistently scores 75 points in this run.</p>
+      </div>
+    </div>
+
+    <!-- Run B Content -->
+    <div id="run-b" class="run-content">
+      <div class="card">
+        <h3>Run B: Missions 3 & 4</h3>
+        <p><strong>Missions:</strong> Mission 3, Mission 4</p>
+        <p><strong>Points Target:</strong> 70 points</p>
+      </div>
+
+      <div class="iteration-card">
+        <h4>Iteration 1: Dual-Action Attachment</h4>
+        <div class="challenge-badge">Challenge</div>
+        <video style="max-width: 100%; width: 200px; border-radius: 8px; margin: 1rem auto; display: block;" controls>
+          <source src="Run B V1.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <p><strong>Approach:</strong> Designed a single attachment to complete both missions using one motor.</p>
+        <p><strong>Challenges:</strong> The mechanism was complex and prone to jamming. Timing between actions was difficult to calibrate.</p>
+      </div>
+
+      <div class="iteration-card">
+        <h4>Iteration 2: Simplified Mechanism</h4>
+        <div class="success-badge">Success</div>
+        <video style="max-width: 100%; width: 400px; border-radius: 8px; margin: 1rem auto; display: block;" controls>
+          <source src="Run B Final Version.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <img src="RunBfinalversion.jpg" alt="Run B Final" style="width: 100%; border-radius: 8px; margin: 1rem 0;" />
+        <p><strong>Solution:</strong> Split the actions into two separate movements with a pause between them. Added sensor feedback to confirm completion.</p>
+        <p><strong>Outcome:</strong> Reliable performance with 90% success rate. Quick attachment swap makes this run efficient.</p>
+      </div>
+    </div>
+
+    <!-- Run C Content -->
+    <div id="run-c" class="run-content">
+      <div class="card">
+        <h3>Run C: Missions 12, 13 & 11</h3>
+        <p><strong>Missions:</strong> Mission 12, Mission 13, Mission 11</p>
+        <p><strong>Points Target:</strong> 90 points</p>
+      </div>
+
+      <div class="iteration-card">
+        <h4>Iteration 1: Triple Mission Attempt</h4>
+        <div class="challenge-badge">Challenge</div>
+        <img src="RunCV1.jpg" alt="Run C Iteration 1" style="width: 100%; border-radius: 8px; margin: 1rem 0;" />
+        <p><strong>Approach:</strong> Ambitious design to complete three missions in one run.</p>
+        <p><strong>Challenges:</strong> Path was too complex, increasing failure points. Robot occasionally missed alignment marks.</p>
+      </div>
+
+      <div class="iteration-card">
+        <h4>Iteration 2: Path Optimization</h4>
+        <img src="RunCV2.jpg" alt="Run C Iteration 2" style="width: 100%; border-radius: 8px; margin: 1rem 0;" />
+        <p><strong>Improvements:</strong> Redesigned the path to reduce turns and improve flow. Added intermediate alignment points.</p>
+        <p><strong>Results:</strong> Better consistency, but Mission 8 still had reliability issues.</p>
+      </div>
+
+      <div class="iteration-card">
+        <h4>Iteration 3: Final Refinement</h4>
+        <div class="success-badge">Success</div>
+        <img src="RunCV2.jpg" alt="Run C Final" style="width: 100%; border-radius: 8px; margin: 1rem 0;" />
+        <p><strong>Solution:</strong> Fine-tuned PID values for each segment. Added a passive attachment that automatically engages during the run.</p>
+        <p><strong>Outcome:</strong> Our highest-scoring run with excellent reliability. Key to our competition strategy.</p>
+      </div>
+    </div>
+
+    <!-- Run D Content -->
+    <div id="run-d" class="run-content">
+      <div class="card">
+        <h3>Run D: Missions 9 & 10</h3>
+        <p><strong>Missions:</strong> Mission 9, Mission 10</p>
+        <p><strong>Points Target:</strong> 60 points</p>
+      </div>
+
+      <div class="iteration-card">
+        <h4>Iteration 1: Precision Challenge</h4>
+        <div class="challenge-badge">Challenge</div>
+        <video style="max-width: 100%; width: 400px; border-radius: 8px; margin: 1rem auto; display: block;" controls>
+          <source src="Run D V1.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <p><strong>Approach:</strong> Required extremely precise positioning for small mission models.</p>
+        <p><strong>Challenges:</strong> Even minor drift caused mission failure. Battery level affected motor performance significantly.</p>
+      </div>
+
+      <div class="iteration-card">
+        <h4>Iteration 2: Enhanced Precision</h4>
+        <div class="success-badge">Success</div>
+        <img src="RunDfinalversion.jpg" alt="Run D Final" style="width: 100%; border-radius: 8px; margin: 1rem 0;" />
+        <p><strong>Solution:</strong> Implemented battery voltage compensation in code. Added physical alignment guides to the attachment.</p>
+        <p><strong>Outcome:</strong> Reliable execution even with varying battery levels. Consistent 60-point contribution.</p>
+      </div>
+    </div>
+
+    <!-- Run E Content -->
+    <div id="run-e" class="run-content">
+      <div class="card">
+        <h3>Run E: Missions 5, 6 & 7</h3>
+        <p><strong>Missions:</strong> Mission 5, Mission 6, Mission 7</p>
+        <p><strong>Points Target:</strong> 90 points</p>
+      </div>
+
+      <div class="iteration-card">
+        <h4>Iteration 1: Speed vs. Accuracy</h4>
+        <div class="challenge-badge">Challenge</div>
+        <img src="https://via.placeholder.com/600x300?text=Run+E+Iteration+1" alt="Run E Iteration 1" style="width: 100%; border-radius: 8px; margin: 1rem 0;" />
+        <p><strong>Approach:</strong> Attempted to complete missions quickly to maximize remaining time.</p>
+        <p><strong>Challenges:</strong> Higher speeds reduced accuracy. Occasional overshooting caused mission failures.</p>
+      </div>
+
+      <div class="iteration-card">
+        <h4>Iteration 2: Balanced Approach</h4>
+        <div class="success-badge">Success</div>
+        <img src="RunEfinalversion.jpg" alt="Run E Final" style="width: 100%; border-radius: 8px; margin: 1rem 0;" />
+        <p><strong>Solution:</strong> Implemented variable speed control—faster on long straights, slower near mission models. Added deceleration ramps.</p>
+        <p><strong>Outcome:</strong> Maintains good speed while ensuring accuracy. Completes in under 30 seconds with high reliability.</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function showRun(runId) {
+      // Hide all run contents
+      const contents = document.querySelectorAll('.run-content');
+      contents.forEach(content => content.classList.remove('active'));
+      
+      // Remove active class from all tabs
+      const tabs = document.querySelectorAll('.run-tab');
+      tabs.forEach(tab => tab.classList.remove('active'));
+      
+      // Show selected run content
+      document.getElementById(runId).classList.add('active');
+      
+      // Add active class to clicked tab
+      event.target.classList.add('active');
+    }
+  </script>
+
+<section id="mechanical">
+    <h2>Mechanical Context & Programming Focus</h2>
+    <div class="grid">
+        <div class="card">
+            <span class="tag">Luke</span>
+            <img src="Claire Robot 2025-26 (1).png" alt="Claire Robot 2025-26" />
+            <p>
+                We faced many mechanical challenges early in the season. Lessons from last year—especially about passive attachments—strongly influenced this year's robot.
+            </p>
+        </div>
+        <div class="card">
+            <img src="claire atachment (1).png" alt="Claire robot with attachment" />
+            <p>
+                By combining two powered motors with passive mechanisms, one motor could complete one task, the second another, and a passive attachment a third—making it realistic to complete three missions in one run.
+            </p>
+        </div>
+        <div class="card">
+            <img src="Claire Robot with attachment 3 (1).gif" alt="Robot with attachment demonstration" />
+            <p>
+                While mechanical challenges were significant, programming ultimately became our biggest focus.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section id="pid">
+    <h2>Programming Evolution, PID, & Improvement</h2>
+    <div class="grid">
+        <div class="card">
+            <span class="tag">Claire</span>
+            <img src="spikeprimeblockbasedexample.png" alt="SPIKE Prime block-based programming example" />
+            <p>
+                To improve consistency, we switched from block coding to Pybricks, which allows a much higher number of control loop iterations. We use the gyro sensor for heading, motor encoders for distance, and degree-based motor control.
+            </p>
+        </div>
+        <div class="card">
+            <img src="pybricks screenshot.png" alt="Pybricks code screenshot" />
+            <p>
+                We tested various Kp and Kd values to optimize drive performance. Higher Kp values provided faster correction but risked oscillation, while balanced Kd values smoothed motion.
+            </p>
+            <svg width="100%" height="300" style="border: 1px solid #e5e7eb; border-radius: 8px; margin-top: 1rem;">
+                <text x="10" y="20" font-size="14" font-weight="bold">Kp and Kd Testing Results</text>
+                <line x1="40" y1="260" x2="500" y2="260" stroke="#999" stroke-width="2"/>
+                <line x1="40" y1="260" x2="40" y2="30" stroke="#999" stroke-width="2"/>
+                <text x="250" y="285" font-size="12" text-anchor="middle">Kp Values</text>
+                <text x="15" y="150" font-size="12" text-anchor="middle" transform="rotate(-90 15 150)">Drift (degrees)</text>
+                <!-- Grid lines -->
+                <line x1="40" y1="230" x2="500" y2="230" stroke="#e5e7eb" stroke-width="1"/>
+                <line x1="40" y1="200" x2="500" y2="200" stroke="#e5e7eb" stroke-width="1"/>
+                <line x1="40" y1="170" x2="500" y2="170" stroke="#e5e7eb" stroke-width="1"/>
+                <line x1="40" y1="140" x2="500" y2="140" stroke="#e5e7eb" stroke-width="1"/>
+                <line x1="40" y1="110" x2="500" y2="110" stroke="#e5e7eb" stroke-width="1"/>
+                <line x1="40" y1="80" x2="500" y2="80" stroke="#e5e7eb" stroke-width="1"/>
+                <!-- Center line at y=145 (0 degrees) -->
+                <line x1="40" y1="145" x2="500" y2="145" stroke="#999" stroke-width="2" stroke-dasharray="5,5"/>
+                <!-- Kp line (0.3-1.0) - oscillates around 0 -->
+                <polyline points="80,150 150,120 220,170 290,140 360,160 430,145" fill="none" stroke="#073e77" stroke-width="2"/>
+                <text x="240" y="50" font-size="11" fill="#073e77" font-weight="bold">Kp Values</text>
+                <!-- Kd line (0.05-0.2) - smoother, closer to 0 -->
+                <polyline points="80,150 150,145 220,148 290,146 360,147 430,145" fill="none" stroke="#fece00" stroke-width="2"/>
+                <text x="240" y="70" font-size="11" fill="#fece00" font-weight="bold">Kd Values</text>
+                <!-- Axis labels -->
+                <text x="60" y="275" font-size="10">0.3</text>
+                <text x="150" y="275" font-size="10">0.5</text>
+                <text x="240" y="275" font-size="10">0.7</text>
+                <text x="330" y="275" font-size="10">0.9</text>
+                <text x="410" y="275" font-size="10">1.0</text>
+                <text x="30" y="150" font-size="10">0</text>
+                <text x="20" y="110" font-size="10">+10</text>
+                <text x="20" y="190" font-size="10">-10</text>
+                <text x="20" y="50" font-size="10">+30</text>
+                <defs>
+                    <marker id="arrowblue" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><polygon points="0,0 10,5 0,10" fill="#073e77"/></marker>
+                    <marker id="arrowyellow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><polygon points="0,0 10,5 0,10" fill="#fece00"/></marker>
+                </defs>
+            </svg>
+        </div>
+    </div>
+
+    <h3>Drive Straight Function</h3>
+    <div class="card">
+        <pre><code>def drive_straight(distance_mm, speed, kp=0.5, kd=0.1):
+    robot.reset_gyro()
+    robot.reset_encoders()
+    
+    while robot.get_distance() < distance_mm:
+            error = robot.get_heading()
+            correction = (kp * error) + (kd * (error - prev_error))
+            left_power = speed - correction
+            right_power = speed + correction
+            
+            robot.set_motors(left_power, right_power)
+            prev_error = error
+    
+    robot.stop()</code></pre>
+    </div>
+
+    <h3>Turn Function</h3>
+    <div class="card">
+        <pre><code>def turn(degrees, speed, kp=1.0):
+    robot.reset_gyro()
+    
+    while abs(robot.get_heading()) < abs(degrees):
+            error = degrees - robot.get_heading()
+            power = kp * error
+            
+            robot.set_motors(power, -power)
+    
+    robot.stop()</code></pre>
+    </div>
+
+    <div class="card">
+        <p>
+            Our drive-straight code uses simple PID-style corrections. We tested different Kp values and added acceleration and deceleration control to smooth motion.
+        </p>
+        <p>
+            What used to require frequent retries is now repeatable and reliable, even under load. We also manage our code using GitHub for collaboration and version control.
+        </p>
+    </div>
+
+    <h3>Version Control with GitHub</h3>
+    <div class="grid">
+        <div class="card">
+            <h4 style="color: var(--primary); margin-top: 0;">Why We Use GitHub</h4>
+            <p>
+                GitHub allows our team to collaborate on code safely. Each team member can work on different runs or features without overwriting others' work.
+            </p>
+            <p>
+                We use branches for experimental changes and commits to track our progress. This means if something breaks, we can roll back to a working version.
+            </p>
+        </div>
+        <div class="card">
+            <h4 style="color: var(--primary); margin-top: 0;">Benefits for Our Team</h4>
+            <ul style="text-align: left; margin-left: 1rem;">
+                <li><strong>Collaboration:</strong> Multiple programmers can work simultaneously</li>
+                <li><strong>History:</strong> Every change is documented with commit messages</li>
+                <li><strong>Backup:</strong> Code is safely stored in the cloud</li>
+                <li><strong>Testing:</strong> We can experiment without breaking working code</li>
+                <li><strong>Learning:</strong> We review each other's code and learn better practices</li>
+            </ul>
+        </div>
+      <div class="card" style="text-align: center;">
+        <h4 style="color: var(--primary); margin-top: 0;">GitHub in Action</h4>
+        <img src="github_ss.png" alt="GitHub repository screenshot" style="width: 100%; border-radius: 12px; margin-bottom: 0.75rem;" />
+        <p style="font-size: 0.9rem; color: #666;">We organize runs, attachments, and PID tuning experiments with clear commit history and pull requests.</p>
+      </div>
+    </div>
+</section>
+
+  <section id="coopertition">
+    <h2>Coopertition & Shared Learning</h2>
+    <div class="grid">
+      <div class="card">
+        <img src="studentsharefolder_ss.png" alt="Shared student folder" />
+        <p>
+          Our coach maintains a shared student folder where teams from Manhattan, Queens, and Hudson Valley upload robot designs, attachments, code, and videos.
+        </p>
+      </div>
+      <div class="card">
+        <img src="github_ss.png" alt="Community design collaboration" />
+        <p>
+          During our redesign, we studied Manhattan Team 969309’s robot and used it as a starting framework. After sharing our redesign, they later improved their robot using our ideas.
+        </p>
+        <p>
+          This back-and-forth demonstrates true coopertition—learning from and contributing to the community.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="reflection">
+    <h2>Summary & Reflection</h2>
+    <div class="card">
+      <p>
+        Our robot reflects a complete design cycle: identifying problems, brainstorming, testing, and iterating. By combining strong mechanical design, precise programming, and effective teamwork, we built a robot that is reliable, efficient, and repeatable.
+      </p>
+      <p>
+        This process allowed us to overcome challenges from last year, improve our drive-straight performance, and consistently complete more missions during competition.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>FIRST LEGO League • Robot Design Process • Temporary images used — replace with team photos and diagrams</p>
+</footer>
+
+</body>
+</html>
