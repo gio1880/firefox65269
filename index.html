@@ -3,13 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FLL Robot Design Process</title>
+  <title>FireFox #65269 - FLL Robot Design Process</title>
   <style>
     :root {
-      --primary: #073e77;
-      --accent: #fece00;
-      --muted: #f5f5ef;
-      --text: #1f2937;
+      --primary: #ff6600;        /* Bright orange */
+      --primary-dark: #cc5200;   /* Dark orange */
+      --primary-light: #ff8533;  /* Light orange */
+      --fire-red: #ff3300;       /* Red-orange for fire effect */
+      --accent: #ffaa00;         /* Golden orange */
+      --muted: #f5f5f5;          /* Light gray/white */
+      --text: #1a1a1a;           /* Near black */
     }
     * { box-sizing: border-box; }
     body {
@@ -20,7 +23,7 @@
       line-height: 1.6;
     }
     header {
-      background: linear-gradient(135deg, var(--primary), #0b5aa6);
+      background: linear-gradient(135deg, var(--fire-red), var(--primary), var(--accent));
       color: white;
       padding: 4rem 1.5rem;
       text-align: center;
@@ -33,24 +36,66 @@
       top: 0;
       background: white;
       border-bottom: 1px solid #e5e7eb;
-      z-index: 10;
+      z-index: 100;
     }
     nav ul {
       list-style: none;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 1rem;
-      padding: 0.75rem 1rem;
+      gap: 0;
+      padding: 0;
       margin: 0;
+    }
+    nav li {
+      position: relative;
     }
     nav a {
       text-decoration: none;
       color: var(--primary);
       font-weight: 600;
       font-size: 0.95rem;
+      padding: 1rem 1.5rem;
+      display: block;
+      transition: background 0.2s;
     }
-    nav a:hover { color: #0b5aa6; }
+    nav > ul > li > a:hover { 
+      background: var(--muted);
+      color: #0b5aa6; 
+    }
+    
+    /* Dropdown styles */
+    .dropdown {
+      position: relative;
+    }
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      min-width: 200px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border-radius: 0 0 8px 8px;
+      list-style: none;
+      padding: 0.5rem 0;
+      margin: 0;
+    }
+    .dropdown:hover .dropdown-menu {
+      display: block;
+    }
+    .dropdown-menu li {
+      width: 100%;
+    }
+    .dropdown-menu a {
+      padding: 0.75rem 1.5rem;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .dropdown-menu a:hover {
+      background: var(--muted);
+      color: #0b5aa6;
+    }
 
     main { max-width: 1100px; margin: auto; padding: 2rem 1.5rem; }
 
@@ -150,6 +195,27 @@
       padding: 1.5rem;
       margin-bottom: 1.5rem;
       box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+    .iteration-card.single-column {
+      grid-template-columns: 1fr;
+    }
+    @media (max-width: 768px) {
+      .iteration-card {
+        grid-template-columns: 1fr;
+      }
+    }
+    .iteration-image {
+      grid-column: 1;
+    }
+    .iteration-content {
+      grid-column: 2;
+    }
+    .iteration-card.single-column .iteration-content {
+      grid-column: 1;
     }
     .iteration-card h4 {
       color: var(--primary);
@@ -178,25 +244,88 @@
       margin-right: 0.5rem;
       margin-bottom: 0.5rem;
     }
+    
+    /* Run images - smaller and clickable */
+    .iteration-card img {
+      max-width: 300px;
+      width: 100%;
+      border-radius: 8px;
+      margin: 1rem 0;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .iteration-card img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(255, 102, 0, 0.3);
+    }
+    
+    /* Modal/Lightbox for enlarged images */
+    .image-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      align-items: center;
+      justify-content: center;
+    }
+    .image-modal.active {
+      display: flex;
+    }
+    .modal-content {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+    .close-modal {
+      position: absolute;
+      top: 20px;
+      right: 40px;
+      color: white;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .close-modal:hover {
+      color: var(--primary);
+    }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>Our FLL Robot Design Process</h1>
-  <p>A complete look at how our team identified problems, iterated on mechanical design, refined programming, and worked together to build a reliable and repeatable competition robot.</p>
+  <h1>FireFox #65269</h1>
+  <p>FLL Team Website</p>
 </header>
 
 <nav>
   <ul>
-    <li><a href="#design">Design Evolution</a></li>
-    <li><a href="#strategy">Mission Strategy</a></li>
-    <li><a href="#workflow">Workflow</a></li>
-    <li><a href="#mission-runs">Mission Runs</a></li>
-    <li><a href="#mechanical">Mechanical & Programming</a></li>
-    <li><a href="#pid">Programming & PID</a></li>
-    <li><a href="#coopertition">Coopertition</a></li>
-    <li><a href="#reflection">Reflection</a></li>
+    <li class="dropdown">
+      <a href="#robot-design">Robot Design</a>
+      <ul class="dropdown-menu">
+        <li><a href="#design">Design Evolution</a></li>
+        <li><a href="#strategy">Mission Strategy</a></li>
+        <li><a href="#workflow">Workflow</a></li>
+        <li><a href="#mission-runs">Mission Runs</a></li>
+        <li><a href="#mechanical">Mechanical & Programming</a></li>
+        <li><a href="#pid">Programming & PID</a></li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a href="#innovation">Innovation</a>
+      <ul class="dropdown-menu">
+        <li><a href="#innovation-project">Innovation Project</a></li>
+        <li><a href="#research">Research</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#core-values">Core Values</a>
+    </li>
   </ul>
 </nav>
 
@@ -434,26 +563,38 @@
       </div>
 
       <div class="iteration-card">
-        <h4>Iteration 1: Initial Design</h4>
-        <div class="challenge-badge">Challenge</div>
-        <img src="https://via.placeholder.com/600x300?text=Run+A+Iteration+1" alt="Run A Iteration 1" style="width: 100%; border-radius: 8px; margin: 1rem 0;" />
-        <p><strong>Approach:</strong> We started with a basic arm mechanism to complete the first mission.</p>
-        <p><strong>Challenges:</strong> The attachment was too heavy and caused the robot to drift during navigation. Alignment with mission models was inconsistent.</p>
+        <div class="iteration-image">
+          <img src="https://via.placeholder.com/600x300?text=Run+A+Iteration+1" alt="Run A Iteration 1" class="run-image" />
+        </div>
+        <div class="iteration-content">
+          <h4>Iteration 1: Initial Design</h4>
+          <div class="challenge-badge">Challenge</div>
+          <p><strong>Approach:</strong> We started with a basic arm mechanism to complete the first mission.</p>
+          <p><strong>Challenges:</strong> The attachment was too heavy and caused the robot to drift during navigation. Alignment with mission models was inconsistent.</p>
+        </div>
       </div>
 
       <div class="iteration-card">
-        <h4>Iteration 2: Lightened Design</h4>
-        <img src="https://via.placeholder.com/600x300?text=Run+A+Iteration+2" alt="Run A Iteration 2" style="width: 100%; border-radius: 8px; margin: 1rem 0;" />
-        <p><strong>Improvements:</strong> Redesigned the attachment using fewer parts and a more compact structure.</p>
-        <p><strong>Results:</strong> Improved stability, but still had issues with precise positioning for Mission 2.</p>
+        <div class="iteration-image">
+          <img src="https://via.placeholder.com/600x300?text=Run+A+Iteration+2" alt="Run A Iteration 2" class="run-image" />
+        </div>
+        <div class="iteration-content">
+          <h4>Iteration 2: Lightened Design</h4>
+          <p><strong>Improvements:</strong> Redesigned the attachment using fewer parts and a more compact structure.</p>
+          <p><strong>Results:</strong> Improved stability, but still had issues with precise positioning for Mission 2.</p>
+        </div>
       </div>
 
       <div class="iteration-card">
-        <h4>Iteration 3: Final Solution</h4>
-        <div class="success-badge">Success</div>
-        <img src="RunAfinalversion.jpg" alt="Run A Final" style="width: 100%; border-radius: 8px; margin: 1rem 0;" />
-        <p><strong>Solution:</strong> Added a passive guide rail to help align with mission models. Optimized motor speeds and added PID corrections.</p>
-        <p><strong>Outcome:</strong> Achieved 95% success rate in practice. Consistently scores 75 points in this run.</p>
+        <div class="iteration-image">
+          <img src="RunAfinalversion.jpg" alt="Run A Final" class="run-image" />
+        </div>
+        <div class="iteration-content">
+          <h4>Iteration 3: Final Solution</h4>
+          <div class="success-badge">Success</div>
+          <p><strong>Solution:</strong> Added a passive guide rail to help align with mission models. Optimized motor speeds and added PID corrections.</p>
+          <p><strong>Outcome:</strong> Achieved 95% success rate in practice. Consistently scores 75 points in this run.</p>
+        </div>
       </div>
     </div>
 
@@ -466,26 +607,34 @@
       </div>
 
       <div class="iteration-card">
-        <h4>Iteration 1: Dual-Action Attachment</h4>
-        <div class="challenge-badge">Challenge</div>
-        <video style="max-width: 100%; width: 200px; border-radius: 8px; margin: 1rem auto; display: block;" controls>
-          <source src="Run B V1.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-        <p><strong>Approach:</strong> Designed a single attachment to complete both missions using one motor.</p>
-        <p><strong>Challenges:</strong> The mechanism was complex and prone to jamming. Timing between actions was difficult to calibrate.</p>
+        <div class="iteration-image">
+          <video style="max-width: 100%; width: 100%; border-radius: 8px;" controls>
+            <source src="Run B V1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="iteration-content">
+          <h4>Iteration 1: Dual-Action Attachment</h4>
+          <div class="challenge-badge">Challenge</div>
+          <p><strong>Approach:</strong> Designed a single attachment to complete both missions using one motor.</p>
+          <p><strong>Challenges:</strong> The mechanism was complex and prone to jamming. Timing between actions was difficult to calibrate.</p>
+        </div>
       </div>
 
       <div class="iteration-card">
-        <h4>Iteration 2: Simplified Mechanism</h4>
-        <div class="success-badge">Success</div>
-        <video style="max-width: 100%; width: 400px; border-radius: 8px; margin: 1rem auto; display: block;" controls>
-          <source src="Run B Final Version.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-        <img src="RunBfinalversion.jpg" alt="Run B Final" style="width: 100%; border-radius: 8px; margin: 1rem 0;" />
-        <p><strong>Solution:</strong> Split the actions into two separate movements with a pause between them. Added sensor feedback to confirm completion.</p>
-        <p><strong>Outcome:</strong> Reliable performance with 90% success rate. Quick attachment swap makes this run efficient.</p>
+        <div class="iteration-image">
+          <video style="max-width: 100%; width: 100%; border-radius: 8px; margin-bottom: 1rem;" controls>
+            <source src="Run B Final Version.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <img src="RunBfinalversion.jpg" alt="Run B Final" class="run-image" />
+        </div>
+        <div class="iteration-content">
+          <h4>Iteration 2: Simplified Mechanism</h4>
+          <div class="success-badge">Success</div>
+          <p><strong>Solution:</strong> Split the actions into two separate movements with a pause between them. Added sensor feedback to confirm completion.</p>
+          <p><strong>Outcome:</strong> Reliable performance with 90% success rate. Quick attachment swap makes this run efficient.</p>
+        </div>
       </div>
     </div>
 
@@ -498,26 +647,38 @@
       </div>
 
       <div class="iteration-card">
-        <h4>Iteration 1: Triple Mission Attempt</h4>
-        <div class="challenge-badge">Challenge</div>
-        <img src="RunCV1.jpg" alt="Run C Iteration 1" style="width: 100%; border-radius: 8px; margin: 1rem 0;" />
-        <p><strong>Approach:</strong> Ambitious design to complete three missions in one run.</p>
-        <p><strong>Challenges:</strong> Path was too complex, increasing failure points. Robot occasionally missed alignment marks.</p>
+        <div class="iteration-image">
+          <img src="RunCV1.jpg" alt="Run C Iteration 1" class="run-image" />
+        </div>
+        <div class="iteration-content">
+          <h4>Iteration 1: Triple Mission Attempt</h4>
+          <div class="challenge-badge">Challenge</div>
+          <p><strong>Approach:</strong> Ambitious design to complete three missions in one run.</p>
+          <p><strong>Challenges:</strong> Path was too complex, increasing failure points. Robot occasionally missed alignment marks.</p>
+        </div>
       </div>
 
       <div class="iteration-card">
-        <h4>Iteration 2: Path Optimization</h4>
-        <img src="RunCV2.jpg" alt="Run C Iteration 2" style="width: 100%; border-radius: 8px; margin: 1rem 0;" />
-        <p><strong>Improvements:</strong> Redesigned the path to reduce turns and improve flow. Added intermediate alignment points.</p>
-        <p><strong>Results:</strong> Better consistency, but Mission 8 still had reliability issues.</p>
+        <div class="iteration-image">
+          <img src="RunCV2.jpg" alt="Run C Iteration 2" class="run-image" />
+        </div>
+        <div class="iteration-content">
+          <h4>Iteration 2: Path Optimization</h4>
+          <p><strong>Improvements:</strong> Redesigned the path to reduce turns and improve flow. Added intermediate alignment points.</p>
+          <p><strong>Results:</strong> Better consistency, but Mission 8 still had reliability issues.</p>
+        </div>
       </div>
 
       <div class="iteration-card">
-        <h4>Iteration 3: Final Refinement</h4>
-        <div class="success-badge">Success</div>
-        <img src="RunCV2.jpg" alt="Run C Final" style="width: 100%; border-radius: 8px; margin: 1rem 0;" />
-        <p><strong>Solution:</strong> Fine-tuned PID values for each segment. Added a passive attachment that automatically engages during the run.</p>
-        <p><strong>Outcome:</strong> Our highest-scoring run with excellent reliability. Key to our competition strategy.</p>
+        <div class="iteration-image">
+          <img src="RunCV2.jpg" alt="Run C Final" class="run-image" />
+        </div>
+        <div class="iteration-content">
+          <h4>Iteration 3: Final Refinement</h4>
+          <div class="success-badge">Success</div>
+          <p><strong>Solution:</strong> Fine-tuned PID values for each segment. Added a passive attachment that automatically engages during the run.</p>
+          <p><strong>Outcome:</strong> Our highest-scoring run with excellent reliability. Key to our competition strategy.</p>
+        </div>
       </div>
     </div>
 
@@ -530,22 +691,30 @@
       </div>
 
       <div class="iteration-card">
-        <h4>Iteration 1: Precision Challenge</h4>
-        <div class="challenge-badge">Challenge</div>
-        <video style="max-width: 100%; width: 400px; border-radius: 8px; margin: 1rem auto; display: block;" controls>
-          <source src="Run D V1.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-        <p><strong>Approach:</strong> Required extremely precise positioning for small mission models.</p>
-        <p><strong>Challenges:</strong> Even minor drift caused mission failure. Battery level affected motor performance significantly.</p>
+        <div class="iteration-image">
+          <video style="max-width: 100%; width: 100%; border-radius: 8px;" controls>
+            <source src="Run D V1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="iteration-content">
+          <h4>Iteration 1: Precision Challenge</h4>
+          <div class="challenge-badge">Challenge</div>
+          <p><strong>Approach:</strong> Required extremely precise positioning for small mission models.</p>
+          <p><strong>Challenges:</strong> Even minor drift caused mission failure. Battery level affected motor performance significantly.</p>
+        </div>
       </div>
 
       <div class="iteration-card">
-        <h4>Iteration 2: Enhanced Precision</h4>
-        <div class="success-badge">Success</div>
-        <img src="RunDfinalversion.jpg" alt="Run D Final" style="width: 100%; border-radius: 8px; margin: 1rem 0;" />
-        <p><strong>Solution:</strong> Implemented battery voltage compensation in code. Added physical alignment guides to the attachment.</p>
-        <p><strong>Outcome:</strong> Reliable execution even with varying battery levels. Consistent 60-point contribution.</p>
+        <div class="iteration-image">
+          <img src="RunDfinalversion.jpg" alt="Run D Final" class="run-image" />
+        </div>
+        <div class="iteration-content">
+          <h4>Iteration 2: Enhanced Precision</h4>
+          <div class="success-badge">Success</div>
+          <p><strong>Solution:</strong> Implemented battery voltage compensation in code. Added physical alignment guides to the attachment.</p>
+          <p><strong>Outcome:</strong> Reliable execution even with varying battery levels. Consistent 60-point contribution.</p>
+        </div>
       </div>
     </div>
 
@@ -558,19 +727,27 @@
       </div>
 
       <div class="iteration-card">
-        <h4>Iteration 1: Speed vs. Accuracy</h4>
-        <div class="challenge-badge">Challenge</div>
-        <img src="https://via.placeholder.com/600x300?text=Run+E+Iteration+1" alt="Run E Iteration 1" style="width: 100%; border-radius: 8px; margin: 1rem 0;" />
-        <p><strong>Approach:</strong> Attempted to complete missions quickly to maximize remaining time.</p>
-        <p><strong>Challenges:</strong> Higher speeds reduced accuracy. Occasional overshooting caused mission failures.</p>
+        <div class="iteration-image">
+          <img src="https://via.placeholder.com/600x300?text=Run+E+Iteration+1" alt="Run E Iteration 1" class="run-image" />
+        </div>
+        <div class="iteration-content">
+          <h4>Iteration 1: Speed vs. Accuracy</h4>
+          <div class="challenge-badge">Challenge</div>
+          <p><strong>Approach:</strong> Attempted to complete missions quickly to maximize remaining time.</p>
+          <p><strong>Challenges:</strong> Higher speeds reduced accuracy. Occasional overshooting caused mission failures.</p>
+        </div>
       </div>
 
       <div class="iteration-card">
-        <h4>Iteration 2: Balanced Approach</h4>
-        <div class="success-badge">Success</div>
-        <img src="RunEfinalversion.jpg" alt="Run E Final" style="width: 100%; border-radius: 8px; margin: 1rem 0;" />
-        <p><strong>Solution:</strong> Implemented variable speed control—faster on long straights, slower near mission models. Added deceleration ramps.</p>
-        <p><strong>Outcome:</strong> Maintains good speed while ensuring accuracy. Completes in under 30 seconds with high reliability.</p>
+        <div class="iteration-image">
+          <img src="RunEfinalversion.jpg" alt="Run E Final" class="run-image" />
+        </div>
+        <div class="iteration-content">
+          <h4>Iteration 2: Balanced Approach</h4>
+          <div class="success-badge">Success</div>
+          <p><strong>Solution:</strong> Implemented variable speed control—faster on long straights, slower near mission models. Added deceleration ramps.</p>
+          <p><strong>Outcome:</strong> Maintains good speed while ensuring accuracy. Completes in under 30 seconds with high reliability.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -619,128 +796,296 @@
 </section>
 
 <section id="pid">
-    <h2>Programming Evolution, PID, & Improvement</h2>
-    <div class="grid">
-        <div class="card">
-            <span class="tag">Claire</span>
-            <img src="spikeprimeblockbasedexample.png" alt="SPIKE Prime block-based programming example" />
-            <p>
-                To improve consistency, we switched from block coding to Pybricks, which allows a much higher number of control loop iterations. We use the gyro sensor for heading, motor encoders for distance, and degree-based motor control.
-            </p>
-        </div>
-        <div class="card">
-            <img src="pybricks screenshot.png" alt="Pybricks code screenshot" />
-            <p>
-                We tested various Kp and Kd values to optimize drive performance. Higher Kp values provided faster correction but risked oscillation, while balanced Kd values smoothed motion.
-            </p>
-            <svg width="100%" height="300" style="border: 1px solid #e5e7eb; border-radius: 8px; margin-top: 1rem;">
-                <text x="10" y="20" font-size="14" font-weight="bold">Kp and Kd Testing Results</text>
-                <line x1="40" y1="260" x2="500" y2="260" stroke="#999" stroke-width="2"/>
-                <line x1="40" y1="260" x2="40" y2="30" stroke="#999" stroke-width="2"/>
-                <text x="250" y="285" font-size="12" text-anchor="middle">Kp Values</text>
-                <text x="15" y="150" font-size="12" text-anchor="middle" transform="rotate(-90 15 150)">Drift (degrees)</text>
-                <!-- Grid lines -->
-                <line x1="40" y1="230" x2="500" y2="230" stroke="#e5e7eb" stroke-width="1"/>
-                <line x1="40" y1="200" x2="500" y2="200" stroke="#e5e7eb" stroke-width="1"/>
-                <line x1="40" y1="170" x2="500" y2="170" stroke="#e5e7eb" stroke-width="1"/>
-                <line x1="40" y1="140" x2="500" y2="140" stroke="#e5e7eb" stroke-width="1"/>
-                <line x1="40" y1="110" x2="500" y2="110" stroke="#e5e7eb" stroke-width="1"/>
-                <line x1="40" y1="80" x2="500" y2="80" stroke="#e5e7eb" stroke-width="1"/>
-                <!-- Center line at y=145 (0 degrees) -->
-                <line x1="40" y1="145" x2="500" y2="145" stroke="#999" stroke-width="2" stroke-dasharray="5,5"/>
-                <!-- Kp line (0.3-1.0) - oscillates around 0 -->
-                <polyline points="80,150 150,120 220,170 290,140 360,160 430,145" fill="none" stroke="#073e77" stroke-width="2"/>
-                <text x="240" y="50" font-size="11" fill="#073e77" font-weight="bold">Kp Values</text>
-                <!-- Kd line (0.05-0.2) - smoother, closer to 0 -->
-                <polyline points="80,150 150,145 220,148 290,146 360,147 430,145" fill="none" stroke="#fece00" stroke-width="2"/>
-                <text x="240" y="70" font-size="11" fill="#fece00" font-weight="bold">Kd Values</text>
-                <!-- Axis labels -->
-                <text x="60" y="275" font-size="10">0.3</text>
-                <text x="150" y="275" font-size="10">0.5</text>
-                <text x="240" y="275" font-size="10">0.7</text>
-                <text x="330" y="275" font-size="10">0.9</text>
-                <text x="410" y="275" font-size="10">1.0</text>
-                <text x="30" y="150" font-size="10">0</text>
-                <text x="20" y="110" font-size="10">+10</text>
-                <text x="20" y="190" font-size="10">-10</text>
-                <text x="20" y="50" font-size="10">+30</text>
-                <defs>
-                    <marker id="arrowblue" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><polygon points="0,0 10,5 0,10" fill="#073e77"/></marker>
-                    <marker id="arrowyellow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><polygon points="0,0 10,5 0,10" fill="#fece00"/></marker>
-                </defs>
-            </svg>
-        </div>
-    </div>
-
-    <h3>Drive Straight Function</h3>
+  <h2>Programming Evolution, PID, & Improvement</h2>
+  <div class="grid">
     <div class="card">
-        <pre><code>def drive_straight(distance_mm, speed, kp=0.5, kd=0.1):
-    robot.reset_gyro()
-    robot.reset_encoders()
-    
-    while robot.get_distance() < distance_mm:
-            error = robot.get_heading()
-            correction = (kp * error) + (kd * (error - prev_error))
-            left_power = speed - correction
-            right_power = speed + correction
-            
-            robot.set_motors(left_power, right_power)
-            prev_error = error
-    
-    robot.stop()</code></pre>
+      <span class="tag">Claire</span>
+      <img src="spikeprimeblockbasedexample.png" alt="SPIKE Prime block-based programming example" />
+      <p>
+        To improve consistency, we switched from block coding to Pybricks, which allows a much higher number of control loop iterations. We use the gyro sensor for heading, motor encoders for distance, and degree-based motor control.
+      </p>
     </div>
-
-    <h3>Turn Function</h3>
     <div class="card">
-        <pre><code>def turn(degrees, speed, kp=1.0):
-    robot.reset_gyro()
-    
-    while abs(robot.get_heading()) < abs(degrees):
-            error = degrees - robot.get_heading()
-            power = kp * error
-            
-            robot.set_motors(power, -power)
-    
-    robot.stop()</code></pre>
+      <img src="pybricks screenshot.png" alt="Pybricks code screenshot" />
+      <p>
+        We tested various Kp and Kd values to optimize drive performance. Our best results came from Kp=1.15 and Kd=0.02, which provided minimal drift across different speeds and distances.
+      </p>
     </div>
+  </div>
 
+  <h3>PID Tuning Results</h3>
+  
+  <!-- Kp Chart -->
+  <div class="card">
+    <h4 style="color: var(--primary); margin-top: 0;">Kp Tuning (Heading Error in Degrees)</h4>
+    <select id="kpSelect" style="display: block; margin: 0 auto 20px auto; padding: 8px 12px; font-size: 16px; border: 2px solid var(--primary); border-radius: 6px; background: white; cursor: pointer;">
+      <option value="0.6">Kp = 0.6</option>
+      <option value="0.8">Kp = 0.8</option>
+      <option value="1.0">Kp = 1.0</option>
+      <option value="1.15" selected>Kp = 1.15 (Best)</option>
+      <option value="1.2">Kp = 1.2</option>
+    </select>
+    <canvas id="kpChart" style="max-height: 400px;"></canvas>
+  </div>
+
+  <!-- Kd Chart -->
+  <div class="card">
+    <h4 style="color: var(--primary); margin-top: 0;">Kd Tuning (Heading Error in Degrees)</h4>
+    <select id="kdSelect" style="display: block; margin: 0 auto 20px auto; padding: 8px 12px; font-size: 16px; border: 2px solid var(--primary); border-radius: 6px; background: white; cursor: pointer;">
+      <option value="0.0001">Kd = 0.0001</option>
+      <option value="0.001">Kd = 0.001</option>
+      <option value="0.01">Kd = 0.01</option>
+      <option value="0.02" selected>Kd = 0.02 (Best)</option>
+    </select>
+    <canvas id="kdChart" style="max-height: 400px;"></canvas>
+  </div>
+
+  <h3>Drive Straight Function</h3>
+  <div class="card">
+    <pre><code>def drive_straight(distance_mm, speed, kp=1.15, kd=0.02):
+  robot.reset_gyro()
+  robot.reset_encoders()
+  
+  while robot.get_distance() < distance_mm:
+      error = robot.get_heading()
+      correction = (kp * error) + (kd * (error - prev_error))
+      left_power = speed - correction
+      right_power = speed + correction
+      
+      robot.set_motors(left_power, right_power)
+      prev_error = error
+  
+  robot.stop()</code></pre>
+  </div>
+
+  <h3>Turn Function</h3>
+  <div class="card">
+    <pre><code>def turn(degrees, speed, kp=1.0):
+  robot.reset_gyro()
+  
+  while abs(robot.get_heading()) < abs(degrees):
+      error = degrees - robot.get_heading()
+      power = kp * error
+      
+      robot.set_motors(power, -power)
+  
+  robot.stop()</code></pre>
+  </div>
+
+  <div class="card">
+    <p>
+      Our drive-straight code uses PID-style corrections with optimized values: Kp=1.15 and Kd=0.02. These values emerged from systematic testing across different speeds and distances.
+    </p>
+    <p>
+      The result is repeatable and reliable performance, even under varying loads and battery levels. We also manage our code using GitHub for collaboration and version control.
+    </p>
+  </div>
+
+  <h3>Version Control with GitHub</h3>
+  <div class="grid">
     <div class="card">
-        <p>
-            Our drive-straight code uses simple PID-style corrections. We tested different Kp values and added acceleration and deceleration control to smooth motion.
-        </p>
-        <p>
-            What used to require frequent retries is now repeatable and reliable, even under load. We also manage our code using GitHub for collaboration and version control.
-        </p>
+      <h4 style="color: var(--primary); margin-top: 0;">Why We Use GitHub</h4>
+      <p>
+        GitHub allows our team to collaborate on code safely. Each team member can work on different runs or features without overwriting others' work.
+      </p>
+      <p>
+        We use branches for experimental changes and commits to track our progress. This means if something breaks, we can roll back to a working version.
+      </p>
     </div>
-
-    <h3>Version Control with GitHub</h3>
-    <div class="grid">
-        <div class="card">
-            <h4 style="color: var(--primary); margin-top: 0;">Why We Use GitHub</h4>
-            <p>
-                GitHub allows our team to collaborate on code safely. Each team member can work on different runs or features without overwriting others' work.
-            </p>
-            <p>
-                We use branches for experimental changes and commits to track our progress. This means if something breaks, we can roll back to a working version.
-            </p>
-        </div>
-        <div class="card">
-            <h4 style="color: var(--primary); margin-top: 0;">Benefits for Our Team</h4>
-            <ul style="text-align: left; margin-left: 1rem;">
-                <li><strong>Collaboration:</strong> Multiple programmers can work simultaneously</li>
-                <li><strong>History:</strong> Every change is documented with commit messages</li>
-                <li><strong>Backup:</strong> Code is safely stored in the cloud</li>
-                <li><strong>Testing:</strong> We can experiment without breaking working code</li>
-                <li><strong>Learning:</strong> We review each other's code and learn better practices</li>
-            </ul>
-        </div>
-      <div class="card" style="text-align: center;">
-        <h4 style="color: var(--primary); margin-top: 0;">GitHub in Action</h4>
-        <img src="github_ss.png" alt="GitHub repository screenshot" style="width: 100%; border-radius: 12px; margin-bottom: 0.75rem;" />
-        <p style="font-size: 0.9rem; color: #666;">We organize runs, attachments, and PID tuning experiments with clear commit history and pull requests.</p>
-      </div>
+    <div class="card">
+      <h4 style="color: var(--primary); margin-top: 0;">Benefits for Our Team</h4>
+      <ul style="text-align: left; margin-left: 1rem;">
+        <li><strong>Collaboration:</strong> Multiple programmers can work simultaneously</li>
+        <li><strong>History:</strong> Every change is documented with commit messages</li>
+        <li><strong>Backup:</strong> Code is safely stored in the cloud</li>
+        <li><strong>Testing:</strong> We can experiment without breaking working code</li>
+        <li><strong>Learning:</strong> We review each other's code and learn better practices</li>
+      </ul>
     </div>
+    <div class="card" style="text-align: center;">
+      <h4 style="color: var(--primary); margin-top: 0;">GitHub in Action</h4>
+      <img src="github_ss.png" alt="GitHub repository screenshot" style="width: 100%; border-radius: 12px; margin-bottom: 0.75rem;" />
+      <p style="font-size: 0.9rem; color: #666;">We organize runs, attachments, and PID tuning experiments with clear commit history and pull requests.</p>
+    </div>
+  </div>
 </section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // -------------------- Kp Data --------------------
+  const kpData = [
+    { kp: 0.6, speed: 60, rotations: 1, error: -2.4 },
+    { kp: 0.6, speed: 60, rotations: 5, error: -3.5 },
+    { kp: 0.6, speed: 60, rotations: 10, error: -3.8 },
+    { kp: 0.6, speed: 80, rotations: 1, error: -4.2 },
+    { kp: 0.6, speed: 80, rotations: 5, error: -4.3 },
+    { kp: 0.6, speed: 80, rotations: 10, error: 2.7 },
+    { kp: 0.6, speed: 100, rotations: 1, error: -6.5 },
+    { kp: 0.6, speed: 100, rotations: 5, error: 8 },
+    { kp: 0.6, speed: 100, rotations: 10, error: -6 },
+
+    { kp: 0.8, speed: 60, rotations: 1, error: -1.6 },
+    { kp: 0.8, speed: 60, rotations: 5, error: 5.9 },
+    { kp: 0.8, speed: 60, rotations: 10, error: 9.2 },
+    { kp: 0.8, speed: 80, rotations: 1, error: -2.1 },
+    { kp: 0.8, speed: 80, rotations: 5, error: 7.3 },
+    { kp: 0.8, speed: 80, rotations: 10, error: -12.4 },
+
+    { kp: 1.0, speed: 60, rotations: 1, error: 0.9 },
+    { kp: 1.0, speed: 60, rotations: 5, error: 4.1 },
+    { kp: 1.0, speed: 60, rotations: 10, error: -7.8 },
+    { kp: 1.0, speed: 80, rotations: 1, error: 1.6 },
+    { kp: 1.0, speed: 80, rotations: 5, error: -6.2 },
+    { kp: 1.0, speed: 80, rotations: 10, error: 11.9 },
+
+    { kp: 1.15, speed: 60, rotations: 1, error: -0.1 },
+    { kp: 1.15, speed: 60, rotations: 5, error: -0.2 },
+    { kp: 1.15, speed: 60, rotations: 10, error: -0.4 },
+    { kp: 1.15, speed: 80, rotations: 1, error: 0.3 },
+    { kp: 1.15, speed: 80, rotations: 5, error: -0.7 },
+    { kp: 1.15, speed: 80, rotations: 10, error: -1.1 },
+    { kp: 1.15, speed: 100, rotations: 1, error: 0.6 },
+    { kp: 1.15, speed: 100, rotations: 5, error: 1.3 },
+    { kp: 1.15, speed: 100, rotations: 10, error: -1.0 },
+
+    { kp: 1.2, speed: 60, rotations: 1, error: 0.5 },
+    { kp: 1.2, speed: 60, rotations: 5, error: 1.1 },
+    { kp: 1.2, speed: 60, rotations: 10, error: 2.3 },
+    { kp: 1.2, speed: 80, rotations: 1, error: 0.9 },
+    { kp: 1.2, speed: 80, rotations: 5, error: 2.0 },
+    { kp: 1.2, speed: 80, rotations: 10, error: 3.8 },
+    { kp: 1.2, speed: 100, rotations: 1, error: 3.4 },
+    { kp: 1.2, speed: 100, rotations: 5, error: -3.1 },
+    { kp: 1.2, speed: 100, rotations: 10, error: 5.6 }
+  ];
+
+  const kpColors = ['#e6194b','#3cb44b','#4363d8'];
+  const kpCtx = document.getElementById('kpChart').getContext('2d');
+  let kpChart;
+
+  function updateKpChart(selectedKp) {
+    const speeds = [60,80,100];
+    const datasets = speeds.map((speed,i)=>{
+      const points = kpData
+        .filter(d => d.kp == selectedKp && d.speed == speed)
+        .map(d => ({x:d.rotations, y:d.error}));
+      return {
+        label: `Speed ${speed}%`,
+        data: points,
+        borderColor: kpColors[i],
+        backgroundColor: kpColors[i],
+        fill: false,
+        tension:0.2
+      };
+    });
+
+    if(kpChart) {
+      kpChart.data.datasets = datasets;
+      kpChart.update();
+    } else {
+      kpChart = new Chart(kpCtx,{
+        type:'line',
+        data:{datasets},
+        options:{
+          responsive:true,
+          maintainAspectRatio: true,
+          plugins:{
+            legend:{position:'bottom'},
+            title:{display:true,text:`Kp=${selectedKp} Tuning: Heading Error vs Rotations`},
+            tooltip:{callbacks:{
+              label: ctx => `Error: ${ctx.parsed.y}° (Rotations: ${ctx.parsed.x})`
+            }}
+          },
+          scales:{
+            x:{type:'linear', title:{display:true,text:'Rotations'}, min:0, ticks:{stepSize:1}},
+            y:{title:{display:true,text:'Error (degrees)'}}
+          }
+        }
+      });
+    }
+  }
+
+  document.getElementById('kpSelect').addEventListener('change', e=>{
+    updateKpChart(e.target.value);
+  });
+
+  updateKpChart(1.15); // default best Kp
+
+  // -------------------- Kd Data --------------------
+  const kdData = [
+    { kd: 0.0001, rotations: 1, error: 5 },
+    { kd: 0.0001, rotations: 2, error: 4.2 },
+    { kd: 0.0001, rotations: 3, error: 3.8 },
+    { kd: 0.0001, rotations: 4, error: 3.5 },
+    { kd: 0.0001, rotations: 5, error: 3.2 },
+
+    { kd: 0.001, rotations: 1, error: 4.5 },
+    { kd: 0.001, rotations: 2, error: 3.5 },
+    { kd: 0.001, rotations: 3, error: 2.9 },
+    { kd: 0.001, rotations: 4, error: 2.5 },
+    { kd: 0.001, rotations: 5, error: 2.2 },
+
+    { kd: 0.01, rotations: 1, error: 2.0 },
+    { kd: 0.01, rotations: 2, error: 1.5 },
+    { kd: 0.01, rotations: 3, error: 1.2 },
+    { kd: 0.01, rotations: 4, error: 1.0 },
+    { kd: 0.01, rotations: 5, error: 0.8 },
+
+    { kd: 0.02, rotations: 1, error: 0.5 },
+    { kd: 0.02, rotations: 2, error: 0.3 },
+    { kd: 0.02, rotations: 3, error: 0.1 },
+    { kd: 0.02, rotations: 4, error: -0.1 },
+    { kd: 0.02, rotations: 5, error: -0.2 }
+  ];
+
+  const kdColors = ['#e6194b','#3cb44b','#4363d8','#f58231'];
+  const kdCtx = document.getElementById('kdChart').getContext('2d');
+  let kdChart;
+
+  function updateKdChart(selectedKd) {
+    const points = kdData.filter(d => d.kd == selectedKd)
+                         .map(d => ({x:d.rotations, y:d.error}));
+    const dataset = [{
+      label: `Kd=${selectedKd}${selectedKd==0.02?' (Best)':''}`,
+      data: points,
+      borderColor: kdColors[ kdData.findIndex(d=>d.kd==selectedKd)%kdColors.length ],
+      backgroundColor: kdColors[ kdData.findIndex(d=>d.kd==selectedKd)%kdColors.length ],
+      fill:false,
+      tension:0.2
+    }];
+
+    if(kdChart){
+      kdChart.data.datasets = dataset;
+      kdChart.update();
+    }else{
+      kdChart = new Chart(kdCtx,{
+        type:'line',
+        data:{datasets:dataset},
+        options:{
+          responsive:true,
+          maintainAspectRatio: true,
+          plugins:{
+            legend:{position:'bottom'},
+            title:{display:true,text:`Kd=${selectedKd} Tuning: Heading Error vs Rotations`},
+            tooltip:{callbacks:{
+              label: ctx => `Error: ${ctx.parsed.y}° (Rotations: ${ctx.parsed.x})`
+            }}
+          },
+          scales:{
+            x:{type:'linear', title:{display:true,text:'Rotations'}, min:0, ticks:{stepSize:1}},
+            y:{title:{display:true,text:'Error (degrees)'}}
+          }
+        }
+      });
+    }
+  }
+
+  document.getElementById('kdSelect').addEventListener('change', e=>{
+    updateKdChart(e.target.value);
+  });
+
+  updateKdChart(0.02); // default best Kd
+</script>
 
   <section id="coopertition">
     <h2>Coopertition & Shared Learning</h2>
@@ -780,6 +1125,44 @@
 <footer>
   <p>FIRST LEGO League • Robot Design Process • Temporary images used — replace with team photos and diagrams</p>
 </footer>
+
+<!-- Image Modal -->
+<div id="imageModal" class="image-modal" onclick="closeModal()">
+  <span class="close-modal" onclick="closeModal()">&times;</span>
+  <img class="modal-content" id="modalImage" onclick="event.stopPropagation()">
+</div>
+
+<script>
+  // Image modal functionality
+  function openImageModal(imageSrc) {
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    modal.classList.add('active');
+    modalImg.src = imageSrc;
+  }
+
+  function closeModal() {
+    const modal = document.getElementById('imageModal');
+    modal.classList.remove('active');
+  }
+
+  // Add click event to all run images
+  document.addEventListener('DOMContentLoaded', function() {
+    const runImages = document.querySelectorAll('.iteration-card img.run-image');
+    runImages.forEach(img => {
+      img.addEventListener('click', function() {
+        openImageModal(this.src);
+      });
+    });
+    
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+  });
+</script>
 
 </body>
 </html>
