@@ -299,6 +299,80 @@
       padding: 2rem 1.5rem;
     }
     footer p { max-width: 800px; margin: auto; }
+    
+    /* Visitor Counter Styles */
+    .visitor-counter {
+      margin-top: 1.5rem;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      display: inline-block;
+      min-width: 300px;
+    }
+    .visitor-counter h3 {
+      margin: 0 0 0.75rem 0;
+      font-size: 1rem;
+      font-weight: 600;
+      opacity: 0.9;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .counter-display {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+    .counter-digit {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 2rem;
+      font-weight: bold;
+      min-width: 50px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      animation: digitPop 0.5s ease;
+      font-family: 'Courier New', monospace;
+    }
+    @keyframes digitPop {
+      0% {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+    .counter-label {
+      font-size: 0.85rem;
+      opacity: 0.8;
+      margin-top: 0.5rem;
+    }
+    .loading-dots {
+      display: inline-block;
+    }
+    .loading-dots span {
+      animation: blink 1.4s infinite;
+    }
+    .loading-dots span:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    .loading-dots span:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+    @keyframes blink {
+      0%, 80%, 100% {
+        opacity: 0;
+      }
+      40% {
+        opacity: 1;
+      }
+    }
 
     /* Mission Runs Styles */
     .run-tabs {
@@ -1470,6 +1544,14 @@
 
 <footer>
   <p>FIRST LEGO League • Robot Design Process • Temporary images used — replace with team photos and diagrams</p>
+  
+  <div class="visitor-counter">
+    <h3>🔥 Website Visitors</h3>
+    <div style="margin-top: 1rem;">
+      <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgio1880.github.io%2Ffirefox65269%2F&count_bg=%23FF6600&title_bg=%23FF3300&icon=&icon_color=%23E7E7E7&title=Visits&edge_flat=false" alt="Visitor Count" style="max-width: 100%; height: auto;" />
+    </div>
+    <div class="counter-label" style="margin-top: 0.75rem;">Total Page Hits</div>
+  </div>
 </footer>
 
 <!-- Image Modal -->
@@ -1527,6 +1609,12 @@
   });
   
   // Scroll to top function
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
   function scrollToTop() {
     window.scrollTo({
       top: 0,
