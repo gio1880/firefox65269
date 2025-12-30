@@ -748,73 +748,78 @@
 <main>
 
 <section id="design">
-    <h2>Design Evolution & Iteration</h2>
-    <div class="grid">
-        <div class="card">
-            <span class="tag">Claire</span>
-            <img src="lastyearrobot.png" alt="Last year's robot design" />
-            <p>
-                Our robot design started by identifying problems from last season. Previously, our robot used two attachment motors—one in the front and one in the back—but this setup was unstable and inefficient.
-            </p>
-            <p>
-                The rear motor sat at a different height, and swapping attachments often pulled off the front plate. Over the summer, we redesigned our robot using an iterative process.
-            </p>
-        </div>
-        <div class="card">
-            <h4 style="color: var(--primary); margin-top: 0; margin-bottom: 1rem;">Last Year's Motor Setup Issues</h4>
-            <img src="lastyearrobotfrontmotorview.png" alt="Last year's front motor view" style="width: 100%; border-radius: 12px; margin-bottom: 0.75rem;" />
-            <img src="lastyearbackmotorview.png" alt="Last year's back motor view" style="width: 100%; border-radius: 12px; margin-bottom: 0.75rem;" />
-            <p style="font-size: 0.9rem; color: #666;">
-                Front and back motors at different heights created instability and made attachment swaps difficult.
-            </p>
-        </div>
-        <div class="card">
-            <h4 style="color: var(--primary); margin-top: 0; margin-bottom: 1rem;">Motor Placement Iterations</h4>
-            <div style="position: relative;">
-                <img id="motorSlide" src="motor placement 1.png" alt="Motor placement iteration" style="width: 100%; border-radius: 12px;" />
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
-                    <button onclick="previousMotor()" style="background: var(--primary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600;">← Previous</button>
-                    <span id="motorCounter" style="font-weight: 600;">1 / 7</span>
-                    <button onclick="nextMotor()" style="background: var(--primary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600;">Next →</button>
-                </div>
-            </div>
-            <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
-                We tested different motor placements and orientations using BrickLink Studio, which allowed us to make adjustments without taking the physical robot apart.
-            </p>
-        </div>
+  <h2>Design Evolution & Iteration</h2>
+  <div class="grid">
+    <div class="card">
+      <span class="tag">Claire</span>
+      <img src="bot v2.gif" alt="Last year's robot design" />
+      <p>
+        Our robot design started by identifying problems from last season. Previously, our robot used two attachment motors—one in the front and one in the back—but this setup was unstable and inefficient.
+      </p>
+      <p>
+        The rear motor sat at a different height, and swapping attachments often pulled off the front plate. Over the summer, we redesigned our robot using an iterative process.
+      </p>
     </div>
-
-    <h3>CAD Design: BrickLink Studio</h3>
-    <div class="grid">
-        <div class="card" style="text-align: center;">
-            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">BrickLink Studio Model</h4>
-            <img src="bricklinkstudioex1.png" alt="BrickLink Studio CAD model" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;" />
-            <p style="font-size: 0.9rem; color: #666;">Digital CAD model allowing us to test designs virtually before building</p>
-        </div>
+    <div class="card">
+      <h4 style="color: var(--primary); margin-top: 0; margin-bottom: 1rem;">Last Year's Motor Setup Issues</h4>
+      <img src="lastyearrobotfrontmotorview.png" alt="Last year's front motor view" style="width: 100%; border-radius: 12px; margin-bottom: 0.75rem;" />
+      <img src="lastyearbackmotorview.png" alt="Last year's back motor view" style="width: 100%; border-radius: 12px; margin-bottom: 0.75rem;" />
+      <p style="font-size: 0.9rem; color: #666;">
+        Front and back motors at different heights created instability and made attachment swaps difficult.
+      </p>
     </div>
-
-    <h3>Before & After: Design Evolution</h3>
-    <div class="grid">
-        <div class="card" style="text-align: center;">
-            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Last Year's Robot</h4>
-            <img src="lastyearrobot.png" alt="Last year's robot" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;" />
-            <p style="font-size: 0.9rem; color: #666;">Unstable dual-motor setup with rear motor at different height</p>
+    <div class="card">
+      <h4 style="color: var(--primary); margin-top: 0; margin-bottom: 1rem;">Motor Placement Iterations</h4>
+      <div style="position: relative;">
+        <img id="motorSlide" src="motor placement 1.png" alt="Motor placement iteration" style="width: 100%; border-radius: 12px;" />
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+          <button onclick="previousMotor()" style="background: var(--primary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600;">← Previous</button>
+          <span id="motorCounter" style="font-weight: 600;">1 / 7</span>
+          <button onclick="nextMotor()" style="background: var(--primary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600;">Next →</button>
         </div>
-        <div class="card" style="text-align: center;">
-            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">This Year's Robot</h4>
-            <img src="Claire Robot with attachment 3 (1).gif" alt="This year's robot with attachment" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;" />
-            <p style="font-size: 0.9rem; color: #666;">Optimized flat front motors with pinless, gravity-drop attachments</p>
-        </div>
+      </div>
+      <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+        We tested different motor placements and orientations using BrickLink Studio, which allowed us to make adjustments without taking the physical robot apart.
+      </p>
     </div>
+  </div>
 
-    <!-- <h3>CAD Design: BrickLink Studio</h3>
-    <div class="grid">
-        <div class="card" style="text-align: center;">
-            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">BrickLink Studio Model</h4>
-            <img src="bricklinkstudioex1.png" alt="BrickLink Studio CAD model" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;" />
-            <p style="font-size: 0.9rem; color: #666;">Digital CAD model allowing us to test designs virtually before building</p>
-        </div>
-    </div> -->
+  <h3>CAD Design: BrickLink Studio</h3>
+  <div class="grid">
+    <div class="card" style="text-align: center;">
+      <h4 style="color: var(--primary); margin-bottom: 0.5rem;">BrickLink Studio Model</h4>
+      <img src="bricklinkstudioupdated.gif" alt="BrickLink Studio CAD model" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;" />
+      <p style="font-size: 0.9rem; color: #666;">Digital CAD model allowing us to test designs virtually before building</p>
+    </div>
+  </div>
+
+  <h3>Pinless Attachment System</h3>
+  <div class="grid">
+    <div class="card" style="text-align: center;">
+      <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Attachment Mechanism</h4>
+      <img src="pinless attachment rotating.gif" alt="Pinless attachment mechanism" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;" />
+      <p style="font-size: 0.9rem; color: #666;">Gravity-drop attachments that fit securely without pins, allowing for quick swaps</p>
+    </div>
+    <div class="card" style="text-align: center;">
+      <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Attachment in Action</h4>
+      <img src="Claire Robot with attachment 3 (1).gif" alt="Robot with attachment demonstration" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;" />
+      <p style="font-size: 0.9rem; color: #666;">Demonstrating the quick-swap mechanism with gravity-drop attachment</p>
+    </div>
+  </div>
+
+  <h3>Before & After: Design Evolution</h3>
+  <div class="grid">
+    <div class="card" style="text-align: center;">
+      <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Last Year's Robot</h4>
+      <img src="lastyearrobot.png" alt="Last year's robot" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;" />
+      <p style="font-size: 0.9rem; color: #666;">Unstable dual-motor setup with rear motor at different height</p>
+    </div>
+    <div class="card" style="text-align: center;">
+      <h4 style="color: var(--primary); margin-bottom: 0.5rem;">This Year's Robot</h4>
+      <img src="Claire Robot with attachment 3 (1).gif" alt="This year's robot with attachment" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;" />
+      <p style="font-size: 0.9rem; color: #666;">Optimized flat front motors with pinless, gravity-drop attachments</p>
+    </div>
+  </div>
 </section>
 
 <script>
@@ -942,22 +947,35 @@
 
   <section id="workflow">
     <h2>Project Management & Workflow</h2>
+    
+    <h3>Run Groupings</h3>
     <div class="grid">
       <div class="card">
         <span class="tag">Mason</span>
-        <img src="new base bot 4-24 (1).png" alt="New base robot design" />
+        <img src="missiongroupinggraphic.png" alt="Mission grouping graphic" style="width: 100%; border-radius: 12px;" />
         <p>
-          After grouping missions, we labeled them as Run A through E. We didn't assign a final order right away, which gave us flexibility as testing progressed.
+          After analyzing missions by action type, field location, difficulty, and points, we grouped them into strategic runs labeled A through E. This grouping allowed us to design attachments that could complete multiple missions efficiently in a single run.
+        </p>
+        <p>
+          We didn't assign a final order right away, which gave us flexibility to adjust our strategy as testing progressed and we learned which runs were most reliable.
         </p>
       </div>
+    </div>
+
+    <h3>Team Duos & Side Assignments</h3>
+    <div class="grid">
       <div class="card">
-        <img src="2robot.jpg" alt="Two robots setup" />
+        <img src="duorobotinfographic.png" alt="Team duos working on corresponding sides" style="width: 100%; border-radius: 12px;" />
         <p>
-          With two robots, we split into duos—one responsible for the red side and one for the blue side. Each duo owned their runs from design through testing.
+          This structure allowed us to work in parallel, maximize practice time, and develop specialized expertise for our assigned missions. Duos collaborated on shared challenges while maintaining ownership of their specific runs.
         </p>
-        <p>
-          Our three-session method ensured progress: the first session proved feasibility, and the next two focused on tuning, alignment, drift correction, and repeatability.
-        </p>
+      </div>
+    </div>
+
+    <h3>Three Session Method</h3>
+    <div class="grid">
+      <div class="card">
+        <img src="threemethodsession.png" alt="Three session method workflow" style="width: 100%; border-radius: 12px;" />
       </div>
     </div>
   </section>
@@ -1517,9 +1535,9 @@
         </p>
       </div>
       <div class="card">
-        <img src="github_ss.png" alt="Community design collaboration" />
+        <img src="69309collaboration.png" alt="Community design collaboration" />
         <p>
-          During our redesign, we studied Manhattan Team 969309’s robot and used it as a starting framework. After sharing our redesign, they later improved their robot using our ideas.
+          During our redesign, we studied Manhattan Team 69309’s robot and used it as a starting framework. After sharing our redesign, they later improved their robot using our ideas.
         </p>
         <p>
           This back-and-forth demonstrates true coopertition—learning from and contributing to the community.
