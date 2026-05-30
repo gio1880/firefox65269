@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>History Guardians 67843</title>
+  <title>Innovation Project | History Guardians 67843</title>
   <style>
     :root {
       --primary: #ff6600;        /* Bright orange */
@@ -404,6 +404,11 @@
     .member-card h3 {
       margin: 0 0 0.5rem;
       color: var(--primary-dark);
+    }
+    .member-grade {
+      font-weight: 800;
+      color: #0b5aa6;
+      margin: 0 0 0.5rem;
     }
     .skit-roles {
       display: grid;
@@ -1037,36 +1042,21 @@
     }
   </style>
   <style>
-    body { min-height: 100vh; }
-    main.landing-main { max-width: 1120px; }
-    .choice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; align-items: stretch; }
-    .choice-card { display: flex; flex-direction: column; min-height: 360px; text-decoration: none; color: inherit; }
-    .choice-card img { height: 190px; object-fit: cover; }
-    .choice-card h3 { color: var(--primary-dark); margin: 0.5rem 0; }
-    .choice-card p { flex: 1; }
-    .choice-action { display: inline-block; margin-top: 1rem; background: linear-gradient(135deg, var(--primary), var(--fire-red)); color: white; padding: 0.75rem 1rem; border-radius: 8px; font-weight: 800; text-align: center; }
-    .landing-note { font-size: 1.05rem; max-width: 820px; }
+    .pdf-viewer { background:white; border-radius:12px; padding:1rem; box-shadow:0 10px 25px rgba(0,0,0,0.08); }
+    .pdf-viewer object { width:100%; height:78vh; min-height:620px; border:1px solid #e5e7eb; border-radius:8px; }
+    .page-nav { display:flex; gap:0.75rem; flex-wrap:wrap; justify-content:center; margin:1rem 0 0; }
+    .page-nav a { text-decoration:none; background:#fff7ed; border:1px solid #fed7aa; color:#9a3412; padding:0.55rem 0.8rem; border-radius:8px; font-weight:800; }
+    .innovation-lead { font-size:1.05rem; max-width:900px; }
   </style>
 </head>
 <body>
 <div class="floating-shapes"><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div></div>
 <div class="scroll-progress" id="scrollProgress"></div>
 <div class="scroll-top" id="scrollTop" onclick="scrollToTop()">↑</div>
-
 <header>
-  <h1>History Guardians 67843</h1>
-  <p>Meet the team, then choose Innovation or Robot Design.</p>
-  <div class="hero-achievements">
-    <div class="hero-photo"><img src="championship picutre.jpg" alt="History Guardians championship team photo" /></div>
-    <div class="season-highlights" aria-label="Season highlights">
-      <h2>Season Highlights</h2>
-      <div class="highlight-card"><span class="highlight-label">Qualifier Win</span><div class="highlight-title">Qualifier 1 Champions</div><div class="highlight-detail">John Jay Middle School, January 10, 2026</div></div>
-      <div class="highlight-card current"><span class="highlight-label">Regional Champions</span><div class="highlight-title">Hudson Valley Regional Championship Winners</div><div class="highlight-detail">Final championship event, February 7, 2026</div></div>
-      <div class="highlight-card upcoming"><span class="highlight-label">Next Invitational</span><div class="highlight-title">California Western Edge Invitational</div><div class="highlight-detail">May 28-31, 2026, representing the New York State area</div></div>
-    </div>
-  </div>
+  <h1>Innovation Project: SPARK</h1>
+  <p>Smart Portable Artifact Recovery Kit</p>
 </header>
-
 <nav>
   <ul>
     <li><a href="index.html">Team</a></li>
@@ -1074,42 +1064,47 @@
     <li><a href="robot-design.html">Robot Design</a></li>
   </ul>
 </nav>
-
-<main class="landing-main">
-  <section id="team-landing">
-    <h2>The Team: History Guardians</h2>
+<main>
+  <section id="innovation-project">
+    <h2>SPARK Innovation Project</h2>
     <div class="card team-hero">
-      <span class="tag">Recover Degrading Artifacts</span>
-      <h3 style="margin-top:0;">We are the History Guardians</h3>
-      <p class="landing-note">Claire, Isabella, Luke, and Mason found a real archaeology problem: artifacts and ancient writing can degrade before people can read and preserve them. From here, choose the Innovation Project or Robot Design path.</p>
+      <span class="tag">Slides 4-21</span>
+      <h3 style="margin-top:0;">Recover Degrading Artifacts</h3>
+      <p class="innovation-lead">This page follows the slide order from the newest PDF. The full deck is embedded first so all the original pictures, diagrams, tables, and slide layouts stay visible.</p>
     </div>
 
-    <h3>Meet the Team</h3>
-    <div class="grid team-roster">
-      <div class="card member-card"><div><h3>Claire</h3><p>I play lacrosse, and I love animals.</p></div><span class="tag">Archaeologist in skit</span></div>
-      <div class="card member-card"><div><h3>Isabella</h3><p>I like to do piano and math.</p></div><span class="tag">Artifact in skit</span></div>
-      <div class="card member-card"><div><h3>Luke</h3><p>I like to play chess and soccer.</p></div><span class="tag">Narrator in skit</span></div>
-      <div class="card member-card"><div><h3>Mason</h3><p>I like art, fencing, and tennis.</p></div><span class="tag">Inventor in skit</span></div>
+    <h3>Full Slide Deck With Pictures</h3>
+    <div class="pdf-viewer">
+      <object data="FLL%202025%20History%20Guardians%20-%20Final.pdf" type="application/pdf">
+        <p>Your browser could not display the PDF here. <a href="FLL%202025%20History%20Guardians%20-%20Final.pdf">Open the full innovation PDF</a>.</p>
+      </object>
+      <div class="page-nav">
+        <a href="FLL%202025%20History%20Guardians%20-%20Final.pdf">Open PDF</a>
+        <a href="#ordered-story">Read Ordered Story</a>
+      </div>
     </div>
+  </section>
 
-    <div class="choice-grid">
-      <a class="card choice-card" href="innovation.html">
-        <div style="height:190px;border-radius:12px;margin-bottom:0.75rem;background:linear-gradient(135deg,#fff7ed,#fed7aa);display:flex;align-items:center;justify-content:center;text-align:center;padding:1rem;color:#9a3412;font-weight:900;font-size:1.35rem;">SPARK Innovation Project</div>
-        <h3>Innovation Project</h3>
-        <p>SPARK: our Smart Portable Artifact Recovery Kit for recovering degraded words and symbols from artifacts.</p>
-        <span class="choice-action">Open Innovation</span>
-      </a>
-      <a class="card choice-card" href="robot-design.html">
-        <img src="2robot.gif" alt="History Guardians robot" />
-        <h3>Robot Design</h3>
-        <p>Our robot design evolution, mission strategy, mechanical work, programming, PID testing, and core values.</p>
-        <span class="choice-action">Open Robot Design</span>
-      </a>
+  <section id="ordered-story">
+    <h2>Project Story in Slide Order</h2>
+    <div class="innovation-timeline">
+      <article class="slide-step"><div class="slide-number"><span>Slide</span>4</div><div><h3>The Problem</h3><p>Climate change is damaging archaeological sites through rising temperatures, flooding, erosion, wildfires, ocean chemistry, and melting permafrost. Fragile artifacts and ancient writing can decay before people can read them.</p></div></article>
+      <article class="slide-step"><div class="slide-number"><span>Slide</span>5</div><div><h3>Field Research</h3><p>At the Metropolitan Museum, we saw ancient Egyptian artifacts where words on stone fragments had degraded.</p></div></article>
+      <article class="slide-step"><div class="slide-number"><span>Slide</span>6</div><div><h3>Limits of Current Technology</h3><p>Traditional digitization tools often need clean visual patterns. Stains, distortion, missing pieces, cost, and portability make on-site recovery difficult.</p></div></article>
+      <article class="slide-step"><div class="slide-number"><span>Slide</span>7</div><div><h3>Our Solution</h3><p>SPARK uses a camera-enabled Wi-Fi microcontroller, captures images, reduces noise by thresholding, sends the image to a computer vision model, and returns results for action.</p><div class="spark-flow"><div class="spark-node">Camera</div><div class="spark-node">Capture</div><div class="spark-node">Threshold</div><div class="spark-node">CV Model</div><div class="spark-node">Result</div></div></div></article>
+      <article class="slide-step"><div class="slide-number"><span>Slide</span>8</div><div><h3>Community Feedback</h3><p>Feedback led us to move tuning to the cloud, consider drone mounting, add optional LED/IR support, and include microSD offline storage.</p></div></article>
+      <article class="slide-step"><div class="slide-number"><span>Slide</span>9</div><div><h3>Expert Interview</h3><p>Dr. Brittany Profit recommended offline storage for dig sites and a user correction loop so the model can improve over time.</p></div></article>
+      <article class="slide-step"><div class="slide-number"><span>Slide</span>10</div><div><h3>More Outreach</h3><p>We shared our learning through the History Guardians FLL YouTube channel and a local public library presentation.</p></div></article>
+      <article class="slide-step"><div class="slide-number"><span>Slide</span>11</div><div><h3>Our Experiment</h3><p>We simulated an aged artifact with coffee-stained paper, captured it using an ESP32-S3 camera microcontroller, and used Vision Studio to test thresholding and OCR recovery.</p></div></article>
+      <article class="slide-step"><div class="slide-number"><span>Slide</span>12</div><div><h3>Further Enhancements</h3><p>Short term: shrink the dark-sensor light. Long term: fine-tune an archaeology-specific computer vision model and improve it with user-guided learning.</p></div></article>
+      <article class="slide-step"><div class="slide-number"><span>Slide</span>13</div><div><h3>Thank You</h3><p>SPARK protects the past by helping recover ancient words before they crumble or fade further.</p></div></article>
+      <article class="slide-step"><div class="slide-number"><span>Slides</span>14-19</div><div><h3>Appendix and Design Rationale</h3><p>The appendix covers Vision Studio preprocessing, OCR testing, the edge-device plus cloud-AI design, connectivity options, offline storage, and lighting improvements.</p></div></article>
+      <article class="slide-step"><div class="slide-number"><span>Slide</span>20</div><div><h3>Team Roles</h3><p>Isabella researched the problem and created experimental artifacts. Mason researched existing solutions. Luke researched computer vision and tested preprocessing and CV models. Claire researched the problem, set up the microcontroller prototype, and integrated the web app with OCR algorithms.</p></div></article>
+      <article class="slide-step"><div class="slide-number"><span>Slide</span>21</div><div><h3>Community Engagement</h3><p>Special thanks to Mr. Friedman, a history teacher at RCDS, for sharing archaeology experience and suggestions.</p></div></article>
     </div>
   </section>
 </main>
-
-<footer><p>FIRST LEGO League • History Guardians 67843</p></footer>
+<footer><p>FIRST LEGO League • Innovation Project</p></footer>
 <script>
 function scrollToTop(){ window.scrollTo({top:0,behavior:'smooth'}); }
 window.addEventListener('scroll',()=>{ const p=document.getElementById('scrollProgress'); if(p){ const h=document.documentElement.scrollHeight-window.innerHeight; p.style.width=(h>0?(window.scrollY/h)*100:0)+'%'; } const t=document.getElementById('scrollTop'); if(t){ t.classList.toggle('visible', window.scrollY>300); } });

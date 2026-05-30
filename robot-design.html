@@ -1,0 +1,3089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Robot Design | History Guardians 67843</title>
+ <style>
+ :root {
+ --primary: #ff6600; /* Bright orange */
+ --primary-dark: #cc5200; /* Dark orange */
+ --primary-light: #ff8533; /* Light orange */
+ --fire-red: #ff3300; /* Red-orange for fire effect */
+ --accent: #ffaa00; /* Golden orange */
+ --muted: #f5f5f5; /* Light gray/white */
+ --text: #1a1a1a; /* Near black */
+ }
+ * { box-sizing: border-box; }
+ body {
+ margin: 0;
+ font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+ color: var(--text);
+ background: var(--muted);
+ line-height: 1.6;
+ }
+ header {
+ background: linear-gradient(135deg, var(--fire-red), var(--primary), var(--accent));
+ background-size: 200% 200%;
+ animation: gradientShift 8s ease infinite;
+ color: white;
+ padding: 4rem 1.5rem;
+ text-align: center;
+ position: relative;
+ overflow: hidden;
+ }
+ header::before {
+ content: '';
+ position: absolute;
+ top: -50%;
+ left: -50%;
+ width: 200%;
+ height: 200%;
+ background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+ animation: rotate 20s linear infinite;
+ }
+ @keyframes gradientShift {
+ 0% { background-position: 0% 50%; }
+ 50% { background-position: 100% 50%; }
+ 100% { background-position: 0% 50%; }
+ }
+ @keyframes rotate {
+ from { transform: rotate(0deg); }
+ to { transform: rotate(360deg); }
+ }
+ header h1 { 
+ font-size: 2.5rem; 
+ margin-bottom: 0.5rem;
+ position: relative;
+ animation: fadeInDown 1s ease;
+ }
+ header p { 
+ max-width: 800px; 
+ margin: 0.5rem auto 0; 
+ font-size: 1.1rem;
+ position: relative;
+ animation: fadeInUp 1s ease 0.3s both;
+ }
+ .hero-achievements {
+ position: relative;
+ display: grid;
+ grid-template-columns: minmax(260px, 1.1fr) minmax(260px, 0.9fr);
+ gap: 1.25rem;
+ align-items: stretch;
+ max-width: 1100px;
+ margin: 1.75rem auto 0;
+ text-align: left;
+ animation: fadeInUp 1s ease 0.45s both;
+ }
+ .hero-photo {
+ background: rgba(255, 255, 255, 0.16);
+ border: 1px solid rgba(255, 255, 255, 0.24);
+ border-radius: 12px;
+ padding: 0.75rem;
+ backdrop-filter: blur(10px);
+ box-shadow: 0 18px 45px rgba(0, 0, 0, 0.2);
+ }
+ .hero-photo img {
+ display: block;
+ width: 100%;
+ height: 100%;
+ max-height: 430px;
+ object-fit: cover;
+ border-radius: 8px;
+ }
+ .season-highlights {
+ display: grid;
+ gap: 0.75rem;
+ }
+ .season-highlights h2 {
+ color: white;
+ margin: 0;
+ padding: 0;
+ text-align: left;
+ font-size: clamp(1.35rem, 2vw, 1.9rem);
+ }
+ .season-highlights h2::after {
+ display: none;
+ }
+ .highlight-card {
+ background: rgba(255, 255, 255, 0.92);
+ color: var(--text);
+ border-radius: 8px;
+ padding: 1rem;
+ border-left: 5px solid var(--accent);
+ box-shadow: 0 10px 26px rgba(0, 0, 0, 0.15);
+ }
+ .highlight-card.current {
+ border-left-color: #22c55e;
+ }
+ .highlight-card.upcoming {
+ border-left-color: #2563eb;
+ background: #eff6ff;
+ }
+ .highlight-label {
+ display: inline-block;
+ font-size: 0.75rem;
+ font-weight: 800;
+ letter-spacing: 0.04em;
+ text-transform: uppercase;
+ color: var(--primary-dark);
+ margin-bottom: 0.35rem;
+ }
+ .highlight-card.upcoming .highlight-label {
+ color: #1d4ed8;
+ }
+ .highlight-title {
+ font-size: 1.05rem;
+ font-weight: 800;
+ line-height: 1.25;
+ margin-bottom: 0.25rem;
+ }
+ .highlight-detail {
+ color: #4b5563;
+ font-size: 0.95rem;
+ line-height: 1.4;
+ }
+ @media (max-width: 760px) {
+ header {
+ padding: 3rem 1rem;
+ }
+ .hero-achievements {
+ grid-template-columns: 1fr;
+ text-align: center;
+ }
+ .season-highlights h2 {
+ text-align: center;
+ }
+ .hero-photo img {
+ max-height: none;
+ }
+ }
+ @keyframes fadeInDown {
+ from {
+ opacity: 0;
+ transform: translateY(-30px);
+ }
+ to {
+ opacity: 1;
+ transform: translateY(0);
+ }
+ }
+ @keyframes fadeInUp {
+ from {
+ opacity: 0;
+ transform: translateY(30px);
+ }
+ to {
+ opacity: 1;
+ transform: translateY(0);
+ }
+ }
+
+ nav {
+ position: sticky;
+ top: 0;
+ background: white;
+ border-bottom: 1px solid #e5e7eb;
+ z-index: 100;
+ }
+ nav ul {
+ list-style: none;
+ display: flex;
+ flex-wrap: wrap;
+ justify-content: center;
+ gap: 0;
+ padding: 0;
+ margin: 0;
+ }
+ nav li {
+ position: relative;
+ }
+ nav a {
+ text-decoration: none;
+ color: var(--primary);
+ font-weight: 600;
+ font-size: 0.95rem;
+ padding: 1rem 1.5rem;
+ display: block;
+ transition: all 0.3s ease;
+ position: relative;
+ }
+ nav a::after {
+ content: '';
+ position: absolute;
+ bottom: 0;
+ left: 50%;
+ width: 0;
+ height: 3px;
+ background: var(--primary);
+ transition: all 0.3s ease;
+ transform: translateX(-50%);
+ }
+ nav a:hover::after {
+ width: 80%;
+ }
+ nav > ul > li > a:hover { 
+ background: var(--muted);
+ color: var(--primary-dark);
+ transform: translateY(-2px);
+ }
+ 
+ /* Dropdown styles */
+ .dropdown {
+ position: relative;
+ }
+ .dropdown-menu {
+ display: none;
+ position: absolute;
+ top: 100%;
+ left: 0;
+ background: white;
+ min-width: 200px;
+ box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+ border-radius: 0 0 8px 8px;
+ list-style: none;
+ padding: 0.5rem 0;
+ margin: 0;
+ opacity: 0;
+ transform: translateY(-10px);
+ transition: all 0.3s ease;
+ }
+ .dropdown:hover .dropdown-menu {
+ display: block;
+ opacity: 1;
+ transform: translateY(0);
+ animation: slideDown 0.3s ease;
+ }
+ @keyframes slideDown {
+ from {
+ opacity: 0;
+ transform: translateY(-10px);
+ }
+ to {
+ opacity: 1;
+ transform: translateY(0);
+ }
+ }
+ .dropdown-menu li {
+ width: 100%;
+ }
+ .dropdown-menu a {
+ padding: 0.75rem 1.5rem;
+ font-weight: 500;
+ font-size: 0.9rem;
+ }
+ .dropdown-menu a:hover {
+ background: var(--muted);
+ color: #0b5aa6;
+ }
+
+ main { max-width: 1100px; margin: auto; padding: 2rem 1.5rem; }
+
+ section {
+ margin-bottom: 4rem;
+ scroll-margin-top: 80px;
+ opacity: 0;
+ animation: fadeInSection 0.8s ease forwards;
+ }
+ @keyframes fadeInSection {
+ to {
+ opacity: 1;
+ }
+ }
+ section h2 {
+ font-size: 2rem;
+ margin-bottom: 1rem;
+ color: var(--primary);
+ position: relative;
+ display: inline-block;
+ padding-bottom: 0.5rem;
+ }
+ section h2::after {
+ content: '';
+ position: absolute;
+ bottom: 0;
+ left: 0;
+ width: 100%;
+ height: 4px;
+ background: linear-gradient(90deg, var(--primary), var(--accent));
+ border-radius: 2px;
+ animation: expandWidth 0.8s ease 0.3s both;
+ }
+ @keyframes expandWidth {
+ from {
+ width: 0;
+ }
+ to {
+ width: 100%;
+ }
+ }
+ section h3 {
+ margin-top: 1.5rem;
+ color: #0b5aa6;
+ }
+
+ .grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+ gap: 1.5rem;
+ align-items: center;
+ }
+
+ .card {
+ background: white;
+ border-radius: 16px;
+ padding: 1.5rem;
+ box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+ transition: all 0.4s ease;
+ position: relative;
+ overflow: hidden;
+ }
+ .card::before {
+ content: '';
+ position: absolute;
+ top: 0;
+ left: -100%;
+ width: 100%;
+ height: 100%;
+ background: linear-gradient(90deg, transparent, rgba(255, 102, 0, 0.1), transparent);
+ transition: left 0.5s ease;
+ }
+ .card:hover::before {
+ left: 100%;
+ }
+ .card:hover {
+ transform: translateY(-10px) scale(1.02);
+ box-shadow: 0 20px 40px rgba(255, 102, 0, 0.2);
+ }
+
+ .card img {
+ width: 100%;
+ border-radius: 12px;
+ margin-bottom: 0.75rem;
+ transition: transform 0.4s ease;
+ }
+ .card:hover img {
+ transform: scale(1.05);
+ }
+
+ .tag {
+ display: inline-block;
+ background: var(--accent);
+ color: #3b3b00;
+ padding: 0.25rem 0.6rem;
+ border-radius: 999px;
+ font-size: 0.75rem;
+ font-weight: 700;
+ margin-bottom: 0.5rem;
+ animation: pulse 2s ease infinite;
+ }
+ @keyframes pulse {
+ 0%, 100% {
+ transform: scale(1);
+ }
+ 50% {
+ transform: scale(1.05);
+ }
+ }
+
+ .team-hero {
+ background: linear-gradient(135deg, #fff7ed, #ffedd5);
+ border-left: 6px solid var(--primary);
+ }
+ .team-roster {
+ align-items: stretch;
+ margin-top: 1.25rem;
+ }
+ .member-card {
+ min-height: 180px;
+ display: flex;
+ flex-direction: column;
+ justify-content: space-between;
+ border-top: 4px solid var(--accent);
+ }
+ .member-card h3 {
+ margin: 0 0 0.5rem;
+ color: var(--primary-dark);
+ }
+ .member-grade {
+ font-weight: 800;
+ color: #0b5aa6;
+ margin: 0 0 0.5rem;
+ }
+ .skit-roles {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+ gap: 0.75rem;
+ margin-top: 1rem;
+ }
+ .role-pill {
+ background: #fff7ed;
+ border: 1px solid #fed7aa;
+ border-radius: 8px;
+ padding: 0.75rem;
+ font-weight: 700;
+ color: #9a3412;
+ }
+ .innovation-timeline {
+ display: grid;
+ gap: 1rem;
+ margin-top: 1.5rem;
+ }
+ .slide-step {
+ display: grid;
+ grid-template-columns: 86px 1fr;
+ gap: 1rem;
+ align-items: start;
+ background: white;
+ border-radius: 12px;
+ padding: 1.25rem;
+ box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+ border-left: 5px solid var(--primary);
+ }
+ .slide-number {
+ background: linear-gradient(135deg, var(--primary), var(--fire-red));
+ color: white;
+ border-radius: 8px;
+ padding: 0.65rem 0.5rem;
+ text-align: center;
+ font-weight: 800;
+ line-height: 1.1;
+ }
+ .slide-number span {
+ display: block;
+ font-size: 0.75rem;
+ text-transform: uppercase;
+ letter-spacing: 0.04em;
+ opacity: 0.9;
+ }
+ .slide-step h3 {
+ margin-top: 0;
+ color: var(--primary-dark);
+ }
+ .spark-flow {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+ gap: 0.75rem;
+ margin: 1rem 0;
+ }
+ .spark-node {
+ background: #eff6ff;
+ border: 1px solid #bfdbfe;
+ border-radius: 8px;
+ padding: 0.75rem;
+ color: #1e3a8a;
+ font-weight: 700;
+ text-align: center;
+ }
+ .compact-list {
+ margin: 0.5rem 0 0;
+ padding-left: 1.15rem;
+ }
+ .outreach-table {
+ width: 100%;
+ border-collapse: collapse;
+ margin-top: 0.75rem;
+ font-size: 0.94rem;
+ }
+ .outreach-table th,
+ .outreach-table td {
+ padding: 0.75rem;
+ border-bottom: 1px solid #e5e7eb;
+ text-align: left;
+ vertical-align: top;
+ }
+ .outreach-table th {
+ background: #fff7ed;
+ color: #9a3412;
+ }
+ .metric-strip {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+ gap: 0.75rem;
+ margin-top: 1rem;
+ }
+ .metric {
+ background: #f8fafc;
+ border: 1px solid #e2e8f0;
+ border-radius: 8px;
+ padding: 0.75rem;
+ text-align: center;
+ }
+ .metric strong {
+ display: block;
+ color: var(--primary-dark);
+ font-size: 1.05rem;
+ }
+ @media (max-width: 640px) {
+ .slide-step {
+ grid-template-columns: 1fr;
+ }
+ .slide-number {
+ max-width: 120px;
+ }
+ }
+
+ .strategy-intro {
+ background: linear-gradient(135deg, #fff7ed, #ffedd5);
+ border-left: 6px solid var(--primary);
+ text-align: center;
+ }
+ .strategy-intro h3 {
+ color: var(--primary);
+ margin: 0 0 0.75rem 0;
+ }
+ .strategy-intro p {
+ color: #4b5563;
+ margin: 0;
+ }
+ .strategy-comparison {
+ display: grid;
+ grid-template-columns: minmax(240px, 0.85fr) minmax(280px, 1.15fr);
+ gap: 1.5rem;
+ align-items: stretch;
+ margin: 2rem 0;
+ }
+ .strategy-panel {
+ background: white;
+ border-radius: 12px;
+ padding: 1.25rem;
+ box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+ }
+ .strategy-panel.current {
+ border: 2px solid rgba(255, 102, 0, 0.35);
+ background: linear-gradient(135deg, #fff7ed, #ffffff);
+ }
+ .strategy-panel h4 {
+ margin: 0 0 0.75rem 0;
+ color: var(--primary);
+ }
+ .strategy-panel p {
+ margin: 0;
+ color: #4b5563;
+ }
+ .western-edge-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+ gap: 1rem;
+ margin-top: 1rem;
+ }
+ .western-run-card {
+ background: white;
+ border-radius: 10px;
+ padding: 1rem;
+ border-top: 5px solid var(--primary);
+ box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+ }
+ .western-run-card h5 {
+ margin: 0 0 0.75rem 0;
+ color: #0b5aa6;
+ font-size: 1.05rem;
+ }
+ .mission-chip-row {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 0.45rem;
+ }
+ .mission-chip {
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ min-width: 44px;
+ min-height: 34px;
+ padding: 0.35rem 0.65rem;
+ border-radius: 999px;
+ background: #fff7ed;
+ color: var(--primary-dark);
+ border: 1px solid rgba(255, 102, 0, 0.28);
+ font-weight: 800;
+ font-size: 0.9rem;
+ }
+ .strategy-stats {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+ gap: 1rem;
+ margin-top: 1.5rem;
+ }
+ .strategy-stat {
+ background: rgba(255, 255, 255, 0.18);
+ border: 1px solid rgba(255, 255, 255, 0.28);
+ border-radius: 10px;
+ padding: 1rem;
+ }
+ .strategy-stat strong {
+ display: block;
+ font-size: 2.1rem;
+ line-height: 1;
+ margin-bottom: 0.35rem;
+ }
+ .strategy-panel .strategy-stat {
+ background: #fff7ed;
+ border-color: rgba(255, 102, 0, 0.24);
+ color: var(--primary-dark);
+ text-align: center;
+ }
+ .strategy-note {
+ margin-top: 1.5rem;
+ padding: 1rem;
+ border-radius: 10px;
+ background: #eff6ff;
+ border-left: 5px solid #2563eb;
+ color: #1e3a8a;
+ }
+ @media (max-width: 760px) {
+ .strategy-comparison {
+ grid-template-columns: 1fr;
+ }
+ }
+
+ footer {
+ background: var(--primary);
+ color: white;
+ text-align: center;
+ padding: 2rem 1.5rem;
+ }
+ footer p { max-width: 800px; margin: auto; }
+ 
+ /* Visitor Counter Styles */
+ .visitor-counter {
+ margin-top: 1.5rem;
+ padding: 1.5rem;
+ background: rgba(255, 255, 255, 0.1);
+ border-radius: 12px;
+ backdrop-filter: blur(10px);
+ display: inline-block;
+ min-width: 300px;
+ }
+ .visitor-counter h3 {
+ margin: 0 0 0.75rem 0;
+ font-size: 1rem;
+ font-weight: 600;
+ opacity: 0.9;
+ text-transform: uppercase;
+ letter-spacing: 1px;
+ }
+ .counter-display {
+ display: flex;
+ justify-content: center;
+ gap: 0.5rem;
+ margin-top: 0.75rem;
+ }
+ .counter-digit {
+ background: rgba(0, 0, 0, 0.3);
+ padding: 0.75rem 1rem;
+ border-radius: 8px;
+ font-size: 2rem;
+ font-weight: bold;
+ min-width: 50px;
+ box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+ animation: digitPop 0.5s ease;
+ font-family: 'Courier New', monospace;
+ }
+ @keyframes digitPop {
+ 0% {
+ transform: scale(0.8);
+ opacity: 0;
+ }
+ 50% {
+ transform: scale(1.1);
+ }
+ 100% {
+ transform: scale(1);
+ opacity: 1;
+ }
+ }
+ .counter-label {
+ font-size: 0.85rem;
+ opacity: 0.8;
+ margin-top: 0.5rem;
+ }
+ .loading-dots {
+ display: inline-block;
+ }
+ .loading-dots span {
+ animation: blink 1.4s infinite;
+ }
+ .loading-dots span:nth-child(2) {
+ animation-delay: 0.2s;
+ }
+ .loading-dots span:nth-child(3) {
+ animation-delay: 0.4s;
+ }
+ @keyframes blink {
+ 0%, 80%, 100% {
+ opacity: 0;
+ }
+ 40% {
+ opacity: 1;
+ }
+ }
+
+ /* Mission Runs Styles */
+ .run-tabs {
+ display: flex;
+ gap: 0.5rem;
+ flex-wrap: wrap;
+ margin-bottom: 1.5rem;
+ border-bottom: 2px solid #e5e7eb;
+ padding-bottom: 0.5rem;
+ }
+ .run-tab {
+ background: white;
+ border: 2px solid var(--primary);
+ color: var(--primary);
+ padding: 0.75rem 1.5rem;
+ border-radius: 8px 8px 0 0;
+ cursor: pointer;
+ font-weight: 600;
+ transition: all 0.3s ease;
+ position: relative;
+ overflow: hidden;
+ }
+ .run-tab::before {
+ content: '';
+ position: absolute;
+ bottom: 0;
+ left: 0;
+ width: 100%;
+ height: 0;
+ background: var(--primary);
+ transition: height 0.3s ease;
+ z-index: -1;
+ }
+ .run-tab:hover::before {
+ height: 100%;
+ }
+ .run-tab:hover {
+ color: white;
+ transform: translateY(-3px);
+ box-shadow: 0 4px 12px rgba(255, 102, 0, 0.3);
+ }
+ .run-tab.active {
+ background: var(--primary);
+ color: white;
+ transform: scale(1.05);
+ box-shadow: 0 6px 16px rgba(255, 102, 0, 0.4);
+ }
+ .run-content {
+ display: none;
+ animation: fadeIn 0.3s;
+ }
+ .run-content.active {
+ display: block;
+ }
+ @keyframes fadeIn {
+ from { opacity: 0; }
+ to { opacity: 1; }
+ }
+ .iteration-card {
+ background: white;
+ border-radius: 12px;
+ padding: 1.5rem;
+ margin-bottom: 1.5rem;
+ box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+ display: grid;
+ grid-template-columns: 300px 1fr;
+ gap: 2rem;
+ align-items: start;
+ transition: all 0.3s ease;
+ animation: slideInLeft 0.6s ease;
+ }
+ @keyframes slideInLeft {
+ from {
+ opacity: 0;
+ transform: translateX(-30px);
+ }
+ to {
+ opacity: 1;
+ transform: translateX(0);
+ }
+ }
+ .iteration-card:hover {
+ box-shadow: 0 8px 24px rgba(255, 102, 0, 0.15);
+ transform: translateX(5px);
+ }
+ .iteration-card.single-column {
+ grid-template-columns: 1fr;
+ }
+ @media (max-width: 768px) {
+ .iteration-card {
+ grid-template-columns: 1fr;
+ }
+ }
+ .iteration-image {
+ grid-column: 1;
+ }
+ .iteration-content {
+ grid-column: 2;
+ }
+ .iteration-card.single-column .iteration-content {
+ grid-column: 1;
+ }
+ .iteration-card h4 {
+ color: var(--primary);
+ margin-top: 0;
+ margin-bottom: 0.75rem;
+ }
+ .challenge-badge {
+ display: inline-block;
+ background: #fee;
+ color: #c00;
+ padding: 0.25rem 0.75rem;
+ border-radius: 999px;
+ font-size: 0.8rem;
+ font-weight: 600;
+ margin-right: 0.5rem;
+ margin-bottom: 0.5rem;
+ animation: bounceIn 0.6s ease;
+ box-shadow: 0 2px 8px rgba(204, 0, 0, 0.2);
+ }
+ @keyframes bounceIn {
+ 0% {
+ transform: scale(0);
+ opacity: 0;
+ }
+ 50% {
+ transform: scale(1.1);
+ }
+ 100% {
+ transform: scale(1);
+ opacity: 1;
+ }
+ }
+ .success-badge {
+ display: inline-block;
+ background: #efe;
+ color: #060;
+ padding: 0.25rem 0.75rem;
+ border-radius: 999px;
+ font-size: 0.8rem;
+ font-weight: 600;
+ margin-right: 0.5rem;
+ margin-bottom: 0.5rem;
+ animation: bounceIn 0.6s ease, glow 2s ease-in-out infinite;
+ box-shadow: 0 2px 8px rgba(0, 102, 0, 0.2);
+ }
+ @keyframes glow {
+ 0%, 100% {
+ box-shadow: 0 2px 8px rgba(0, 102, 0, 0.2);
+ }
+ 50% {
+ box-shadow: 0 4px 16px rgba(0, 200, 0, 0.5);
+ }
+ }
+ 
+ /* Run images - smaller and clickable */
+ .iteration-card img {
+ max-width: 300px;
+ width: 100%;
+ border-radius: 8px;
+ margin: 1rem 0;
+ cursor: pointer;
+ transition: transform 0.2s, box-shadow 0.2s;
+ }
+ .iteration-card img:hover {
+ transform: scale(1.02);
+ box-shadow: 0 4px 12px rgba(255, 102, 0, 0.3);
+ }
+ 
+ /* Modal/Lightbox for enlarged images */
+ .image-modal {
+ display: none;
+ position: fixed;
+ z-index: 1000;
+ left: 0;
+ top: 0;
+ width: 100%;
+ height: 100%;
+ background-color: rgba(0, 0, 0, 0.9);
+ align-items: center;
+ justify-content: center;
+ }
+ .image-modal.active {
+ display: flex;
+ }
+ .modal-content {
+ max-width: 90%;
+ max-height: 90%;
+ object-fit: contain;
+ border-radius: 8px;
+ }
+ .close-modal {
+ position: absolute;
+ top: 20px;
+ right: 40px;
+ color: white;
+ font-size: 40px;
+ font-weight: bold;
+ cursor: pointer;
+ transition: color 0.2s;
+ }
+ .close-modal:hover {
+ color: var(--primary);
+ transform: rotate(90deg);
+ transition: all 0.3s ease;
+ }
+ 
+ /* Floating animated shapes */
+ .floating-shapes {
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ pointer-events: none;
+ z-index: 0;
+ overflow: hidden;
+ }
+ .shape {
+ position: absolute;
+ opacity: 0.1;
+ animation: float 20s infinite ease-in-out;
+ }
+ .shape:nth-child(1) {
+ width: 80px;
+ height: 80px;
+ background: var(--primary);
+ border-radius: 50%;
+ top: 20%;
+ left: 10%;
+ animation-duration: 15s;
+ animation-delay: 0s;
+ }
+ .shape:nth-child(2) {
+ width: 60px;
+ height: 60px;
+ background: var(--accent);
+ border-radius: 50%;
+ top: 60%;
+ right: 15%;
+ animation-duration: 18s;
+ animation-delay: 2s;
+ }
+ .shape:nth-child(3) {
+ width: 100px;
+ height: 100px;
+ background: var(--fire-red);
+ border-radius: 20px;
+ bottom: 20%;
+ left: 20%;
+ animation-duration: 22s;
+ animation-delay: 4s;
+ transform: rotate(45deg);
+ }
+ .shape:nth-child(4) {
+ width: 70px;
+ height: 70px;
+ background: var(--primary-light);
+ border-radius: 50%;
+ top: 40%;
+ right: 25%;
+ animation-duration: 16s;
+ animation-delay: 1s;
+ }
+ @keyframes float {
+ 0%, 100% {
+ transform: translateY(0) translateX(0) rotate(0deg);
+ }
+ 25% {
+ transform: translateY(-30px) translateX(20px) rotate(90deg);
+ }
+ 50% {
+ transform: translateY(-60px) translateX(-20px) rotate(180deg);
+ }
+ 75% {
+ transform: translateY(-30px) translateX(20px) rotate(270deg);
+ }
+ }
+ 
+ /* Scroll progress indicator */
+ .scroll-progress {
+ position: fixed;
+ top: 0;
+ left: 0;
+ height: 4px;
+ background: linear-gradient(90deg, var(--fire-red), var(--primary), var(--accent));
+ z-index: 1000;
+ transition: width 0.2s ease;
+ box-shadow: 0 2px 8px rgba(255, 102, 0, 0.5);
+ }
+ 
+ /* Scroll to top button */
+ .scroll-top {
+ position: fixed;
+ bottom: 30px;
+ right: 30px;
+ width: 50px;
+ height: 50px;
+ background: linear-gradient(135deg, var(--primary), var(--fire-red));
+ color: white;
+ border-radius: 50%;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ cursor: pointer;
+ font-size: 24px;
+ z-index: 999;
+ opacity: 0;
+ transform: scale(0);
+ transition: all 0.3s ease;
+ box-shadow: 0 4px 12px rgba(255, 102, 0, 0.4);
+ }
+ .scroll-top.visible {
+ opacity: 1;
+ transform: scale(1);
+ }
+ .scroll-top:hover {
+ transform: scale(1.1) translateY(-5px);
+ box-shadow: 0 6px 20px rgba(255, 102, 0, 0.6);
+ }
+ .scroll-top:active {
+ transform: scale(0.95);
+ }
+ </style>
+</head>
+<body>
+
+<!-- Floating shapes background -->
+<div class="floating-shapes">
+ <div class="shape"></div>
+ <div class="shape"></div>
+ <div class="shape"></div>
+ <div class="shape"></div>
+</div>
+
+<!-- Scroll progress indicator -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- Scroll to top button -->
+<div class="scroll-top" id="scrollTop" onclick="scrollToTop()">&uarr;</div>
+
+<header>
+ <h1>History Guardians 67843</h1>
+ <p>FLL Team Website</p>
+ <div class="hero-achievements">
+ <div class="hero-photo">
+ <img src="championship picutre.jpg" alt="History Guardians championship team photo" />
+ </div>
+ <div class="season-highlights" aria-label="Season highlights">
+ <h2>Season Highlights</h2>
+ <div class="highlight-card">
+ <span class="highlight-label">Qualifier Win</span>
+ <div class="highlight-title">Qualifier 1 Champions</div>
+ <div class="highlight-detail">John Jay Middle School, January 10, 2026</div>
+ </div>
+ <div class="highlight-card current">
+ <span class="highlight-label">Regional Champions</span>
+ <div class="highlight-title">Hudson Valley Regional Championship Winners</div>
+ <div class="highlight-detail">Final championship event, February 7, 2026</div>
+ </div>
+ <div class="highlight-card upcoming">
+ <span class="highlight-label">Next Invitational</span>
+ <div class="highlight-title">California Western Edge Invitational</div>
+ <div class="highlight-detail">May 28-31, 2026, representing the New York State area</div>
+ </div>
+ </div>
+ </div>
+</header>
+
+<nav>
+ <ul>
+ <li><a href="index.html">Team</a></li>
+ <li class="dropdown">
+ <a href="robot-design.html#design">Robot Design</a>
+ <ul class="dropdown-menu">
+ <li><a href="robot-design.html#design">Design Evolution</a></li>
+ <li><a href="robot-design.html#strategy">Mission Strategy</a></li>
+ <li><a href="robot-design.html#workflow">Workflow</a></li>
+ <li><a href="robot-design.html#mission-runs">Mission Runs</a></li>
+ <li><a href="robot-design.html#mechanical">Mechanical & Programming</a></li>
+ <li><a href="robot-design.html#pid">Programming & PID</a></li>
+ </ul>
+ </li>
+ <li><a href="innovation.html">Innovation</a></li>
+ <li><a href="robot-design.html#coopertition">Core Values</a></li>
+ </ul>
+</nav>
+
+<main>
+
+<section id="design">
+ <h2>Design Evolution & Iteration</h2>
+ <div class="grid">
+ <div class="card">
+ <span class="tag">Claire</span>
+ <img src="2robot.gif" alt="Last year's robot design" />
+ <p>
+ Our robot design started by identifying problems from last season. Previously, our robot used two attachment motors, one in the front and one in the back, but this setup was unstable and inefficient.
+ </p>
+ <p>
+ The rear motor sat at a different height, and swapping attachments often pulled off the front plate. Over the summer, we redesigned our robot using an iterative process.
+ </p>
+ </div>
+
+ <div class="card">
+ <h4 style="color: var(--primary); margin-top: 0; margin-bottom: 1rem;">Last Year's Motor Setup Issues</h4>
+ <img src="lastyearrobotfrontmotorview.png" alt="Last year's front motor view" style="width: 100%; border-radius: 12px; margin-bottom: 0.75rem;" />
+ <img src="lastyearbackmotorview.png" alt="Last year's back motor view" style="width: 100%; border-radius: 12px; margin-bottom: 0.75rem;" />
+ <p style="font-size: 0.9rem; color: #666;">
+ Front and back motors at different heights created instability and made attachment swaps difficult.
+ </p>
+ </div>
+ </div>
+
+ <!-- Motor placement collage moved below the two intro cards -->
+ <h3 style="margin-top: 1.5rem;">Motor Placement Options (Collage)</h3>
+ <div class="card" style="padding: 1rem;">
+ <p style="margin-top: 0; color: #666;">
+ We tested multiple motor placements and orientations. Click any thumbnail to enlarge.
+ </p>
+
+ <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.75rem; margin-top: 1rem;">
+ <figure style="margin:0; text-align:center;">
+ <img src="motor placement 1.png" alt="Motor placement option 1" style="width:100%; border-radius:8px; cursor:pointer;" onclick="openImageModal(this.src)" />
+ <figcaption style="font-size:0.8rem; color:#666; margin-top:0.4rem;">Option 1</figcaption>
+ </figure>
+ <figure style="margin:0; text-align:center;">
+ <img src="motor placement 2.png" alt="Motor placement option 2" style="width:100%; border-radius:8px; cursor:pointer;" onclick="openImageModal(this.src)" />
+ <figcaption style="font-size:0.8rem; color:#666; margin-top:0.4rem;">Option 2</figcaption>
+ </figure>
+ <figure style="margin:0; text-align:center;">
+ <img src="motor placement 3.png" alt="Motor placement option 3" style="width:100%; border-radius:8px; cursor:pointer;" onclick="openImageModal(this.src)" />
+ <figcaption style="font-size:0.8rem; color:#666; margin-top:0.4rem;">Option 3</figcaption>
+ </figure>
+ <figure style="margin:0; text-align:center;">
+ <img src="motor placement 4.png" alt="Motor placement option 4" style="width:100%; border-radius:8px; cursor:pointer;" onclick="openImageModal(this.src)" />
+ <figcaption style="font-size:0.8rem; color:#666; margin-top:0.4rem;">Option 4</figcaption>
+ </figure>
+ <figure style="margin:0; text-align:center;">
+ <img src="motor placement 5.png" alt="Motor placement option 5" style="width:100%; border-radius:8px; cursor:pointer;" onclick="openImageModal(this.src)" />
+ <figcaption style="font-size:0.8rem; color:#666; margin-top:0.4rem;">Option 5</figcaption>
+ </figure>
+ <figure style="margin:0; text-align:center;">
+ <img src="motor placement 6.png" alt="Motor placement option 6" style="width:100%; border-radius:8px; cursor:pointer;" onclick="openImageModal(this.src)" />
+ <figcaption style="font-size:0.8rem; color:#666; margin-top:0.4rem;">Option 6</figcaption>
+ </figure>
+ <figure style="margin:0; text-align:center;">
+ <img src="motor placement 7.png" alt="Motor placement option 7" style="width:100%; border-radius:8px; cursor:pointer;" onclick="openImageModal(this.src)" />
+ <figcaption style="font-size:0.8rem; color:#666; margin-top:0.4rem;">Option 7</figcaption>
+ </figure>
+ </div>
+
+ <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+ Note: This collage lets viewers compare options at a glance and open any image for a closer look.
+ </p>
+ </div>
+
+ <h3>CAD Design: BrickLink Studio</h3>
+ <div class="grid">
+ <div class="card" style="text-align: center;">
+ <h4 style="color: var(--primary); margin-bottom: 0.5rem;">BrickLink Studio Model</h4>
+ <img src="bricklinkstudioupdated.gif" alt="BrickLink Studio CAD model" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;" />
+ <p style="font-size: 0.9rem; color: #666;">Digital CAD model allowing us to test designs virtually before building</p>
+ </div>
+ </div>
+
+ <h3>Pinless Attachment System</h3>
+ <div class="grid">
+ <div class="card" style="text-align: center;">
+ <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Attachment Mechanism</h4>
+ <img src="pinless attachment rotating.gif" alt="Pinless attachment mechanism" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;" />
+ <p style="font-size: 0.9rem; color: #666;">Gravity-drop attachments that fit securely without pins, allowing for quick swaps</p>
+ </div>
+ <div class="card" style="text-align: center;">
+ <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Attachment in Action</h4>
+ <img src="Claire Robot with attachment 3 (1).gif" alt="Robot with attachment demonstration" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;" />
+ <p style="font-size: 0.9rem; color: #666;">Demonstrating the quick-swap mechanism with gravity-drop attachment</p>
+ </div>
+ </div>
+
+ <h3>Before & After: Design Evolution</h3>
+ <div class="grid">
+ <div class="card" style="text-align: center;">
+ <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Last Year's Robot</h4>
+ <img src="lastyearrobot.png" alt="Last year's robot" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;" />
+ <p style="font-size: 0.9rem; color: #666;">Unstable dual-motor setup with rear motor at different height</p>
+ </div>
+ <div class="card" style="text-align: center;">
+ <h4 style="color: var(--primary); margin-bottom: 0.5rem;">This Year's Robot</h4>
+ <img src="Claire Robot with attachment 3 (1).gif" alt="This year's robot with attachment" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;" />
+ <p style="font-size: 0.9rem; color: #666;">Optimized flat front motors with pinless, gravity-drop attachments</p>
+ </div>
+ </div>
+</section>
+
+<script>
+ // Removed motor slideshow; collage thumbnails open the existing image modal.
+ // Brainstorm slideshow script (unchanged)
+ const brainstormImages = [
+ 'RulesOfBrainstorming.webp',
+ 'isabelladrawing1.jpg',
+ 'isabelladrawing2.jpg',
+ 'ClaireBrainstormingDrawing1.jpeg',
+ 'ClaireBrainstormingDrawing2.jpeg',
+ 'ClaireBrainstormingDrawing3.jpeg',
+ 'ClaireBrainstormingDrawing4.jpeg'
+ ];
+ let brainstormIndex = 0;
+
+ function nextBrainstorm() {
+ brainstormIndex = (brainstormIndex + 1) % brainstormImages.length;
+ updateBrainstormSlide();
+ }
+
+ function previousBrainstorm() {
+ brainstormIndex = (brainstormIndex - 1 + brainstormImages.length) % brainstormImages.length;
+ updateBrainstormSlide();
+ }
+
+ function updateBrainstormSlide() {
+ document.getElementById('brainstormSlide').src = brainstormImages[brainstormIndex];
+ document.getElementById('brainstormCounter').textContent = (brainstormIndex + 1) + ' / ' + brainstormImages.length;
+ }
+</script>
+
+<script>
+ // Mission slideshow script (unchanged)
+ const missionImages = [
+ 'actiontypesorting.jpg',
+ 'missionlocationsorting.jpg',
+ 'difficultysorting.jpg'
+ ];
+ let missionIndex = 0;
+
+ function nextMission() {
+ missionIndex = (missionIndex + 1) % missionImages.length;
+ updateMissionSlide();
+ }
+
+ function previousMission() {
+ missionIndex = (missionIndex - 1 + missionImages.length) % missionImages.length;
+ updateMissionSlide();
+ }
+
+ function updateMissionSlide() {
+ document.getElementById('missionSlide').src = missionImages[missionIndex];
+ document.getElementById('missionCounter').textContent = (missionIndex + 1) + ' / ' + missionImages.length;
+ }
+</script>
+
+ <section id="strategy">
+ <h2>Mission Strategy & Brainstorming</h2>
+ <div class="grid" style="grid-template-columns: 1fr; gap: 1.5rem;">
+ <div class="card">
+ <span class="tag">Isabella</span>
+ <h4 style="color: var(--primary); margin-top: 0; margin-bottom: 1rem;">Student Brainstorming & Sketches (Collage)</h4>
+
+ <!-- Sketch collage: click any thumbnail to enlarge -->
+ <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.5rem;">
+ <figure style="margin:0; text-align:center;">
+ <img src="RulesOfBrainstorming.webp" alt="Brainstorm sketch 1" style="width:100%; border-radius:8px; cursor:pointer;" onclick="openImageModal(this.src)" />
+ <figcaption style="font-size:0.75rem; color:#666; margin-top:0.35rem;">Rules of Brainstorming</figcaption>
+ </figure>
+ <figure style="margin:0; text-align:center;">
+ <img src="isabelladrawing1.jpg" alt="Brainstorm sketch 2" style="width:100%; border-radius:8px; cursor:pointer;" onclick="openImageModal(this.src)" />
+ <figcaption style="font-size:0.75rem; color:#666; margin-top:0.35rem;">Isabella drawing 1</figcaption>
+ </figure>
+ <figure style="margin:0; text-align:center;">
+ <img src="isabelladrawing2.jpg" alt="Brainstorm sketch 3" style="width:100%; border-radius:8px; cursor:pointer;" onclick="openImageModal(this.src)" />
+ <figcaption style="font-size:0.75rem; color:#666; margin-top:0.35rem;">Isabella drawing 2</figcaption>
+ </figure>
+ <figure style="margin:0; text-align:center;">
+ <img src="ClaireBrainstormingDrawing1.jpeg" alt="Brainstorm sketch 4" style="width:100%; border-radius:8px; cursor:pointer;" onclick="openImageModal(this.src)" />
+ <figcaption style="font-size:0.75rem; color:#666; margin-top:0.35rem;">Claire sketch 1</figcaption>
+ </figure>
+ <figure style="margin:0; text-align:center;">
+ <img src="ClaireBrainstormingDrawing2.jpeg" alt="Brainstorm sketch 5" style="width:100%; border-radius:8px; cursor:pointer;" onclick="openImageModal(this.src)" />
+ <figcaption style="font-size:0.75rem; color:#666; margin-top:0.35rem;">Claire sketch 2</figcaption>
+ </figure>
+ <figure style="margin:0; text-align:center;">
+ <img src="ClaireBrainstormingDrawing3.jpeg" alt="Brainstorm sketch 6" style="width:100%; border-radius:8px; cursor:pointer;" onclick="openImageModal(this.src)" />
+ <figcaption style="font-size:0.75rem; color:#666; margin-top:0.35rem;">Claire sketch 3</figcaption>
+ </figure>
+ <figure style="margin:0; text-align:center;">
+ <img src="ClaireBrainstormingDrawing4.jpeg" alt="Brainstorm sketch 7" style="width:100%; border-radius:8px; cursor:pointer;" onclick="openImageModal(this.src)" />
+ <figcaption style="font-size:0.75rem; color:#666; margin-top:0.35rem;">Claire sketch 4</figcaption>
+ </figure>
+ </div>
+
+ <p style="margin-top: 1rem;">
+ Click any sketch to open a larger view. These quick drawings capture early ideas and attachment concepts so visitors can scan options at a glance.
+ </p>
+
+ <div style="background: linear-gradient(135deg, #fff3cd, #ffeaa7); border-left: 4px solid var(--accent); padding: 1rem; border-radius: 8px; margin-top: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+ <p style="margin: 0; font-weight: 600; color: var(--primary); font-size: 1.05rem;">
+ Brainstorming by the Numbers: Each of our 4 team members generated 4 unique ideas for all 15 missionsresulting in <strong>240 total ideas</strong> to analyze and refine!
+ </p>
+ </div>
+ </div>
+
+ <div class="card">
+ <h4 style="color: var(--primary); margin-top: 0; margin-bottom: 1rem;">Mission Analysis Snapshot</h4>
+
+ <!-- Mission analysis collage: quick glance thumbnails -->
+ <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.5rem;">
+ <figure style="margin:0; text-align:center;">
+ <img src="actiontypesorting.jpg" alt="Action type sorting" style="width:100%; border-radius:8px; cursor:pointer;" onclick="openImageModal(this.src)" />
+ <figcaption style="font-size:0.75rem; color:#666; margin-top:0.35rem;">Action Type</figcaption>
+ </figure>
+ <figure style="margin:0; text-align:center;">
+ <img src="missionlocationsorting.jpg" alt="Mission location sorting" style="width:100%; border-radius:8px; cursor:pointer;" onclick="openImageModal(this.src)" />
+ <figcaption style="font-size:0.75rem; color:#666; margin-top:0.35rem;">Field Location</figcaption>
+ </figure>
+ <figure style="margin:0; text-align:center;">
+ <img src="difficultysorting.jpg" alt="Difficulty sorting" style="width:100%; border-radius:8px; cursor:pointer;" onclick="openImageModal(this.src)" />
+ <figcaption style="font-size:0.75rem; color:#666; margin-top:0.35rem;">Difficulty</figcaption>
+ </figure>
+ <!-- optional extra thumbnails for quick reference -->
+ <figure style="margin:0; text-align:center;">
+ <img src="mission_grid_overview.jpg" alt="Mission grid overview" style="width:100%; border-radius:8px; cursor:pointer;" onclick="openImageModal(this.src)" />
+ <figcaption style="font-size:0.75rem; color:#666; margin-top:0.35rem;">Grid Overview</figcaption>
+ </figure>
+ </div>
+
+ <p style="margin-top: 1rem;">
+ These visual summaries helped us quickly group missions that fit together and prioritize attachments for repeatable runs. As the season progressed through Qualifier 1 and the Hudson Valley Regional Championship, we kept refining the plan so each run became more reliable, better grouped, and more competition-ready.
+ </p>
+ </div>
+ </div>
+ </section>
+ <section id="mission-sorting">
+ <h2>Mission Analysis & Sorting System</h2>
+ <p>Before designing our robot and planning runs, we categorized all 15 missions by action type, difficulty, and point value. This systematic analysis helped us identify natural groupings, prioritize which missions to attempt, and keep improving the strategy as our competition experience grew.</p>
+ 
+ <div class="run-tabs" style="justify-content: center; margin-top: 2rem;">
+ <button class="run-tab active" onclick="showSortView('action-type')">By Action Type</button>
+ <button class="run-tab" onclick="showSortView('difficulty')">By Difficulty</button>
+ <button class="run-tab" onclick="showSortView('points')">By Points</button>
+ </div>
+
+ <!-- Action Type View -->
+ <div id="action-type" class="run-content active" style="display: block;">
+ <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); margin-top: 2rem;">
+ <div class="card" style="background: linear-gradient(135deg, #fff5f5, #ffe5e5); border-left: 4px solid #ff6b6b;">
+ <h4 style="color: #c92a2a; margin-top: 0;"> Push Missions</h4>
+ <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;">
+ <span class="challenge-badge" style="background: #ffe5e5; color: #c92a2a;">M2</span>
+ <span class="challenge-badge" style="background: #ffe5e5; color: #c92a2a;">M5</span>
+ <span class="challenge-badge" style="background: #ffe5e5; color: #c92a2a;">M6</span>
+ <span class="challenge-badge" style="background: #ffe5e5; color: #c92a2a;">M8</span>
+ <span class="challenge-badge" style="background: #ffe5e5; color: #c92a2a;">M10</span>
+ <span class="challenge-badge" style="background: #ffe5e5; color: #c92a2a;">M11</span>
+ <span class="challenge-badge" style="background: #ffe5e5; color: #c92a2a;">M12</span>
+ </div>
+ <p style="margin-top: 1rem; font-size: 0.9rem;">7 missions require pushing objects or models</p>
+ </div>
+
+ <div class="card" style="background: linear-gradient(135deg, #f0f9ff, #dbeafe); border-left: 4px solid #3b82f6;">
+ <h4 style="color: #1e40af; margin-top: 0;"> Pull Missions</h4>
+ <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;">
+ <span class="challenge-badge" style="background: #dbeafe; color: #1e40af;">M9</span>
+ <span class="challenge-badge" style="background: #dbeafe; color: #1e40af;">M10</span>
+ <span class="challenge-badge" style="background: #dbeafe; color: #1e40af;">M12</span>
+ </div>
+ <p style="margin-top: 1rem; font-size: 0.9rem;">3 missions involve pulling mechanisms</p>
+ </div>
+
+ <div class="card" style="background: linear-gradient(135deg, #fefce8, #fef3c7); border-left: 4px solid #f59e0b;">
+ <h4 style="color: #92400e; margin-top: 0;"> Pick Up/Drop Off</h4>
+ <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;">
+ <span class="challenge-badge" style="background: #fef3c7; color: #92400e;">M1</span>
+ <span class="challenge-badge" style="background: #fef3c7; color: #92400e;">M2</span>
+ <span class="challenge-badge" style="background: #fef3c7; color: #92400e;">M4</span>
+ <span class="challenge-badge" style="background: #fef3c7; color: #92400e;">M14</span>
+ <span class="challenge-badge" style="background: #fef3c7; color: #92400e;">M15</span>
+ </div>
+ <p style="margin-top: 1rem; font-size: 0.9rem;">5 missions require precise object manipulation</p>
+ </div>
+
+ <div class="card" style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-left: 4px solid #22c55e;">
+ <h4 style="color: #166534; margin-top: 0;"> Lift Missions</h4>
+ <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;">
+ <span class="challenge-badge" style="background: #dcfce7; color: #166534;">M3</span>
+ <span class="challenge-badge" style="background: #dcfce7; color: #166534;">M7</span>
+ <span class="challenge-badge" style="background: #dcfce7; color: #166534;">M13</span>
+ </div>
+ <p style="margin-top: 1rem; font-size: 0.9rem;">3 missions need vertical lifting action</p>
+ </div>
+ </div>
+ </div>
+
+ <!-- Difficulty View -->
+ <div id="difficulty" class="run-content">
+ <div style="margin-top: 2rem; max-width: 900px; margin-left: auto; margin-right: auto;">
+ <div class="card" style="background: linear-gradient(135deg, #ecfdf5, #d1fae5); border-left: 6px solid #10b981; margin-bottom: 1.5rem;">
+ <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+ <h4 style="color: #065f46; margin: 0;"> Easy Missions</h4>
+ <span style="background: #10b981; color: white; padding: 0.5rem 1rem; border-radius: 999px; font-weight: 700;">6 Missions</span>
+ </div>
+ <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;">
+ <span class="success-badge" style="font-size: 1rem; padding: 0.5rem 1rem;">M2</span>
+ <span class="success-badge" style="font-size: 1rem; padding: 0.5rem 1rem;">M5</span>
+ <span class="success-badge" style="font-size: 1rem; padding: 0.5rem 1rem;">M6</span>
+ <span class="success-badge" style="font-size: 1rem; padding: 0.5rem 1rem;">M12</span>
+ <span class="success-badge" style="font-size: 1rem; padding: 0.5rem 1rem;">M13</span>
+ <span class="success-badge" style="font-size: 1rem; padding: 0.5rem 1rem;">M14</span>
+ </div>
+ <p style="margin-top: 1rem; color: #065f46;">High success rate, straightforward execution, great for building confidence</p>
+ </div>
+
+ <div class="card" style="background: linear-gradient(135deg, #fffbeb, #fef3c7); border-left: 6px solid #f59e0b; margin-bottom: 1.5rem;">
+ <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+ <h4 style="color: #92400e; margin: 0;"> Medium Missions</h4>
+ <span style="background: #f59e0b; color: white; padding: 0.5rem 1rem; border-radius: 999px; font-weight: 700;">5 Missions</span>
+ </div>
+ <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;">
+ <span class="tag" style="font-size: 1rem; padding: 0.5rem 1rem; background: #fef3c7; color: #92400e;">M1</span>
+ <span class="tag" style="font-size: 1rem; padding: 0.5rem 1rem; background: #fef3c7; color: #92400e;">M7</span>
+ <span class="tag" style="font-size: 1rem; padding: 0.5rem 1rem; background: #fef3c7; color: #92400e;">M9</span>
+ <span class="tag" style="font-size: 1rem; padding: 0.5rem 1rem; background: #fef3c7; color: #92400e;">M10</span>
+ <span class="tag" style="font-size: 1rem; padding: 0.5rem 1rem; background: #fef3c7; color: #92400e;">M15</span>
+ </div>
+ <p style="margin-top: 1rem; color: #92400e;">Moderate complexity, requires careful programming and attachment design</p>
+ </div>
+
+ <div class="card" style="background: linear-gradient(135deg, #fef2f2, #fee2e2); border-left: 6px solid #ef4444; margin-bottom: 1.5rem;">
+ <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+ <h4 style="color: #991b1b; margin: 0;"> Hard Missions</h4>
+ <span style="background: #ef4444; color: white; padding: 0.5rem 1rem; border-radius: 999px; font-weight: 700;">3 Missions</span>
+ </div>
+ <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;">
+ <span class="challenge-badge" style="font-size: 1rem; padding: 0.5rem 1rem;">M4</span>
+ <span class="challenge-badge" style="font-size: 1rem; padding: 0.5rem 1rem;">M8</span>
+ <span class="challenge-badge" style="font-size: 1rem; padding: 0.5rem 1rem;">M11</span>
+ </div>
+ <p style="margin-top: 1rem; color: #991b1b;">High precision required, multiple failure points, advanced mechanisms needed</p>
+ </div>
+ </div>
+ </div>
+
+ <!-- Points View -->
+ <div id="points" class="run-content">
+ <div style="margin-top: 2rem;">
+ <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem;">
+ <div class="card" style="text-align: center; padding: 1rem;">
+ <div style="font-size: 2.5rem; font-weight: bold; color: var(--primary); margin-bottom: 0.5rem;">30</div>
+ <div style="font-size: 0.85rem; color: #666; margin-bottom: 0.75rem;">M1</div>
+ <div style="font-size: 0.75rem; color: #999;">10+10+10 pts</div>
+ </div>
+ <div class="card" style="text-align: center; padding: 1rem;">
+ <div style="font-size: 2.5rem; font-weight: bold; color: var(--primary); margin-bottom: 0.5rem;">30</div>
+ <div style="font-size: 0.85rem; color: #666; margin-bottom: 0.75rem;">M2</div>
+ <div style="font-size: 0.75rem; color: #999;">10+10+10 pts</div>
+ </div>
+ <div class="card" style="text-align: center; padding: 1rem; background: linear-gradient(135deg, #fff5f5, #ffe8e8);">
+ <div style="font-size: 2.5rem; font-weight: bold; color: #c92a2a; margin-bottom: 0.5rem;">30</div>
+ <div style="font-size: 0.85rem; color: #666; margin-bottom: 0.75rem;">M3</div>
+ <div style="font-size: 0.75rem; color: #999;">30 pts</div>
+ </div>
+ <div class="card" style="text-align: center; padding: 1rem; background: linear-gradient(135deg, #fff5f5, #ffe8e8);">
+ <div style="font-size: 2.5rem; font-weight: bold; color: #c92a2a; margin-bottom: 0.5rem;">40</div>
+ <div style="font-size: 0.85rem; color: #666; margin-bottom: 0.75rem;">M4</div>
+ <div style="font-size: 0.75rem; color: #999;">30+10 pts</div>
+ </div>
+ <div class="card" style="text-align: center; padding: 1rem;">
+ <div style="font-size: 2.5rem; font-weight: bold; color: var(--primary); margin-bottom: 0.5rem;">30</div>
+ <div style="font-size: 0.85rem; color: #666; margin-bottom: 0.75rem;">M5</div>
+ <div style="font-size: 0.75rem; color: #999;">30 pts</div>
+ </div>
+ <div class="card" style="text-align: center; padding: 1rem;">
+ <div style="font-size: 2.5rem; font-weight: bold; color: var(--primary); margin-bottom: 0.5rem;">30</div>
+ <div style="font-size: 0.85rem; color: #666; margin-bottom: 0.75rem;">M6</div>
+ <div style="font-size: 0.75rem; color: #999;">10+10+10 pts</div>
+ </div>
+ <div class="card" style="text-align: center; padding: 1rem;">
+ <div style="font-size: 2.5rem; font-weight: bold; color: var(--primary); margin-bottom: 0.5rem;">30</div>
+ <div style="font-size: 0.85rem; color: #666; margin-bottom: 0.75rem;">M7</div>
+ <div style="font-size: 0.75rem; color: #999;">30 pts</div>
+ </div>
+ <div class="card" style="text-align: center; padding: 1rem;">
+ <div style="font-size: 2.5rem; font-weight: bold; color: var(--primary); margin-bottom: 0.5rem;">30</div>
+ <div style="font-size: 0.85rem; color: #666; margin-bottom: 0.75rem;">M8</div>
+ <div style="font-size: 0.75rem; color: #999;">10+10+10 pts</div>
+ </div>
+ <div class="card" style="text-align: center; padding: 1rem;">
+ <div style="font-size: 2.5rem; font-weight: bold; color: var(--primary); margin-bottom: 0.5rem;">30</div>
+ <div style="font-size: 0.85rem; color: #666; margin-bottom: 0.75rem;">M9</div>
+ <div style="font-size: 0.75rem; color: #999;">20+10 pts</div>
+ </div>
+ <div class="card" style="text-align: center; padding: 1rem;">
+ <div style="font-size: 2.5rem; font-weight: bold; color: var(--primary); margin-bottom: 0.5rem;">30</div>
+ <div style="font-size: 0.85rem; color: #666; margin-bottom: 0.75rem;">M10</div>
+ <div style="font-size: 0.75rem; color: #999;">20+10 pts</div>
+ </div>
+ <div class="card" style="text-align: center; padding: 1rem; background: linear-gradient(135deg, #fff5f5, #ffe8e8);">
+ <div style="font-size: 2.5rem; font-weight: bold; color: #c92a2a; margin-bottom: 0.5rem;">30</div>
+ <div style="font-size: 0.85rem; color: #666; margin-bottom: 0.75rem;">M11</div>
+ <div style="font-size: 0.75rem; color: #999;">30 pts</div>
+ </div>
+ <div class="card" style="text-align: center; padding: 1rem;">
+ <div style="font-size: 2.5rem; font-weight: bold; color: var(--primary); margin-bottom: 0.5rem;">30</div>
+ <div style="font-size: 0.85rem; color: #666; margin-bottom: 0.75rem;">M12</div>
+ <div style="font-size: 0.75rem; color: #999;">20+10 pts</div>
+ </div>
+ <div class="card" style="text-align: center; padding: 1rem;">
+ <div style="font-size: 2.5rem; font-weight: bold; color: var(--primary); margin-bottom: 0.5rem;">30</div>
+ <div style="font-size: 0.85rem; color: #666; margin-bottom: 0.75rem;">M13</div>
+ <div style="font-size: 0.75rem; color: #999;">30 pts</div>
+ </div>
+ <div class="card" style="text-align: center; padding: 1rem;">
+ <div style="font-size: 2.5rem; font-weight: bold; color: var(--primary); margin-bottom: 0.5rem;">30</div>
+ <div style="font-size: 0.85rem; color: #666; margin-bottom: 0.75rem;">M14</div>
+ <div style="font-size: 0.75rem; color: #999;">10+10+10 pts</div>
+ </div>
+ <div class="card" style="text-align: center; padding: 1rem;">
+ <div style="font-size: 2.5rem; font-weight: bold; color: var(--primary); margin-bottom: 0.5rem;">30</div>
+ <div style="font-size: 0.85rem; color: #666; margin-bottom: 0.75rem;">M15</div>
+ <div style="font-size: 0.75rem; color: #999;">56 pts</div>
+ </div>
+ </div>
+ 
+ <div class="card" style="margin-top: 2rem; background: linear-gradient(135deg, var(--fire-red), var(--primary), var(--accent)); color: white; text-align: center;">
+ <h3 style="margin: 0; font-size: 1.5rem;"> Total Available Points</h3>
+ <div style="font-size: 4rem; font-weight: bold; margin: 1rem 0;">545</div>
+ <p style="margin: 0; font-size: 1.1rem; opacity: 0.9;">Western Edge maximum/attempted score across all 15 missions</p>
+ </div>
+ </div>
+ </div>
+
+ <script>
+ function showSortView(viewId) {
+ // Hide all views
+ const contents = document.querySelectorAll('#mission-sorting .run-content');
+ contents.forEach(content => content.classList.remove('active'));
+ contents.forEach(content => content.style.display = 'none');
+ 
+ // Remove active from all tabs
+ const tabs = document.querySelectorAll('#mission-sorting .run-tab');
+ tabs.forEach(tab => tab.classList.remove('active'));
+ 
+ // Show selected view
+ const selectedView = document.getElementById(viewId);
+ selectedView.classList.add('active');
+ selectedView.style.display = 'block';
+ 
+ // Add active to clicked tab
+ event.target.classList.add('active');
+ }
+ </script>
+ </section>
+ <section id="workflow">
+ <h2>Project Management & Workflow</h2>
+ 
+ <h3>Western Edge Run Strategy</h3>
+
+ <div style="margin-top: 2rem;">
+ <div class="card strategy-intro">
+ <h3>Current Invitational Plan</h3>
+ <p>
+ After the Hudson Valley Regional Championship, we expanded our strategy from a five-run championship plan into a six-run Western Edge Invitational plan that attempts all 15 missions and targets 545 points.
+ </p>
+ </div>
+
+ <div class="strategy-comparison" style="display: block;">
+ <div class="strategy-panel current">
+ <h4>6 Runs 15 Missions 545 Points Attempted</h4>
+ <p>
+ This is our current Western Edge Invitational strategy. Judges can read the full run order below from left to right.
+ </p>
+ <div class="strategy-stats">
+ <div class="strategy-stat">
+ <strong>6</strong>
+ <span>Runs</span>
+ </div>
+ <div class="strategy-stat">
+ <strong>15</strong>
+ <span>Missions</span>
+ </div>
+ <div class="strategy-stat">
+ <strong>545</strong>
+ <span>Points Attempted</span>
+ </div>
+ <div class="strategy-stat">
+ <strong>Current</strong>
+ <span>Invitational Plan</span>
+ </div>
+ </div>
+ <div class="western-edge-grid">
+ <div class="western-run-card">
+ <h5>Run 1</h5>
+ <div class="mission-chip-row">
+ <span class="mission-chip">M1</span>
+ <span class="mission-chip">M2</span>
+ </div>
+ </div>
+ <div class="western-run-card">
+ <h5>Run 2</h5>
+ <div class="mission-chip-row">
+ <span class="mission-chip">M3</span>
+ <span class="mission-chip">M4</span>
+ <span class="mission-chip">M13</span>
+ </div>
+ </div>
+ <div class="western-run-card">
+ <h5>Run 3</h5>
+ <div class="mission-chip-row">
+ <span class="mission-chip">M11</span>
+ <span class="mission-chip">M12</span>
+ </div>
+ </div>
+ <div class="western-run-card">
+ <h5>Run 4</h5>
+ <div class="mission-chip-row">
+ <span class="mission-chip">M9</span>
+ <span class="mission-chip">M10</span>
+ </div>
+ </div>
+ <div class="western-run-card">
+ <h5>Run 5</h5>
+ <div class="mission-chip-row">
+ <span class="mission-chip">M5</span>
+ <span class="mission-chip">M6</span>
+ <span class="mission-chip">M7</span>
+ <span class="mission-chip">M8</span>
+ </div>
+ </div>
+ <div class="western-run-card">
+ <h5>Run 6</h5>
+ <div class="mission-chip-row">
+ <span class="mission-chip">M14</span>
+ <span class="mission-chip">M15</span>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <div class="strategy-note">
+ After championship, we expanded from a 5-run reliability plan to a 6-run Western Edge plan covering all 15 missions.
+ </div>
+
+ <!-- Run Evolution Timeline -->
+ <div class="card" style="display: none; background: linear-gradient(135deg, #fef3c7, #fde68a); border-left: 5px solid var(--accent); margin-bottom: 2rem;">
+ <h3 style="color: var(--primary); margin: 0 0 1rem 0; text-align: center;"> Run Grouping Evolution</h3>
+ <p style="text-align: center; color: #666; margin-bottom: 1.5rem;">
+ The cards below document how our earlier championship groupings changed through testing. The Western Edge plan above is our current competition strategy.
+ </p>
+ </div>
+
+ <!-- Interactive Run Evolution Cards -->
+ <div class="grid" style="display: none; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+ 
+ <!-- Run A - No changes -->
+ <div class="card" style="background: linear-gradient(135deg, #fff5f5, #ffe5e5); border-left: 5px solid #ff6600; position: relative; overflow: visible;">
+ <span style="position: absolute; top: -12px; right: -12px; background: #22c55e; color: white; padding: 0.4rem 0.8rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);"> Unchanged</span>
+ <h4 style="color: var(--primary); margin: 0 0 1rem 0; font-size: 1.5rem; text-align: center;"> Run A</h4>
+ <div style="text-align: center;">
+ <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; padding: 1rem; background: rgba(255,255,255,0.5); border-radius: 8px;">
+ <span class="tag" style="font-size: 1.1rem; padding: 0.5rem 1rem;">M1</span>
+ <span class="tag" style="font-size: 1.1rem; padding: 0.5rem 1rem;">M2</span>
+ </div>
+ </div>
+ <p style="margin-top: 1rem; font-size: 0.9rem; color: #666; text-align: center;">Foundation run 60 points</p>
+ </div>
+
+ <!-- Run B - Evolution (Initial Q1 V1 Q1 V2) -->
+ <div class="card" style="background: linear-gradient(135deg, #f0f9ff, #dbeafe); border-left: 5px solid #3b82f6; position: relative; overflow: visible;">
+ <span style="position: absolute; top: -12px; right: -12px; background: var(--primary); color: white; padding: 0.4rem 0.8rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700; box-shadow: 0 4px 12px rgba(255, 102, 0, 0.4);"> Evolution</span>
+ <h4 style="color: #1e40af; margin: 0 0 1rem 0; font-size: 1.5rem; text-align: center;"> Run B</h4>
+
+ <!-- Initial Plan -->
+ <div style="background: rgba(239, 68, 68, 0.08); padding: 0.9rem; border-radius: 8px; margin-bottom: 0.6rem; border: 1px dashed #ef4444;">
+ <div style="font-size: 0.75rem; font-weight: 700; color: #991b1b; text-transform: uppercase; margin-bottom: 0.4rem; text-align: center;">Initial Plan</div>
+ <div style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+ <span style="font-size:0.95rem; padding:0.4rem 0.8rem; background:white; border-radius:999px; color:#991b1b; text-decoration:line-through;">M3</span>
+ <span style="font-size:0.95rem; padding:0.4rem 0.8rem; background:white; border-radius:999px; color:#991b1b; text-decoration:line-through;">M4</span>
+ </div>
+ </div>
+
+ <!-- Qualifier 1 (V1) - existing on site -->
+ <div style="background: rgba(59,130,246,0.06); padding:0.9rem; border-radius:8px; margin-bottom:0.6rem; border:1px solid rgba(59,130,246,0.12);">
+ <div style="font-size:0.75rem; font-weight:700; color:#1e40af; text-transform:uppercase; margin-bottom:0.4rem; text-align:center;"> Qualifier 1 (V1) Update</div>
+ <div style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+ <span style="font-size:0.95rem; padding:0.4rem 0.8rem; background:white; border-radius:999px; color:#1e40af;">M3</span>
+ <span style="font-size:0.95rem; padding:0.4rem 0.8rem; background:white; border-radius:999px; color:#1e40af;">M13</span>
+ </div>
+ </div>
+
+ <!-- Qualifier 1 (V2) - new -->
+ <div style="background: rgba(34,197,94,0.06); padding:0.9rem; border-radius:8px; border:1px solid rgba(34,197,94,0.12);">
+ <div style="font-size:0.75rem; font-weight:700; color:#166534; text-transform:uppercase; margin-bottom:0.4rem; text-align:center;"> Qualifier 1 (V2) Update</div>
+ <div style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+ <span class="tag" style="font-size:0.95rem; padding:0.4rem 0.8rem; background:#dbeafe; color:#1e40af;">M3</span>
+ <span class="tag" style="font-size:0.95rem; padding:0.4rem 0.8rem; background:#dbeafe; color:#1e40af;">M4</span>
+ <span class="tag" style="font-size:0.95rem; padding:0.4rem 0.8rem; background:#dbeafe; color:#1e40af;">M13</span>
+ </div>
+ </div>
+
+ <p style="margin-top: 1rem; font-size: 0.9rem; color: #666; text-align: center;">Optimized combo 70 points</p>
+ </div>
+
+ <!-- Run C - No changes -->
+ <div class="card" style="background: linear-gradient(135deg, #fefce8, #fef3c7); border-left: 5px solid #f59e0b; position: relative; overflow: visible;">
+ <span style="position: absolute; top: -12px; right: -12px; background: var(--primary); color: white; padding: 0.4rem 0.8rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700; box-shadow: 0 4px 12px rgba(255, 102, 0, 0.4);"> Evolution</span>
+ <h4 style="color: #92400e; margin: 0 0 1rem 0; font-size: 1.5rem; text-align: center;"> Run C</h4>
+
+ <!-- Initial Plan -->
+ <div style="background: rgba(239,68,68,0.08); padding:0.9rem; border-radius:8px; margin-bottom:0.6rem; border:1px dashed #ef4444;">
+ <div style="font-size:0.75rem; font-weight:700; color:#991b1b; text-transform:uppercase; margin-bottom:0.4rem; text-align:center;">Initial Plan</div>
+ <div style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+ <span style="font-size:0.95rem; padding:0.4rem 0.8rem; background:white; border-radius:999px; color:#92400e; text-decoration:line-through;">M5</span>
+ <span style="font-size:0.95rem; padding:0.4rem 0.8rem; background:white; border-radius:999px; color:#92400e; text-decoration:line-through;">M6</span>
+ <span style="font-size:0.95rem; padding:0.4rem 0.8rem; background:white; border-radius:999px; color:#92400e; text-decoration:line-through;">M7</span>
+ </div>
+ </div>
+
+ <!-- Qualifier 1 (V1) - existing on site -->
+ <div style="background: rgba(250,204,21,0.06); padding:0.9rem; border-radius:8px; margin-bottom:0.6rem; border:1px solid rgba(250,204,21,0.08);">
+ <div style="font-size:0.75rem; font-weight:700; color:#92400e; text-transform:uppercase; margin-bottom:0.4rem; text-align:center;"> Qualifier 1 (V1) Update</div>
+ <div style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+ <span style="font-size:0.95rem; padding:0.4rem 0.8rem; background:white; border-radius:999px; color:#92400e;">M12</span>
+ <span style="font-size:0.95rem; padding:0.4rem 0.8rem; background:white; border-radius:999px; color:#92400e;">M13</span>
+ <span style="font-size:0.95rem; padding:0.4rem 0.8rem; background:white; border-radius:999px; color:#92400e;">M11</span>
+ </div>
+ </div>
+
+ <!-- Qualifier 1 (V2) - new/current -->
+ <div style="background: rgba(34,197,94,0.06); padding:0.9rem; border-radius:8px; border:1px solid rgba(34,197,94,0.12);">
+ <div style="font-size:0.75rem; font-weight:700; color:#166534; text-transform:uppercase; margin-bottom:0.4rem; text-align:center;"> Qualifier 1 (V2) Update</div>
+ <div style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+ <span class="tag" style="font-size:0.95rem; padding:0.4rem 0.8rem; background:#fef3c7; color:#92400e;">M5</span>
+ <span class="tag" style="font-size:0.95rem; padding:0.4rem 0.8rem; background:#fef3c7; color:#92400e;">M6</span>
+ <span class="tag" style="font-size:0.95rem; padding:0.4rem 0.8rem; background:#fef3c7; color:#92400e;">M7</span>
+ <span class="tag" style="font-size:0.95rem; padding:0.4rem 0.8rem; background:#fef3c7; color:#92400e;">M8</span>
+ </div>
+ </div>
+ <p style="margin-top: 1rem; font-size: 0.9rem; color: #666; text-align: center;">Quad set 90 points</p>
+ </div>
+
+ <!-- Run D - No changes -->
+ <div class="card" style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-left: 5px solid #22c55e; position: relative; overflow: visible;">
+ <span style="position: absolute; top: -12px; right: -12px; background: #22c55e; color: white; padding: 0.4rem 0.8rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);"> Unchanged</span>
+ <h4 style="color: #166534; margin: 0 0 1rem 0; font-size: 1.5rem; text-align: center;"> Run D</h4>
+ <div style="text-align: center;">
+ <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; padding: 1rem; background: rgba(255,255,255,0.5); border-radius: 8px;">
+ <span class="tag" style="font-size: 1.1rem; padding: 0.5rem 1rem; background: #dcfce7; color: #166534;">M10</span>
+ <span class="tag" style="font-size: 1.1rem; padding: 0.5rem 1rem; background: #dcfce7; color: #166534;">M9</span>
+ </div>
+ </div>
+ <p style="margin-top: 1rem; font-size: 0.9rem; color: #666; text-align: center;">Precision pair 60 points</p>
+ </div>
+
+ <div class="card" style="background: linear-gradient(135deg, #faf5ff, #f3e8ff); border-left: 5px solid #a855f7; position: relative; overflow: visible;">
+ <span style="position: absolute; top: -12px; right: -12px; background: var(--primary); color: white; padding: 0.4rem 0.8rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700; box-shadow: 0 4px 12px rgba(255, 102, 0, 0.4);"> Evolution</span>
+ <h4 style="color: #7e22ce; margin: 0 0 1rem 0; font-size: 1.5rem; text-align: center;"> Run E</h4>
+
+ <!-- Initial Plan -->
+ <div style="background: rgba(239,68,68,0.08); padding:0.9rem; border-radius:8px; margin-bottom:0.6rem; border:1px dashed #ef4444;">
+ <div style="font-size:0.75rem; font-weight:700; color:#991b1b; text-transform:uppercase; margin-bottom:0.4rem; text-align:center;">Initial Plan</div>
+ <div style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+ <span style="font-size:0.95rem; padding:0.4rem 0.8rem; background:white; border-radius:999px; color:#991b1b; text-decoration:line-through;">M12</span>
+ <span style="font-size:0.95rem; padding:0.4rem 0.8rem; background:white; border-radius:999px; color:#991b1b; text-decoration:line-through;">M13</span>
+ <span style="font-size:0.95rem; padding:0.4rem 0.8rem; background:white; border-radius:999px; color:#991b1b; text-decoration:line-through;">M11</span>
+ </div>
+ </div>
+
+ <!-- Qualifier 1 (V1) - existing on site -->
+ <div style="background: rgba(168,85,247,0.04); padding:0.9rem; border-radius:8px; margin-bottom:0.6rem; border:1px solid rgba(168,85,247,0.08);">
+ <div style="font-size:0.75rem; font-weight:700; color:#7e22ce; text-transform:uppercase; margin-bottom:0.4rem; text-align:center;"> Qualifier 1 (V1) Update</div>
+ <div style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+ <span style="font-size:0.95rem; padding:0.4rem 0.8rem; background:white; border-radius:999px; color:#7e22ce;">M12</span>
+ </div>
+ </div>
+
+ <!-- Qualifier 1 (V2) - new/current -->
+ <div style="background: rgba(34,197,94,0.06); padding:0.9rem; border-radius:8px; border:1px solid rgba(34,197,94,0.12);">
+ <div style="font-size:0.75rem; font-weight:700; color:#166534; text-transform:uppercase; margin-bottom:0.4rem; text-align:center;"> Qualifier 1 (V2) Update</div>
+ <div style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+ <span class="tag" style="font-size:0.95rem; padding:0.4rem 0.8rem; background:#f3e8ff; color:#7e22ce;">M12</span>
+ <span class="tag" style="font-size:0.95rem; padding:0.4rem 0.8rem; background:#f3e8ff; color:#7e22ce;">M15</span>
+ <span class="tag" style="font-size:0.95rem; padding:0.4rem 0.8rem; background:#f3e8ff; color:#7e22ce;">M11</span>
+ </div>
+ </div>
+
+ <p style="margin-top: 1rem; font-size: 0.9rem; color: #666; text-align: center;">Simplified to solo mission 30 points</p>
+ </div>
+ </div>
+
+ <!-- Iteration Insight Box -->
+ <div class="card" style="display: none; margin-top: 2rem; background: linear-gradient(135deg, #fff3cd, #ffeaa7); border-left: 5px solid var(--accent);">
+ <h3 style="color: var(--primary); margin: 0 0 1rem 0;"> Why We Changed Run B</h3>
+ <p style="margin-bottom: 0.75rem;">
+ After initial practice, Qualifier 1, and continued championship preparation, we discovered that missions M3, M13, and M12 had better spatial grouping and could be completed more reliably in sequence.
+ </p>
+ <p style="margin: 0;">
+ <strong>Key improvement:</strong> The new grouping reduced attachment complexity, improved our success rate from 65% to 90% on this run, and gave us a stronger plan for higher-pressure matches.
+ </p>
+ </div>
+
+ <!-- Summary Stats -->
+ <div class="card" style="display: none; margin-top: 2rem; background: linear-gradient(135deg, var(--fire-red), var(--primary), var(--accent)); color: white; text-align: center;">
+ <h3 style="margin: 0 0 1rem 0; font-size: 1.8rem;"> Strategic Grouping Results</h3>
+ <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+ <div>
+ <div style="font-size: 2.5rem; font-weight: bold;">6</div>
+ <div style="font-size: 0.9rem; opacity: 0.9;">Total Runs</div>
+ </div>
+ <div>
+ <div style="font-size: 2.5rem; font-weight: bold;">15</div>
+ <div style="font-size: 0.9rem; opacity: 0.9;">Missions Grouped</div>
+ </div>
+ <div>
+ <div style="font-size: 2.5rem; font-weight: bold;">545</div>
+ <div style="font-size: 0.9rem; opacity: 0.9;">Maximum/Attempted Points</div>
+ </div>
+ <div>
+ <div style="font-size: 2.5rem; font-weight: bold;">Current</div>
+ <div style="font-size: 0.9rem; opacity: 0.9;">Western Edge Strategy</div>
+ </div>
+ </div>
+ <p style="margin: 1.5rem 0 0 0; font-size: 1rem; opacity: 0.95;">
+ We prioritized consistent, repeatable runs over attempting all 15 missions, then continued iterating our strategy through the Hudson Valley Regional Championship and toward the California Western Edge Invitational.
+ </p>
+ </div>
+ </div>
+
+ <h3>Team Duos & Side Assignments</h3>
+ <div style="max-width: 900px; margin: 2rem auto;">
+ <div class="card" style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border: none; padding: 2rem; position: relative; overflow: hidden;">
+ 
+ <!-- Two Robots Header -->
+ <div style="text-align: center; margin-bottom: 2rem;">
+ <h4 style="color: var(--primary); font-size: 1.8rem; margin: 0 0 0.5rem 0;"> + = Double the Progress</h4>
+ <p style="color: #666; margin: 0;">Building two robots to maximize parallel development</p>
+ </div>
+
+ <!-- Split View: Blue Side vs Red Side -->
+ <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+ 
+ <!-- Blue Side -->
+ <div style="background: linear-gradient(135deg, #dbeafe, #bfdbfe); border-radius: 16px; padding: 1.5rem; border-left: 6px solid #3b82f6; position: relative;">
+ <div style="text-align: center; margin-bottom: 1rem;">
+ <div style="font-size: 3rem; margin-bottom: 0.5rem;"></div>
+ <h5 style="color: #1e40af; margin: 0 0 0.5rem 0; font-size: 1.3rem;">Blue Side Team</h5>
+ <div style="font-size: 0.9rem; color: #1e40af; font-weight: 600; opacity: 0.8;">Missions: Left Field Zone</div>
+ </div>
+ 
+ <div style="background: white; border-radius: 12px; padding: 1rem; margin-top: 1rem; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);">
+ <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+ <div style="width: 40px; height: 40px; background: #3b82f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.2rem;">C</div>
+ <div>
+ <div style="font-weight: 600; color: #1e40af;">Claire</div>
+ <div style="font-size: 0.8rem; color: #666;">Robot Designer & Builder</div>
+ </div>
+ </div>
+ <div style="display: flex; align-items: center; gap: 0.75rem;">
+ <div style="width: 40px; height: 40px; background: #60a5fa; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.2rem;">I</div>
+ <div>
+ <div style="font-weight: 600; color: #1e40af;">Isabella</div>
+ <div style="font-size: 0.8rem; color: #666;">Strategy & Attachments</div>
+ </div>
+ </div>
+ </div>
+
+ <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(255,255,255,0.5); border-radius: 8px;">
+ <div style="font-size: 0.85rem; font-weight: 600; color: #1e40af; margin-bottom: 0.5rem;">Blue Side Runs:</div>
+ <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+ <span style="background: #3b82f6; color: white; padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600;">Run A</span>
+ <span style="background: #3b82f6; color: white; padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600;">Run C</span>
+ </div>
+ </div>
+ </div>
+
+ <!-- Red Side -->
+ <div style="background: linear-gradient(135deg, #fee2e2, #fecaca); border-radius: 16px; padding: 1.5rem; border-left: 6px solid #ef4444; position: relative;">
+ <div style="text-align: center; margin-bottom: 1rem;">
+ <div style="font-size: 3rem; margin-bottom: 0.5rem;"></div>
+ <h5 style="color: #991b1b; margin: 0 0 0.5rem 0; font-size: 1.3rem;">Red Side Team</h5>
+ <div style="font-size: 0.9rem; color: #991b1b; font-weight: 600; opacity: 0.8;">Missions: Right Field Zone</div>
+ </div>
+ 
+ <div style="background: white; border-radius: 12px; padding: 1rem; margin-top: 1rem; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);">
+ <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+ <div style="width: 40px; height: 40px; background: #ef4444; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.2rem;">M</div>
+ <div>
+ <div style="font-weight: 600; color: #991b1b;">Mason</div>
+ <div style="font-size: 0.8rem; color: #666;">Programming & Testing</div>
+ </div>
+ </div>
+ <div style="display: flex; align-items: center; gap: 0.75rem;">
+ <div style="width: 40px; height: 40px; background: #f87171; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.2rem;">L</div>
+ <div>
+ <div style="font-weight: 600; color: #991b1b;">Luke</div>
+ <div style="font-size: 0.8rem; color: #666;">Mechanical Solutions</div>
+ </div>
+ </div>
+ </div>
+
+ <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(255,255,255,0.5); border-radius: 8px;">
+ <div style="font-size: 0.85rem; font-weight: 600; color: #991b1b; margin-bottom: 0.5rem;">Red Side Runs:</div>
+ <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+ <span style="background: #ef4444; color: white; padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600;">Run B</span>
+ <span style="background: #ef4444; color: white; padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600;">Run D</span>
+ <span style="background: #ef4444; color: white; padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600;">Run E</span>
+ </div>
+ </div>
+ </div>
+
+ </div>
+
+ <!-- Benefits Summary -->
+ <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #fef3c7, #fde68a); border-radius: 12px; border-left: 5px solid var(--accent);">
+ <h5 style="color: var(--primary); margin: 0 0 1rem 0; text-align: center;"> Benefits of Parallel Development</h5>
+ <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; text-align: center;">
+ <div>
+ <div style="font-size: 1.5rem; margin-bottom: 0.25rem;"></div>
+ <div style="font-size: 0.9rem; font-weight: 600; color: #666;">2 Practice Time</div>
+ </div>
+ <div>
+ <div style="font-size: 1.5rem; margin-bottom: 0.25rem;"></div>
+ <div style="font-size: 0.9rem; font-weight: 600; color: #666;">Specialized Expertise</div>
+ </div>
+ <div>
+ <div style="font-size: 1.5rem; margin-bottom: 0.25rem;"></div>
+ <div style="font-size: 0.9rem; font-weight: 600; color: #666;">Shared Learning</div>
+ </div>
+ <div>
+ <div style="font-size: 1.5rem; margin-bottom: 0.25rem;"></div>
+ <div style="font-size: 0.9rem; font-weight: 600; color: #666;">Rapid Iteration</div>
+ </div>
+ </div>
+ </div>
+
+ <p style="text-align: center; margin-top: 1.5rem; color: #666; font-size: 0.95rem;">
+ This structure allowed us to work in parallel, maximize practice time, and develop specialized expertise for our assigned field zones. Duos collaborated on shared challenges while maintaining ownership of their specific runs.
+ </p>
+
+ </div>
+ </div>
+
+ <h3>Three Step Method</h3>
+ 
+ <!-- Judging Feedback Banner -->
+ <div style="max-width: 900px; margin: 0 auto 2rem auto; background: linear-gradient(135deg, #fff3cd, #ffeaa7); border-left: 6px solid var(--accent); border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 12px rgba(255, 170, 0, 0.2);">
+ <div style="display: flex; align-items: start; gap: 1rem;">
+ <div style="font-size: 2.5rem; flex-shrink: 0;"></div>
+ <div>
+ <h4 style="color: var(--primary); margin: 0 0 0.75rem 0; font-size: 1.2rem;">Judging Feedback & Evolution</h4>
+ <p style="margin: 0 0 0.5rem 0; font-size: 0.95rem; color: #666; line-height: 1.6;">
+ <strong>Judge:</strong> "What if it takes 4 days instead of 3 - "<br>
+ <strong>Our Team:</strong> "Then it's the Four Session Method!"<br>
+ <strong>Judge's Response:</strong> "Maybe think about the name again..."
+ </p>
+ <div style="background: rgba(255,255,255,0.7); padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+ <p style="margin: 0; font-weight: 600; color: var(--primary);"> Updated Approach:</p>
+ <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #666;">
+ We renamed it to the <strong>"Three Step Method"</strong> because it's about the <em>process steps</em>, not the number of days. Whether it takes 3 sessions or 4, we follow the same three fundamental steps: Proof of Concept Alignment & Path Tuning & Reliability.
+ </p>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <div style="max-width: 1000px; margin: 2rem auto;">
+ <!-- Progress Timeline -->
+ <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; position: relative;">
+ <!-- Progress Line -->
+ <div style="position: absolute; top: 50%; left: 10%; right: 10%; height: 4px; background: linear-gradient(90deg, var(--fire-red), var(--primary), var(--accent)); transform: translateY(-50%); z-index: 0; border-radius: 2px;"></div>
+ 
+ <!-- Step 1 -->
+ <div style="flex: 1; text-align: center; position: relative; z-index: 1;">
+ <div style="width: 80px; height: 80px; margin: 0 auto 1rem auto; background: linear-gradient(135deg, #fee2e2, #fecaca); border: 4px solid var(--fire-red); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 12px rgba(255, 51, 0, 0.3);">
+ 
+ </div>
+ <h4 style="color: var(--fire-red); margin: 0 0 0.5rem 0; font-size: 1.2rem;">Step 1</h4>
+ <p style="font-size: 0.9rem; color: #666; margin: 0;">Proof of Concept</p>
+ </div>
+
+ <!-- Step 2 -->
+ <div style="flex: 1; text-align: center; position: relative; z-index: 1;">
+ <div style="width: 80px; height: 80px; margin: 0 auto 1rem auto; background: linear-gradient(135deg, #fff7ed, #fed7aa); border: 4px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 12px rgba(255, 102, 0, 0.3);">
+ 
+ </div>
+ <h4 style="color: var(--primary); margin: 0 0 0.5rem 0; font-size: 1.2rem;">Step 2</h4>
+ <p style="font-size: 0.9rem; color: #666; margin: 0;">Alignment & Path</p>
+ </div>
+
+ <!-- Step 3 -->
+ <div style="flex: 1; text-align: center; position: relative; z-index: 1;">
+ <div style="width: 80px; height: 80px; margin: 0 auto 1rem auto; background: linear-gradient(135deg, #fef3c7, #fde68a); border: 4px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 12px rgba(255, 170, 0, 0.3);">
+ 
+ </div>
+ <h4 style="color: var(--accent); margin: 0 0 0.5rem 0; font-size: 1.2rem;">Step 3</h4>
+ <p style="font-size: 0.9rem; color: #666; margin: 0;">Tuning & Reliability</p>
+ </div>
+ </div>
+
+ <!-- Detailed Cards -->
+ <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+ 
+ <!-- Step 1 Card -->
+ <div class="card" style="background: linear-gradient(135deg, #fff5f5, #ffe5e5); border-left: 6px solid var(--fire-red);">
+ <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+ <div style="font-size: 2.5rem;"></div>
+ <div>
+ <h4 style="color: var(--fire-red); margin: 0;">Step 1</h4>
+ <p style="margin: 0; font-size: 0.85rem; color: #666;">Proof of Concept</p>
+ </div>
+ </div>
+ <div style="background: rgba(255,255,255,0.6); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+ <p style="margin: 0 0 0.75rem 0; font-weight: 600; color: var(--fire-red);">Goals:</p>
+ <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.9rem; line-height: 1.8;">
+ <li>Validate attachment feasibility</li>
+ <li>Create rough path draft</li>
+ <li>Identify major obstacles</li>
+ </ul>
+ </div>
+ <div style="display: inline-block; background: var(--fire-red); color: white; padding: 0.5rem 1rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600;">
+ Success Rate: 40-60%
+ </div>
+ </div>
+
+ <!-- Step 2 Card -->
+ <div class="card" style="background: linear-gradient(135deg, #fff7ed, #ffedd5); border-left: 6px solid var(--primary);">
+ <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+ <div style="font-size: 2.5rem;"></div>
+ <div>
+ <h4 style="color: var(--primary); margin: 0;">Step 2</h4>
+ <p style="margin: 0; font-size: 0.85rem; color: #666;">Alignment & Path</p>
+ </div>
+ </div>
+ <div style="background: rgba(255,255,255,0.6); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+ <p style="margin: 0 0 0.75rem 0; font-weight: 600; color: var(--primary);">Goals:</p>
+ <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.9rem; line-height: 1.8;">
+ <li>Optimize robot positioning</li>
+ <li>Refine path waypoints</li>
+ <li>Add alignment corrections</li>
+ </ul>
+ </div>
+ <div style="display: inline-block; background: var(--primary); color: white; padding: 0.5rem 1rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600;">
+ Success Rate: 70-80%
+ </div>
+ </div>
+
+ <!-- Step 3 Card -->
+ <div class="card" style="background: linear-gradient(135deg, #fefce8, #fef3c7); border-left: 6px solid var(--accent);">
+ <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+ <div style="font-size: 2.5rem;"></div>
+ <div>
+ <h4 style="color: #92400e; margin: 0;">Step 3</h4>
+ <p style="margin: 0; font-size: 0.85rem; color: #666;">Tuning & Reliability</p>
+ </div>
+ </div>
+ <div style="background: rgba(255,255,255,0.6); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+ <p style="margin: 0 0 0.75rem 0; font-weight: 600; color: #92400e;">Goals:</p>
+ <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.9rem; line-height: 1.8;">
+ <li>Fine-tune PID values</li>
+ <li>Test repeatability</li>
+ <li>Handle edge cases</li>
+ </ul>
+ </div>
+ <div style="display: inline-block; background: var(--accent); color: #3b3b00; padding: 0.5rem 1rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600;">
+ Success Rate: 90%+
+ </div>
+ </div>
+ </div>
+
+ <!-- Summary Box -->
+ <div class="card" style="margin-top: 2rem; background: linear-gradient(135deg, var(--fire-red), var(--primary), var(--accent)); color: white; text-align: center;">
+ <h4 style="margin: 0 0 1rem 0; font-size: 1.5rem;"> Iterative Excellence</h4>
+ <p style="margin: 0; font-size: 1.05rem; line-height: 1.6;">
+ The Three Step Method is a <strong>process framework</strong>, not a timeline. Whether development takes 3 sessions or 4, we always follow these three fundamental steps to transform rough concepts into competition-ready runs with reliability and repeatability.
+ </p>
+ </div>
+ </div>
+ </section>
+
+ <section id="mission-runs">
+ <h2>Earlier Development Evidence</h2>
+ <p>Explore earlier mission-run media, including design iterations, attachment evolution, and challenges we overcame.</p>
+ <div class="strategy-note">
+ <strong>Current competition grouping:</strong> Our Western Edge strategy uses Run 1-6 in the plan above. The Run A-F tabs below preserve earlier media and iteration evidence from our championship development process.
+ </div>
+ 
+ <div class="run-tabs">
+ <button class="run-tab active" onclick="showRun('run-a')">Run A</button>
+ <button class="run-tab" onclick="showRun('run-b')">Run B</button>
+ <button class="run-tab" onclick="showRun('run-c')">Run C</button>
+ <button class="run-tab" onclick="showRun('run-d')">Run D</button>
+ <button class="run-tab" onclick="showRun('run-e')">Run E</button>
+ <button class="run-tab" onclick="showRun('run-f')">Run F</button>
+ </div>
+
+ <!-- Run A Content -->
+ <div id="run-a" class="run-content active">
+ <div class="card">
+ <h3>Run A: Missions 1 & 2</h3>
+ <p><strong>Missions:</strong> Mission 1, Mission 2</p>
+ <p><strong>Points Target:</strong> 60 points</p>
+ </div>
+
+ <!-- Updated to match media in Run A folder: single final image -->
+ <div class="iteration-card">
+ <div class="iteration-image">
+ <img src="Run A/RunAfinalversion.jpg" alt="Run A Final" class="run-image" />
+ </div>
+ <div class="iteration-content">
+ <h4>Iteration 1: Final Solution</h4>
+ <div class="success-badge">Success</div>
+ <p><strong>Solution:</strong> Added a passive guide rail to help align with mission models. Optimized motor speeds and added PID corrections.</p>
+ <p><strong>Outcome:</strong> Achieved 95% success rate in practice. Consistently scores 75 points in this run.</p>
+ </div>
+ </div>
+
+ <div class="iteration-card">
+ <div class="iteration-image">
+ <img src="Run A/IMG_6840.jpg" alt="Run A New Iteration" class="run-image" />
+ </div>
+ <div class="iteration-content">
+ <h4>New Iteration: Latest Update</h4>
+ <div class="success-badge">New</div>
+ <p><strong>Evidence:</strong> Add the newest Run A picture here to show the latest attachment or path improvement.</p>
+ </div>
+ </div>
+ </div>
+
+ <!-- Run B Content -->
+ <div id="run-b" class="run-content">
+ <div class="card">
+ <h3>Run B: Missions 3, 4 & 13</h3>
+ <p><strong>Missions:</strong> Mission 3, Mission 4, Mission 13</p>
+ <p><strong>Points Target:</strong> 70 points</p>
+ <div style="margin-top:0.75rem; display:flex; gap:0.75rem; flex-wrap:wrap; justify-content:center;">
+ <div style="background:rgba(239,68,68,0.06); padding:0.6rem; border-radius:8px; border:1px dashed #ef4444; min-width:160px; text-align:center;">
+ <div style="font-weight:700; font-size:0.8rem; color:#991b1b; text-transform:uppercase;">Initial Plan</div>
+ <div style="margin-top:0.4rem; color:#991b1b;">M3 M4</div>
+ </div>
+ <div style="background:rgba(59,130,246,0.04); padding:0.6rem; border-radius:8px; border:1px solid rgba(59,130,246,0.08); min-width:160px; text-align:center;">
+ <div style="font-weight:700; font-size:0.8rem; color:#1e40af; text-transform:uppercase;">Qualifier 1 (V1)</div>
+ <div style="margin-top:0.4rem; color:#1e40af;">M3 M13</div>
+ </div>
+ <div style="background:rgba(34,197,94,0.04); padding:0.6rem; border-radius:8px; border:1px solid rgba(34,197,94,0.08); min-width:160px; text-align:center;">
+ <div style="font-weight:700; font-size:0.8rem; color:#166534; text-transform:uppercase;">Qualifier 1 (V2)</div>
+ <div style="margin-top:0.4rem; color:#166534;">M3 M4 M13</div>
+ </div>
+ </div>
+ </div>
+
+ <!-- Run B: files located in Run B/ (V1 and V2) -->
+ <div class="iteration-card">
+ <div class="iteration-image">
+ <img src="Run B/Run B V1.jpg" alt="Run B Iteration 1" class="run-image" />
+ </div>
+ <div class="iteration-content">
+ <h4>Iteration 1: Prototype (V1)</h4>
+ <div class="challenge-badge">Challenge</div>
+ <p><strong>Approach:</strong> Initial prototype to validate dual-action attachment concept.</p>
+ <p><strong>Challenges:</strong> The mechanism was complex and prone to jamming. Timing between actions was difficult to calibrate.</p>
+ </div>
+ </div>
+
+ <div class="iteration-card">
+ <div class="iteration-image">
+ <video style="max-width: 100%; width: 100%; border-radius: 8px;" controls>
+ <source src="Run B/Run B V2.mp4" type="video/mp4">
+ Your browser does not support the video tag.
+ </video>
+ </div>
+ <div class="iteration-content">
+ <h4>Iteration 2: Final (V2)</h4>
+ <div class="success-badge">Success</div>
+ <p><strong>Solution:</strong> Simplified mechanism for reliability and added sensor feedback to confirm completion.</p>
+ <p><strong>Outcome:</strong> Reliable performance with 90% success rate. Quick attachment swap makes this run efficient.</p>
+ </div>
+ </div>
+
+ <div class="iteration-card">
+ <div class="iteration-image">
+ <img src="Run B/IMG_6841.jpg" alt="Run B New Iteration" class="run-image" />
+ </div>
+ <div class="iteration-content">
+ <h4>New Iteration: Latest Update</h4>
+ <div class="success-badge">New</div>
+ <p><strong>Evidence:</strong> Add the newest Run B picture here to show the latest attachment or path improvement.</p>
+ </div>
+ </div>
+ </div>
+
+ <!-- Run C Content -->
+ <div id="run-c" class="run-content">
+ <div class="card">
+ <h3>Run C: Missions 5,6,7,8</h3>
+ <p><strong>Missions:</strong> Mission 5, Mission 6, Mission 7, Mission 8</p>
+ <p><strong>Points Target:</strong> 90 points</p>
+ <div style="margin-top:0.75rem; display:flex; gap:0.75rem; flex-wrap:wrap; justify-content:center;">
+ <div style="background:rgba(239,68,68,0.06); padding:0.6rem; border-radius:8px; border:1px dashed #ef4444; min-width:160px; text-align:center;">
+ <div style="font-weight:700; font-size:0.8rem; color:#991b1b; text-transform:uppercase;">Initial Plan</div>
+ <div style="margin-top:0.4rem; color:#991b1b;">M5 M6 M7</div>
+ </div>
+ <div style="background:rgba(250,204,21,0.04); padding:0.6rem; border-radius:8px; border:1px solid rgba(250,204,21,0.08); min-width:160px; text-align:center;">
+ <div style="font-weight:700; font-size:0.8rem; color:#92400e; text-transform:uppercase;">Qualifier 1 (V1)</div>
+ <div style="margin-top:0.4rem; color:#92400e;">M12 M13 M11</div>
+ </div>
+ <div style="background:rgba(34,197,94,0.04); padding:0.6rem; border-radius:8px; border:1px solid rgba(34,197,94,0.08); min-width:160px; text-align:center;">
+ <div style="font-weight:700; font-size:0.8rem; color:#166534; text-transform:uppercase;">Qualifier 1 (V2)</div>
+ <div style="margin-top:0.4rem; color:#166534;">M5 M6 M7 M8</div>
+ </div>
+ </div>
+ </div>
+
+ <!-- Run C: three iterations (V1, V2, V3) inside Run C/ -->
+ <div class="iteration-card">
+ <div class="iteration-image">
+ <video style="max-width: 100%; width: 100%; border-radius: 8px;" controls>
+ <source src="Run C/Run C V1.mp4" type="video/mp4">
+ Your browser does not support the video tag.
+ </video>
+ </div>
+ <div class="iteration-content">
+ <h4>Iteration 1: Triple Mission Prototype (V1)</h4>
+ <div class="challenge-badge">Challenge</div>
+ <p><strong>Approach:</strong> Ambitious design to complete three missions in one run.</p>
+ <p><strong>Challenges:</strong> Path was too complex, increasing failure points. Robot occasionally missed alignment marks.</p>
+ </div>
+ </div>
+
+ <div class="iteration-card">
+ <div class="iteration-image">
+ <video style="max-width: 100%; width: 100%; border-radius: 8px;" controls>
+ <source src="Run C/Run C V2.mp4" type="video/mp4">
+ Your browser does not support the video tag.
+ </video>
+ </div>
+ <div class="iteration-content">
+ <h4>Iteration 2: Path Optimization (V2)</h4>
+ <p><strong>Improvements:</strong> Redesigned the path to reduce turns and improve flow. Added intermediate alignment points.</p>
+ <p><strong>Results:</strong> Better consistency, but Mission 8 still had reliability issues.</p>
+ </div>
+ </div>
+
+ <div class="iteration-card">
+ <div class="iteration-image">
+ <img src="Run C/Run C V3.jpg" alt="Run C Final (V3)" class="run-image" />
+ </div>
+ <div class="iteration-content">
+ <h4>Iteration 3: Final Refinement (V3)</h4>
+ <div class="success-badge">Success</div>
+ <p><strong>Solution:</strong> Fine-tuned PID values for each segment. Added a passive attachment that automatically engages during the run.</p>
+ <p><strong>Outcome:</strong> Our highest-scoring run with excellent reliability. Key to our competition strategy.</p>
+ </div>
+ </div>
+
+ <div class="iteration-card">
+ <div class="iteration-image">
+ <img src="Run C/IMG_6838.jpg" alt="Run C New Iteration" class="run-image" />
+ </div>
+ <div class="iteration-content">
+ <h4>New Iteration: Latest Update</h4>
+ <div class="success-badge">New</div>
+ <p><strong>Evidence:</strong> Add the newest Run C picture here to show the latest attachment or path improvement.</p>
+ </div>
+ </div>
+ </div>
+
+ <!-- Run D Content -->
+ <div id="run-d" class="run-content">
+ <div class="card">
+ <h3>Run D: Missions 9 & 10</h3>
+ <p><strong>Missions:</strong> Mission 9, Mission 10</p>
+ <p><strong>Points Target:</strong> 60 points</p>
+ </div>
+
+ <!-- Run D: iterations based on Run D folder (V1 and V2) -->
+ <div class="iteration-card">
+ <div class="iteration-image">
+ <video style="max-width: 100%; width: 100%; border-radius: 8px;" controls>
+ <source src="Run D/Run D V1.mp4" type="video/mp4">
+ Your browser does not support the video tag.
+ </video>
+ </div>
+ <div class="iteration-content">
+ <h4>Iteration 1: Precision Prototype (V1)</h4>
+ <div class="challenge-badge">Challenge</div>
+ <p><strong>Approach:</strong> Required extremely precise positioning for small mission models.</p>
+ <p><strong>Challenges:</strong> Even minor drift caused mission failure. Battery level affected motor performance significantly.</p>
+ </div>
+ </div>
+
+ <div class="iteration-card">
+ <div class="iteration-image">
+ <video style="max-width: 100%; width: 100%; border-radius: 8px;" controls>
+ <source src="Run D/Run D V2.mp4" type="video/mp4">
+ Your browser does not support the video tag.
+ </video>
+ </div>
+ <div class="iteration-content">
+ <h4>Iteration 2: Enhanced Precision (V2)</h4>
+ <div class="success-badge">Success</div>
+ <p><strong>Solution:</strong> Implemented battery voltage compensation in code. Added physical alignment guides to the attachment.</p>
+ <p><strong>Outcome:</strong> Reliable execution even with varying battery levels. Consistent 60-point contribution.</p>
+ </div>
+ </div>
+
+ <div class="iteration-card">
+ <div class="iteration-image">
+ <img src="Run D/IMG_6842.jpg" alt="Run D New Iteration" class="run-image" />
+ </div>
+ <div class="iteration-content">
+ <h4>New Iteration: Latest Update</h4>
+ <div class="success-badge">New</div>
+ <p><strong>Evidence:</strong> Add the newest Run D picture here to show the latest attachment or path improvement.</p>
+ </div>
+ </div>
+ </div>
+
+ <!-- Run E Content -->
+ <div id="run-e" class="run-content">
+ <div class="card">
+ <h3>Run E: Missions 11,12,15</h3>
+ <p><strong>Missions:</strong> Mission 11, Mission 12, Mission 15</p>
+ <p><strong>Points Target:</strong> 90 points</p>
+ <div style="margin-top:0.75rem; display:flex; gap:0.75rem; flex-wrap:wrap; justify-content:center;">
+ <div style="background:rgba(239,68,68,0.06); padding:0.6rem; border-radius:8px; border:1px dashed #ef4444; min-width:160px; text-align:center;">
+ <div style="font-weight:700; font-size:0.8rem; color:#991b1b; text-transform:uppercase;">Initial Plan</div>
+ <div style="margin-top:0.4rem; color:#991b1b;">M12 M13 M11</div>
+ </div>
+ <div style="background:rgba(168,85,247,0.04); padding:0.6rem; border-radius:8px; border:1px solid rgba(168,85,247,0.08); min-width:160px; text-align:center;">
+ <div style="font-weight:700; font-size:0.8rem; color:#7e22ce; text-transform:uppercase;">Qualifier 1 (V1)</div>
+ <div style="margin-top:0.4rem; color:#7e22ce;">M12</div>
+ </div>
+ <div style="background:rgba(34,197,94,0.04); padding:0.6rem; border-radius:8px; border:1px solid rgba(34,197,94,0.08); min-width:160px; text-align:center;">
+ <div style="font-weight:700; font-size:0.8rem; color:#166534; text-transform:uppercase;">Qualifier 1 (V2)</div>
+ <div style="margin-top:0.4rem; color:#166534;">M12 M15 M11</div>
+ </div>
+ </div>
+ </div>
+
+ <!-- Run E: iterations based on Run E folder (V1 and V2) -->
+ <div class="iteration-card">
+ <div class="iteration-image">
+ <img src="Run E/Run E V1.jpg" alt="Run E Iteration 1" class="run-image" />
+ </div>
+ <div class="iteration-content">
+ <h4>Iteration 1: Speed vs. Accuracy (V1)</h4>
+ <div class="challenge-badge">Challenge</div>
+ <p><strong>Approach:</strong> Attempted to complete missions quickly to maximize remaining time.</p>
+ <p><strong>Challenges:</strong> Higher speeds reduced accuracy. Occasional overshooting caused mission failures.</p>
+ </div>
+ </div>
+
+ <div class="iteration-card">
+ <div class="iteration-image">
+ <img src="Run E/Run E V2.jpg" alt="Run E Final (V2)" class="run-image" />
+ </div>
+ <div class="iteration-content">
+ <h4>Iteration 2: Balanced Approach (V2)</h4>
+ <div class="success-badge">Success</div>
+ <p><strong>Solution:</strong> Implemented variable speed control: faster on long straights, slower near mission models. Added deceleration ramps.</p>
+ <p><strong>Outcome:</strong> Maintains good speed while ensuring accuracy. Completes in under 30 seconds with high reliability.</p>
+ </div>
+ </div>
+
+ <div class="iteration-card">
+ <div class="iteration-image">
+ <img src="Run E/IMG_6836.jpg" alt="Run E New Iteration" class="run-image" />
+ </div>
+ <div class="iteration-content">
+ <h4>New Iteration: Latest Update</h4>
+ <div class="success-badge">New</div>
+ <p><strong>Evidence:</strong> Add the newest Run E picture here to show the latest attachment or path improvement.</p>
+ </div>
+ </div>
+ </div>
+
+ <!-- Run F Content -->
+ <div id="run-f" class="run-content">
+ <div class="card">
+ <h3>Run F: Missions 14 & 15</h3>
+ <p><strong>Missions:</strong> Mission 14, Mission 15</p>
+ <p><strong>Goal:</strong> Deliver all artifacts.</p>
+ <p><strong>Points Target:</strong> To be confirmed after testing.</p>
+ </div>
+
+ <div class="iteration-card">
+ <div class="iteration-image">
+ <img src="Run F/IMG_6844.jpg" alt="Run F New Iteration" class="run-image" />
+ </div>
+ <div class="iteration-content">
+ <h4>New Iteration: Artifact Delivery</h4>
+ <div class="success-badge">New</div>
+ <p><strong>Approach:</strong> Run F focuses on delivering all artifacts for Missions 14 and 15.</p>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <script>
+ function showRun(runId) {
+ // Hide all run contents
+ const contents = document.querySelectorAll('.run-content');
+ contents.forEach(content => content.classList.remove('active'));
+ 
+ // Remove active class from all tabs
+ const tabs = document.querySelectorAll('.run-tab');
+ tabs.forEach(tab => tab.classList.remove('active'));
+ 
+ // Show selected run content
+ document.getElementById(runId).classList.add('active');
+ 
+ // Add active class to clicked tab
+ event.target.classList.add('active');
+ }
+ </script>
+
+<section id="mechanical">
+ <h2>Mechanical Context & Programming Focus</h2>
+ <div class="grid">
+ <div class="card">
+ <span class="tag">Luke</span>
+ <img src="Claire Robot 2025-26 (1).png" alt="Claire Robot 2025-26" />
+ <p>
+ We faced many mechanical challenges early in the season. Lessons from last year, especially about passive attachments, strongly influenced this year's robot.
+ </p>
+ </div>
+ <div class="card">
+ <img src="claire atachment (1).png" alt="Claire robot with attachment" />
+ <p>
+ By combining two powered motors with passive mechanisms, one motor could complete one task, the second another, and a passive attachment a thirdmaking it realistic to complete three missions in one run.
+ </p>
+ </div>
+ <div class="card">
+ <img src="Claire Robot with attachment 3 (1).gif" alt="Robot with attachment demonstration" />
+ <p>
+ While mechanical challenges were significant, programming ultimately became our biggest focus.
+ </p>
+ </div>
+ </div>
+</section>
+
+<section id="pid">
+ <h2>Programming Evolution, PID, & Improvement</h2>
+ <div class="grid">
+ <div class="card">
+ <span class="tag">Claire</span>
+ <img src="spikeprimeblockbasedexample.png" alt="SPIKE Prime block-based programming example" />
+ <p>
+ To improve consistency, we switched from block coding to Pybricks, which allows a much higher number of control loop iterations. We use the gyro sensor for heading, motor encoders for distance, and degree-based motor control.
+ </p>
+ </div>
+ <div class="card">
+ <img src="pybricks screenshot.png" alt="Pybricks code screenshot" />
+ <p>
+ We tested various Kp and Kd values to optimize drive performance. Our best results came from Kp=1.15 and Kd=0.02, which provided minimal drift across different speeds and distances.
+ </p>
+ </div>
+ </div>
+
+ <h3>PID Tuning Results</h3>
+ 
+ <!-- Kp Chart -->
+ <div class="card">
+ <h4 style="color: var(--primary); margin-top: 0;">Kp Tuning (Heading Error in Degrees)</h4>
+ <select id="kpSelect" style="display: block; margin: 0 auto 20px auto; padding: 8px 12px; font-size: 16px; border: 2px solid var(--primary); border-radius: 6px; background: white; cursor: pointer;">
+ <option value="0.6">Kp = 0.6</option>
+ <option value="0.8">Kp = 0.8</option>
+ <option value="1.0">Kp = 1.0</option>
+ <option value="1.15" selected>Kp = 1.15 (Best)</option>
+ <option value="1.2">Kp = 1.2</option>
+ </select>
+ <canvas id="kpChart" style="max-height: 400px;"></canvas>
+ </div>
+
+ <!-- Kd Chart -->
+ <div class="card">
+ <h4 style="color: var(--primary); margin-top: 0;">Kd Tuning (Heading Error in Degrees)</h4>
+ <select id="kdSelect" style="display: block; margin: 0 auto 20px auto; padding: 8px 12px; font-size: 16px; border: 2px solid var(--primary); border-radius: 6px; background: white; cursor: pointer;">
+ <option value="0.0001">Kd = 0.0001</option>
+ <option value="0.001">Kd = 0.001</option>
+ <option value="0.01">Kd = 0.01</option>
+ <option value="0.02" selected>Kd = 0.02 (Best)</option>
+ </select>
+ <canvas id="kdChart" style="max-height: 400px;"></canvas>
+ </div>
+ <div class="card" style="margin-top: 1.5rem;">
+ <h4 style="color: var(--primary); margin-top: 0;">Acceleration / Deceleration Profile</h4>
+ <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin:0.75rem 0;">
+ <label style="font-size:0.9rem;">
+ Mode:
+ <select id="profileMode" style="margin-left:0.5rem;padding:6px 8px;">
+ <option value="distance">Distance (mm)</option>
+ <option value="angle">Angle (deg)</option>
+ </select>
+ </label>
+
+ <label style="font-size:0.9rem;">
+ Target:
+ <input id="profileTarget" type="number" value="1000" style="width:100px;margin-left:0.5rem;padding:6px;" />
+ </label>
+
+ <label style="font-size:0.9rem;">
+ Max speed:
+ <input id="profileVmax" type="number" value="300" style="width:100px;margin-left:0.5rem;padding:6px;" /> <small style="opacity:0.7">mm/s or deg/s</small>
+ </label>
+
+ <label style="font-size:0.9rem;">
+ Accel:
+ <input id="profileAccel" type="number" value="800" style="width:100px;margin-left:0.5rem;padding:6px;" /> <small style="opacity:0.7">mm/s</small>
+ </label>
+
+ <label style="font-size:0.9rem;">
+ Decel:
+ <input id="profileDecel" type="number" value="1200" style="width:100px;margin-left:0.5rem;padding:6px;" /> <small style="opacity:0.7">mm/s</small>
+ </label>
+
+ <button id="profileSimulate" style="background:var(--primary);color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:600;">Simulate</button>
+ </div>
+
+ <canvas id="accelChart" style="max-height:360px;"></canvas>
+ <div style="font-size:0.85rem;color:#666;margin-top:0.5rem;">
+ Blue = speed profile. Orange = distance/angle progression.
+ </div>
+ </div>
+
+ <script>
+ // Utility: compute trapezoidal/triangular speed profile for a target (distance or angle)
+ function computeProfile({target=1000, vmax=300, a=800, d=1200, dt=0.02}) {
+ // Use same physics: braking distance for speed v is v^2/(2*d)
+ // Check achievable peak if distance too short.
+ const tol = 1e-6;
+ let t = 0, v = 0, x = 0;
+ const times = [], speeds = [], positions = [];
+
+ // If target <= 0, return empty.
+ if (target <= 0) return {times, speeds, positions};
+
+ // Pre-calc ideal triangular peak velocity if never reach vmax:
+ const v_peak_sq = (2 * a * d * target) / (a + d);
+ const v_peak = Math.sqrt(Math.max(0, v_peak_sq));
+ const v_allowed = Math.min(vmax, v_peak);
+
+ // Simulation loop until we reach target (or tiny overrun)
+ while (x + 1e-3 < target && t < 60) { // safety cap 60s
+ // remaining distance/angle
+ const rem = Math.max(0, target - x);
+ // braking distance from current (if we would stop from current velocity)
+ const brakeDist = (v * v) / (2 * d);
+ let acc = 0;
+ // decide accelerate, coast, or decelerate
+ if (v < v_allowed - 0.5 && rem > brakeDist + 1e-3) {
+ acc = a; // accelerate
+ } else {
+ // start decel to hit target smoothly
+ acc = -d;
+ }
+ // integrate Euler
+ const v_next = Math.max(0, v + acc * dt);
+ // limit to v_allowed when accelerating
+ if (acc > 0 && v_next > v_allowed) {
+ // cap to v_allowed
+ const dv = v_allowed - v;
+ // compute time fraction to reach v_allowed
+ const t_to_v = dv / Math.max(acc, tol);
+ // advance by that small time step
+ const x_inc = v * t_to_v + 0.5 * acc * t_to_v * t_to_v;
+ t += t_to_v;
+ x += x_inc;
+ v = v_allowed;
+ } else {
+ // normal step
+ const x_inc = v * dt + 0.5 * acc * dt * dt;
+ t += dt;
+ x += x_inc;
+ v = v_next;
+ }
+
+ // push snapshots
+ times.push(t);
+ speeds.push(v);
+ positions.push(Math.min(x, target));
+ // safety break if stuck
+ if (times.length > 200000) break;
+ }
+
+ // ensure final sample at target
+ if (positions.length && positions[positions.length - 1] < target - 1e-3) {
+ const lastT = times.length ? times[times.length - 1] : 0;
+ times.push(lastT + 0.001);
+ speeds.push(0);
+ positions.push(target);
+ }
+
+ return {times, speeds, positions};
+ }
+
+ // chart holder
+ let accelChart = null;
+
+ function renderProfile() {
+ const mode = document.getElementById('profileMode').value;
+ const target = parseFloat(document.getElementById('profileTarget').value) || 0;
+ const vmax = parseFloat(document.getElementById('profileVmax').value) || 300;
+ const accel = Math.max(1, parseFloat(document.getElementById('profileAccel').value) || 800);
+ const decel = Math.max(1, parseFloat(document.getElementById('profileDecel').value) || 1200);
+
+ const sim = computeProfile({target, vmax, a: accel, d: decel, dt: 0.02});
+ const labels = sim.times.map(t => t.toFixed(2));
+
+ const speedDataset = {
+ label: 'Speed (' + (mode === 'distance' ? 'mm/s' : 'deg/s') + ')',
+ data: sim.speeds.map(s => Number(s.toFixed(2))),
+ borderColor: '#3b82f6',
+ backgroundColor: '#3b82f6',
+ yAxisID: 'ySpeed',
+ tension: 0.2,
+ fill: false,
+ pointRadius: 0
+ };
+
+ const posDataset = {
+ label: (mode === 'distance' ? 'Distance (mm)' : 'Angle (deg)'),
+ data: sim.positions.map(p => Number(p.toFixed(2))),
+ borderColor: '#f59e0b',
+ backgroundColor: '#f59e0b',
+ yAxisID: 'yPos',
+ tension: 0.2,
+ fill: false,
+ pointRadius: 0
+ };
+
+ const ctx = document.getElementById('accelChart').getContext('2d');
+ if (accelChart) {
+ accelChart.data.labels = labels;
+ accelChart.data.datasets = [speedDataset, posDataset];
+ accelChart.options.plugins.title.text = `Profile to ${target} ${mode === 'distance' ? 'mm' : 'deg'}`;
+ accelChart.update();
+ } else {
+ accelChart = new Chart(ctx, {
+ type: 'line',
+ data: { labels, datasets: [speedDataset, posDataset] },
+ options: {
+ responsive: true,
+ maintainAspectRatio: false,
+ plugins: {
+ legend: { position: 'bottom' },
+ title: { display: true, text: `Profile to ${target} ${mode === 'distance' ? 'mm' : 'deg'}` },
+ tooltip: {
+ callbacks: {
+ label: function(context) {
+ return context.dataset.label + ': ' + context.parsed.y;
+ }
+ }
+ }
+ },
+ scales: {
+ x: { display: true, title: { display: true, text: 'Time (s)' } },
+ ySpeed: {
+ type: 'linear',
+ position: 'left',
+ title: { display: true, text: 'Speed' }
+ },
+ yPos: {
+ type: 'linear',
+ position: 'right',
+ title: { display: true, text: (mode === 'distance' ? 'Distance (mm)' : 'Angle (deg)') },
+ grid: { drawOnChartArea: false }
+ }
+ }
+ }
+ });
+ }
+ }
+
+ // initialize when page fully loaded (Chart.js is loaded later in page)
+ window.addEventListener('load', function() {
+ // wire controls
+ document.getElementById('profileSimulate').addEventListener('click', renderProfile);
+ ['profileMode','profileTarget','profileVmax','profileAccel','profileDecel'].forEach(id=>{
+ document.getElementById(id).addEventListener('keypress', function(e){ if(e.key==='Enter') renderProfile(); });
+ });
+ // initial render
+ renderProfile();
+ });
+ </script>
+ <div class="card">
+ <p>
+ Our drive-straight code uses PID-style corrections with optimized values: Kp=1.15 and Kd=0.02. These values emerged from systematic testing across different speeds and distances.
+ </p>
+ <p>
+ The result is repeatable and reliable performance, even under varying loads and battery levels. We also manage our code using GitHub for collaboration and version control.
+ </p>
+ </div>
+
+ <h3>Version Control with GitHub</h3>
+ <div class="grid">
+ <div class="card">
+ <h4 style="color: var(--primary); margin-top: 0;">Why We Use GitHub</h4>
+ <p>
+ GitHub allows our team to collaborate on code safely. Each team member can work on different runs or features without overwriting others' work.
+ </p>
+ <p>
+ We use branches for experimental changes and commits to track our progress. This means if something breaks, we can roll back to a working version.
+ </p>
+ </div>
+ <div class="card">
+ <h4 style="color: var(--primary); margin-top: 0;">Benefits for Our Team</h4>
+ <ul style="text-align: left; margin-left: 1rem;">
+ <li><strong>Collaboration:</strong> Multiple programmers can work simultaneously</li>
+ <li><strong>History:</strong> Every change is documented with commit messages</li>
+ <li><strong>Backup:</strong> Code is safely stored in the cloud</li>
+ <li><strong>Testing:</strong> We can experiment without breaking working code</li>
+ <li><strong>Learning:</strong> We review each other's code and learn better practices</li>
+ </ul>
+ </div>
+ <div class="card" style="text-align: center;">
+ <h4 style="color: var(--primary); margin-top: 0;">GitHub in Action</h4>
+ <img src="github_ss.png" alt="GitHub repository screenshot" style="width: 100%; border-radius: 12px; margin-bottom: 0.75rem;" />
+ <p style="font-size: 0.9rem; color: #666;">We organize runs, attachments, and PID tuning experiments with clear commit history and pull requests.</p>
+ </div>
+ </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+ // -------------------- Kp Data --------------------
+ const kpData = [
+ { kp: 0.6, speed: 60, rotations: 1, error: -2.4 },
+ { kp: 0.6, speed: 60, rotations: 5, error: -3.5 },
+ { kp: 0.6, speed: 60, rotations: 10, error: -3.8 },
+ { kp: 0.6, speed: 80, rotations: 1, error: -4.2 },
+ { kp: 0.6, speed: 80, rotations: 5, error: -4.3 },
+ { kp: 0.6, speed: 80, rotations: 10, error: 2.7 },
+ { kp: 0.6, speed: 100, rotations: 1, error: -6.5 },
+ { kp: 0.6, speed: 100, rotations: 5, error: 8 },
+ { kp: 0.6, speed: 100, rotations: 10, error: -6 },
+
+ { kp: 0.8, speed: 60, rotations: 1, error: -1.6 },
+ { kp: 0.8, speed: 60, rotations: 5, error: 5.9 },
+ { kp: 0.8, speed: 60, rotations: 10, error: 9.2 },
+ { kp: 0.8, speed: 80, rotations: 1, error: -2.1 },
+ { kp: 0.8, speed: 80, rotations: 5, error: 7.3 },
+ { kp: 0.8, speed: 80, rotations: 10, error: -12.4 },
+
+ { kp: 1.0, speed: 60, rotations: 1, error: 0.9 },
+ { kp: 1.0, speed: 60, rotations: 5, error: 4.1 },
+ { kp: 1.0, speed: 60, rotations: 10, error: -7.8 },
+ { kp: 1.0, speed: 80, rotations: 1, error: 1.6 },
+ { kp: 1.0, speed: 80, rotations: 5, error: -6.2 },
+ { kp: 1.0, speed: 80, rotations: 10, error: 11.9 },
+
+ { kp: 1.15, speed: 60, rotations: 1, error: -0.1 },
+ { kp: 1.15, speed: 60, rotations: 5, error: -0.2 },
+ { kp: 1.15, speed: 60, rotations: 10, error: -0.4 },
+ { kp: 1.15, speed: 80, rotations: 1, error: 0.3 },
+ { kp: 1.15, speed: 80, rotations: 5, error: -0.7 },
+ { kp: 1.15, speed: 80, rotations: 10, error: -1.1 },
+ { kp: 1.15, speed: 100, rotations: 1, error: 0.6 },
+ { kp: 1.15, speed: 100, rotations: 5, error: 1.3 },
+ { kp: 1.15, speed: 100, rotations: 10, error: -1.0 },
+
+ { kp: 1.2, speed: 60, rotations: 1, error: 0.5 },
+ { kp: 1.2, speed: 60, rotations: 5, error: 1.1 },
+ { kp: 1.2, speed: 60, rotations: 10, error: 2.3 },
+ { kp: 1.2, speed: 80, rotations: 1, error: 0.9 },
+ { kp: 1.2, speed: 80, rotations: 5, error: 2.0 },
+ { kp: 1.2, speed: 80, rotations: 10, error: 3.8 },
+ { kp: 1.2, speed: 100, rotations: 1, error: 3.4 },
+ { kp: 1.2, speed: 100, rotations: 5, error: -3.1 },
+ { kp: 1.2, speed: 100, rotations: 10, error: 5.6 }
+ ];
+
+ const kpColors = ['#e6194b','#3cb44b','#4363d8'];
+ const kpCtx = document.getElementById('kpChart').getContext('2d');
+ let kpChart;
+
+ function updateKpChart(selectedKp) {
+ const speeds = [60,80,100];
+ const datasets = speeds.map((speed,i)=>{
+ const points = kpData
+ .filter(d => d.kp == selectedKp && d.speed == speed)
+ .map(d => ({x:d.rotations, y:d.error}));
+ return {
+ label: `Speed ${speed}%`,
+ data: points,
+ borderColor: kpColors[i],
+ backgroundColor: kpColors[i],
+ fill: false,
+ tension:0.2
+ };
+ });
+
+ if(kpChart) {
+ kpChart.data.datasets = datasets;
+ kpChart.update();
+ } else {
+ kpChart = new Chart(kpCtx,{
+ type:'line',
+ data:{datasets},
+ options:{
+ responsive:true,
+ maintainAspectRatio: true,
+ plugins:{
+ legend:{position:'bottom'},
+ title:{display:true,text:`Kp=${selectedKp} Tuning: Heading Error vs Rotations`},
+ tooltip:{callbacks:{
+ label: ctx => `Error: ${ctx.parsed.y} (Rotations: ${ctx.parsed.x})`
+ }}
+ },
+ scales:{
+ x:{type:'linear', title:{display:true,text:'Rotations'}, min:0, ticks:{stepSize:1}},
+ y:{title:{display:true,text:'Error (degrees)'}}
+ }
+ }
+ });
+ }
+ }
+
+ document.getElementById('kpSelect').addEventListener('change', e=>{
+ updateKpChart(e.target.value);
+ });
+
+ updateKpChart(1.15); // default best Kp
+
+ // -------------------- Kd Data --------------------
+ const kdData = [
+ { kd: 0.0001, rotations: 1, error: 5 },
+ { kd: 0.0001, rotations: 2, error: 4.2 },
+ { kd: 0.0001, rotations: 3, error: 3.8 },
+ { kd: 0.0001, rotations: 4, error: 3.5 },
+ { kd: 0.0001, rotations: 5, error: 3.2 },
+
+ { kd: 0.001, rotations: 1, error: 4.5 },
+ { kd: 0.001, rotations: 2, error: 3.5 },
+ { kd: 0.001, rotations: 3, error: 2.9 },
+ { kd: 0.001, rotations: 4, error: 2.5 },
+ { kd: 0.001, rotations: 5, error: 2.2 },
+
+ { kd: 0.01, rotations: 1, error: 2.0 },
+ { kd: 0.01, rotations: 2, error: 1.5 },
+ { kd: 0.01, rotations: 3, error: 1.2 },
+ { kd: 0.01, rotations: 4, error: 1.0 },
+ { kd: 0.01, rotations: 5, error: 0.8 },
+
+ { kd: 0.02, rotations: 1, error: 0.5 },
+ { kd: 0.02, rotations: 2, error: 0.3 },
+ { kd: 0.02, rotations: 3, error: 0.1 },
+ { kd: 0.02, rotations: 4, error: -0.1 },
+ { kd: 0.02, rotations: 5, error: -0.2 }
+ ];
+
+ const kdColors = ['#e6194b','#3cb44b','#4363d8','#f58231'];
+ const kdCtx = document.getElementById('kdChart').getContext('2d');
+ let kdChart;
+
+ function updateKdChart(selectedKd) {
+ const points = kdData.filter(d => d.kd == selectedKd)
+ .map(d => ({x:d.rotations, y:d.error}));
+ const dataset = [{
+ label: `Kd=${selectedKd}${selectedKd==0.02 ? ' (Best)' : ''}`,
+ data: points,
+ borderColor: kdColors[ kdData.findIndex(d=>d.kd==selectedKd)%kdColors.length ],
+ backgroundColor: kdColors[ kdData.findIndex(d=>d.kd==selectedKd)%kdColors.length ],
+ fill:false,
+ tension:0.2
+ }];
+
+ if(kdChart){
+ kdChart.data.datasets = dataset;
+ kdChart.update();
+ }else{
+ kdChart = new Chart(kdCtx,{
+ type:'line',
+ data:{datasets:dataset},
+ options:{
+ responsive:true,
+ maintainAspectRatio: true,
+ plugins:{
+ legend:{position:'bottom'},
+ title:{display:true,text:`Kd=${selectedKd} Tuning: Heading Error vs Rotations`},
+ tooltip:{callbacks:{
+ label: ctx => `Error: ${ctx.parsed.y} (Rotations: ${ctx.parsed.x})`
+ }}
+ },
+ scales:{
+ x:{type:'linear', title:{display:true,text:'Rotations'}, min:0, ticks:{stepSize:1}},
+ y:{title:{display:true,text:'Error (degrees)'}}
+ }
+ }
+ });
+ }
+ }
+
+ document.getElementById('kdSelect').addEventListener('change', e=>{
+ updateKdChart(e.target.value);
+ });
+
+ updateKdChart(0.02); // default best Kd
+</script>
+
+ <section id="coopertition">
+ <h2>Coopertition & Shared Learning</h2>
+ <div class="grid">
+ <div class="card">
+ <img src="studentsharefolder_ss.png" alt="Shared student folder" />
+ <p>
+ Our coach maintains a shared student folder where teams from Manhattan, Queens, and Hudson Valley upload robot designs, attachments, code, and videos. This resource accelerates learning and collaboration across teams.
+ </p>
+ </div>
+ <div class="card">
+ <img src="69309collaborationv2.png" alt="Community design collaboration" />
+ <p>
+ During our redesign, we studied Manhattan Team 69309's robot and used it as a starting framework. After sharing our redesign, they later improved their robot using our ideas. This back-and-forth demonstrates true coopertition: learning from and contributing to the community.
+ </p>
+ <p>
+ Shout-out to Team 69309! Below are championship photos celebrating our shared spirit.
+ </p>
+ <div class="champions-row" style="display:flex;gap:1rem;align-items:center;margin-top:0.75rem;">
+ <figure style="margin:0;flex:1;text-align:center;">
+ <img src="collegiatechampion pic.jpeg" alt="Collegiate Dutchmen Team 69309 Champions" style="width:100%;height:auto;border-radius:8px;" />
+ <figcaption style="font-size:0.9rem;margin-top:0.5rem;color:#555;">Collegiate Dutchmen 69309 - Championship</figcaption>
+ </figure>
+ <figure style="margin:0;flex:1;text-align:center;">
+ <img src="championship picutre.jpg" alt="Our Team Champions" style="width:100%;height:auto;border-radius:8px;" />
+ <figcaption style="font-size:0.9rem;margin-top:0.5rem;color:#555;">History Guardians 67843 Championship</figcaption>
+ </figure>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <section id="reflection">
+ <h2>Summary & Reflection</h2>
+ <div class="card">
+ <p>
+ Our robot reflects a complete design cycle: identifying problems, brainstorming, testing, and iterating. By combining strong mechanical design, precise programming, and effective teamwork, we built a robot that is reliable, efficient, and repeatable.
+ </p>
+ <p>
+ This process allowed us to overcome challenges from last year, improve our drive-straight performance, and consistently complete more missions during competition.
+ </p>
+ <p>
+ Winning the Hudson Valley Regional Championship showed how much our strategy, robot design, and teamwork grew across the season. Now we are preparing for the California Western Edge Invitational on May 28-31, 2026, where we will represent the New York State area and keep building on the same cycle of testing, learning, and improving.
+ </p>
+ </div>
+ </section>
+
+</main>
+
+<footer>
+ <p>FIRST LEGO League Robot Design Process</p>
+ 
+ <div class="visitor-counter">
+ <h3> Website Visitors</h3>
+ <div style="margin-top: 1rem;" id="visitorCountWrapper">
+ <div id="visitorCount" class="counter-digit" aria-live="polite">1,247</div>
+ </div>
+ <div class="counter-label" style="margin-top: 0.75rem;">Total Page Hits</div>
+ <div style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;">Updates every 2 hours</div>
+ </div>
+</footer>
+
+<!-- Image Modal -->
+<div id="imageModal" class="image-modal" onclick="closeModal()">
+ <span class="close-modal" onclick="closeModal()">&times;</span>
+ <img class="modal-content" id="modalImage" onclick="event.stopPropagation()">
+</div>
+
+<script>
+ // Image modal functionality
+ function openImageModal(imageSrc) {
+ const modal = document.getElementById('imageModal');
+ const modalImg = document.getElementById('modalImage');
+ modal.classList.add('active');
+ modalImg.src = imageSrc;
+ }
+
+ function closeModal() {
+ const modal = document.getElementById('imageModal');
+ modal.classList.remove('active');
+ }
+
+ // Add click event to all run images
+ document.addEventListener('DOMContentLoaded', function() {
+ const runImages = document.querySelectorAll('.iteration-card img.run-image');
+ runImages.forEach(img => {
+ img.addEventListener('click', function() {
+ openImageModal(this.src);
+ });
+ });
+ 
+ // Close modal on Escape key
+ document.addEventListener('keydown', function(e) {
+ if (e.key === 'Escape') {
+ closeModal();
+ }
+ });
+ });
+ 
+ // Scroll progress indicator
+ window.addEventListener('scroll', function() {
+ const scrollProgress = document.getElementById('scrollProgress');
+ const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+ const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+ const scrollPercent = (scrollTop / scrollHeight) * 100;
+ scrollProgress.style.width = scrollPercent + '%';
+ 
+ // Show/hide scroll to top button
+ const scrollTopBtn = document.getElementById('scrollTop');
+ if (scrollTop > 300) {
+ scrollTopBtn.classList.add('visible');
+ } else {
+ scrollTopBtn.classList.remove('visible');
+ }
+ });
+ 
+ // Scroll to top function
+ function scrollToTop() {
+ window.scrollTo({
+ top: 0,
+ behavior: 'smooth'
+ });
+ }
+ function scrollToTop() {
+ window.scrollTo({
+ top: 0,
+ behavior: 'smooth'
+ });
+ }
+ 
+ // Add scroll reveal animation for sections
+ const observerOptions = {
+ threshold: 0.1,
+ rootMargin: '0px 0px -50px 0px'
+ };
+ 
+ const observer = new IntersectionObserver(function(entries) {
+ entries.forEach(entry => {
+ if (entry.isIntersecting) {
+ entry.target.style.opacity = '1';
+ entry.target.style.transform = 'translateY(0)';
+ }
+ });
+ }, observerOptions);
+ 
+ document.addEventListener('DOMContentLoaded', function() {
+ const sections = document.querySelectorAll('section');
+ sections.forEach(section => {
+ section.style.opacity = '0';
+ section.style.transform = 'translateY(20px)';
+ section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+ observer.observe(section);
+ });
+ });
+</script>
+
+<!-- Visitor counter -->
+<script>
+ function setVisitorCount() {
+ const el = document.getElementById('visitorCount');
+ if (!el) return;
+ el.textContent = '1,247';
+ }
+
+ document.addEventListener('DOMContentLoaded', () => {
+ setVisitorCount();
+ });
+</script>
+
+</body>
+</html>
+
+
